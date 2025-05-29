@@ -1,0 +1,136 @@
+import React, { useState } from "react";
+
+const RegisterUser = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    avatar: "",
+    address: "",
+    phone: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Registering user:", formData);
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="bg-white shadow-md rounded-lg overflow-hidden flex w-full max-w-5xl">
+        {/* Left form side */}
+        <div className="w-full md:w-1/2 p-8">
+          <div className="flex flex-col items-center">
+            <div className="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-white mb-4">
+              <i className="fas fa-user" /> {/* Optional icon */}
+            </div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-1">
+              Sign up on Devias
+            </h2>
+            <p className="text-sm text-gray-500 mb-6 text-center">
+              Create a free account on Devias and get started
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input
+              label="Full name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            <Input
+              label="Email Address"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            <Input
+              label="Password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              hint="The password must be between 4 and 6 characters"
+            />
+            <Input
+              label="Address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+            />
+            <Input
+              label="Phone"
+              name="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={handleChange}
+            />
+
+            <div className="flex items-start text-sm">
+              <input
+                type="checkbox"
+                required
+                className="mt-1 mr-2 accent-purple-600"
+              />
+              <p className="text-gray-600">
+                I have accepted the{" "}
+                <a href="#" className="text-purple-600 underline">
+                  Terms and Conditions
+                </a>
+              </p>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition"
+            >
+              SIGN UP NOW
+            </button>
+          </form>
+        </div>
+
+        {/* Right image side */}
+        <div className="hidden md:block w-1/2 relative">
+          <img
+            src="/your-image.png" // Replace with your image path
+            alt="Sign up illustration"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute bottom-8 left-8 text-white">
+            <h3 className="text-lg font-bold">Welcome to Devias</h3>
+            <p className="text-sm">Create an account and get free resources.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Input = ({ label, name, type = "text", value, onChange, hint }) => (
+  <div>
+    <label htmlFor={name} className="block text-sm font-medium text-gray-700">
+      {label}
+    </label>
+    <input
+      id={name}
+      name={name}
+      type={type}
+      value={value}
+      onChange={onChange}
+      required
+      className="mt-1 w-full px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-purple-600 outline-none focus:border-purple-600 text-sm"
+    />
+    {hint && <p className="text-xs text-gray-400 mt-1">{hint}</p>}
+  </div>
+);
+
+export default RegisterUser;
