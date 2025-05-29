@@ -11,7 +11,7 @@ const PORT = process.env.PORT;
 connectDb();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(userRouter);
+app.use("/api/users",userRouter);
 app.use(cookieParser());
 
 app.listen(PORT);
