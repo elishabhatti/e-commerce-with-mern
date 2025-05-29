@@ -2,6 +2,7 @@ import {
   createUser,
   hashPassword,
   getUserByEmail,
+  comparePassword,
 } from "../services/user.services.js";
 
 export const registerUser = async (req, res) => {
