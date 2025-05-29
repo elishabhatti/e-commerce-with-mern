@@ -23,23 +23,12 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="bg-white shadow-md rounded-lg overflow-hidden flex w-full max-w-5xl">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="border border-gray-200 rounded-lg overflow-hidden flex w-full max-w-5xl">
         {/* Left form side */}
         <div className="w-full md:w-1/2 p-8">
-          <div className="flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-white mb-4">
-              <i className="fas fa-user" /> {/* Optional icon */}
-            </div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-1">
-              Sign up on Devias
-            </h2>
-            <p className="text-sm text-gray-500 mb-6 text-center">
-              Create a free account on Devias and get started
-            </p>
-          </div>
-
           <form onSubmit={handleSubmit} className="space-y-4">
+            <h2 className="text-2xl font-bold">Register User</h2>
             <Input
               label="Full name"
               name="name"
@@ -91,7 +80,7 @@ const RegisterUser = () => {
 
             <button
               type="submit"
-              className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition"
+              className="w-full cursor-pointer bg-[#110C30] text-white py-2 rounded-md hover:bg-[#110C30] transition"
             >
               SIGN UP NOW
             </button>
@@ -101,13 +90,15 @@ const RegisterUser = () => {
         {/* Right image side */}
         <div className="hidden md:block w-1/2 relative">
           <img
-            src="/your-image.png" // Replace with your image path
+            src="https://img.freepik.com/premium-vector/account-login-line-icon-new-user-register-registration-concept-illustration_1948-2099.jpg" // Replace with your image path
             alt="Sign up illustration"
             className="w-full h-full object-cover"
           />
           <div className="absolute bottom-8 left-8 text-white">
-            <h3 className="text-lg font-bold">Welcome to Devias</h3>
-            <p className="text-sm">Create an account and get free resources.</p>
+            <h3 className="text-black text-lg font-bold">Welcome to Devias</h3>
+            <p className="text-black text-sm">
+              Create an account and get free resources.
+            </p>
           </div>
         </div>
       </div>
@@ -127,7 +118,7 @@ const Input = ({ label, name, type = "text", value, onChange, hint }) => (
       value={value}
       onChange={onChange}
       required
-      className="mt-1 w-full px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-purple-600 outline-none focus:border-purple-600 text-sm"
+      className="mt-1 w-full px-3 py-2 border border-gray-300 focus:ring-2 focus:ring-bg-[#110C30] outline-none focus:border-bg-[#110C30] text-md"
     />
     {hint && <p className="text-xs text-gray-400 mt-1">{hint}</p>}
   </div>
