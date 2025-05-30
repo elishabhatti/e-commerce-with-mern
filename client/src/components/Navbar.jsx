@@ -4,7 +4,7 @@ const Navbar = () => {
   return (
     <>
       <header>
-        <div className="flex mb-20 justify-between border-b border-gray-300 items-center py-5 px-10">
+        <div className="flex mb-20 justify-between border-b border-gray-300 items-center py-3 px-10">
           <div className="text-2xl">
             <NavLink to="/">DEVIAS</NavLink>
           </div>
