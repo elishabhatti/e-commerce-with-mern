@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Input from "../components/Input";
 
-
 const RegisterUser = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -25,8 +24,8 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="border border-gray-200 rounded-lg overflow-hidden flex w-full max-w-5xl">
+    <div className="flex items-center justify-center px-4">
+      <div className="overflow-hidden flex w-full max-w-5xl">
         {/* Left form side */}
         <div className="w-full md:w-1/2 p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
