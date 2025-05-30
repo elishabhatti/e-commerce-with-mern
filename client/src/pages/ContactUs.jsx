@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import Input from "../components/Input";
 
-const LoginUser = () => {
+const ContactUs = () => {
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
+    avatar: "",
+    address: "",
+    phone: "",
   });
 
   const handleChange = (e) => {
@@ -69,4 +73,4 @@ const LoginUser = () => {
   );
 };
 
-export default LoginUser;
+export default ContactUs;
