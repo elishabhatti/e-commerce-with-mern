@@ -57,7 +57,7 @@ const LoginUser = () => {
         <div className="hidden md:block w-1/2 relative">
           <img
             src="
-            https://static.vecteezy.com/system/resources/previews/008/197/876/non_2x/mobile-register-concept-icon-sign-in-up-idea-thin-line-illustration-log-in-create-profile-smartphone-account-registration-confirmation-letter-isolated-outline-drawing-editable-stroke-vector.jpg"
+            https://img.freepik.com/free-vector/sign-page-abstract-concept-illustration_335657-3875.jpg"
             alt="Sign up illustration"
             className="w-full h-full object-cover"
           />
