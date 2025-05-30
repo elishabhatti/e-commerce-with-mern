@@ -52,8 +52,7 @@ const LoginUser = () => {
         {/* Right image side */}
         <div className="hidden md:block w-1/2 relative">
           <img
-            src="
-            https://img.freepik.com/free-vector/sign-page-abstract-concept-illustration_335657-3875.jpg"
+            src="https://img.freepik.com/free-vector/sign-page-abstract-concept-illustration_335657-3875.jpg"
             alt="Sign up illustration"
             className="w-full h-full object-cover"
           />
