@@ -24,10 +24,10 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="flex items-center justify-center px-4">
+    <div className="flex items-center justify-center">
       <div className="overflow-hidden flex w-full max-w-5xl">
         {/* Left form side */}
-        <div className="w-full md:w-1/2 px-8">
+        <div className="w-full md:w-1/2 px-2">
           <form onSubmit={handleSubmit} className="space-x-4">
             <h2 className="text-2xl font-bold">REGISTER USER</h2>
             <Input
