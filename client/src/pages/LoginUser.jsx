@@ -21,7 +21,7 @@ const LoginUser = () => {
 
   return (
     <div className="flex items-center justify-center px-4">
-      <div className=" overflow-hidden flex w-full max-w-4xl">
+      <div className=" overflow-hidden flex w-full max-w-5xl">
         {/* Left form side */}
         <div className="w-full flex justify-center items-center md:w-1/2 px-8">
           <form onSubmit={handleSubmit} className="space-y-4 w-full">
