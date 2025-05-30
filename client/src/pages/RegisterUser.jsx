@@ -27,8 +27,8 @@ const RegisterUser = () => {
     <div className="flex items-center justify-center px-4">
       <div className="overflow-hidden flex w-full max-w-5xl">
         {/* Left form side */}
-        <div className="w-full md:w-1/2 p-8">
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="w-full md:w-1/2 px-8">
+          <form onSubmit={handleSubmit} className="space-x-4">
             <h2 className="text-2xl font-bold">REGISTER USER</h2>
             <Input
               label="Full name"
@@ -41,9 +41,9 @@ const RegisterUser = () => {
               name="email"
               type="email"
               value={formData.email}
-              onChange={handleChange}
-            />
-            <Input
+                onChange={handleChange}
+              />
+              <Input
               label="Password"
               name="password"
               type="password"
@@ -81,7 +81,7 @@ const RegisterUser = () => {
 
             <button
               type="submit"
-              className="w-full cursor-pointer bg-[#110C30] text-white py-2 rounded-md hover:bg-[#110C30] transition"
+              className="w-full cursor-pointer bg-[#110C30] text-white py-2 my-2 rounded-md hover:bg-[#110C30] transition"
             >
               SIGN UP NOW
             </button>
@@ -95,12 +95,6 @@ const RegisterUser = () => {
             alt="Sign up illustration"
             className="w-full h-full object-cover"
           />
-          <div className="absolute bottom-8 left-8 text-white">
-            <h3 className="text-black text-lg font-bold">Welcome to Devias</h3>
-            <p className="text-black text-sm">
-              Create an account and get free resources.
-            </p>
-          </div>
         </div>
       </div>
     </div>

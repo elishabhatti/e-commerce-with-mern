@@ -61,7 +61,7 @@ const ContactUs = () => {
         <div className="hidden md:block w-1/2 relative">
           <img
             src="
-            https://cdni.iconscout.com/illustration/premium/thumb/contact-us-illustration-download-in-svg-png-gif-file-formats--call-logo-customer-service-support-onboarding-pack-business-illustrations-4849052.png"
+            https://cdni.iconscout.com/illustration/premium/thumb/contact-us-illustration-download-in-svg-png-gif-file-formats--call-logo-customer-service-support-product-center-query-maggy-pack-design-development-illustrations-4097177.png"
             alt="Contact US illustration"
             className="w-full h-full object-cover"
           />
