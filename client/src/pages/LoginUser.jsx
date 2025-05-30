@@ -25,7 +25,7 @@ const LoginUser = () => {
         {/* Left form side */}
         <div className="w-full flex justify-center items-center md:w-1/2 p-8">
           <form onSubmit={handleSubmit} className="space-y-4 w-full">
-            <h2 className="text-2xl font-bold">Login User</h2>
+            <h2 className="text-2xl font-bold">LOGIN USER</h2>
             <Input
               label="Email Address"
               name="email"

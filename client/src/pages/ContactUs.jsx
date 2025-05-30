@@ -22,11 +22,11 @@ const ContactUs = () => {
 
   return (
     <div className="flex items-center justify-center px-4">
-      <div className=" overflow-hidden flex w-full max-w-5xl">
+      <div className=" overflow-hidden flex w-full max-w-4xl">
         {/* Left form side */}
         <div className="w-full flex justify-center items-center md:w-1/2 p-8">
           <form onSubmit={handleSubmit} className="space-y-4 w-full">
-            <h2 className="text-2xl font-bold">Login User</h2>
+            <h2 className="text-2xl font-bold">CONTACT US</h2>
             <Input
               label="Name"
               name="name"

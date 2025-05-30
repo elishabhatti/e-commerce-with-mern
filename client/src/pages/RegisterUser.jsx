@@ -29,7 +29,7 @@ const RegisterUser = () => {
         {/* Left form side */}
         <div className="w-full md:w-1/2 p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <h2 className="text-2xl font-bold">Register User</h2>
+            <h2 className="text-2xl font-bold">REGISTER USER</h2>
             <Input
               label="Full name"
               name="name"
