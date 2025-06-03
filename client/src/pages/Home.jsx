@@ -4,46 +4,84 @@ import axios from "axios";
 const Home = () => {
   const [products, setProducts] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() => {
+    getAllProducts();
+  }, []);
+
+  async function getAllProducts() {
     try {
-      let res = await axios.get(
+      const res = await axios.get(
         "http://localhost:3000/api/products/get-product",
         {
           withCredentials: true,
         }
       );
-      console.log(res);
+      setProducts(res.data.message);
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">All Products</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="py-8 px-20 w-full ">
+      <div className="relative my-5">
+        <img
+          className="h-[550px] rounded-sm w-full object-cover"
+          src="https://sunnymate.co/wp-content/uploads/2024/11/%E8%8A%AC%E6%81%A9%E6%A4%85E905E827%E8%BE%B9%E5%87%A0-2048x1536.webp"
+          alt="Scenic view of plants"
+        />
+        <h1 className="absolute top-10 left-10 text-black text-4xl font-bold drop-shadow-lg">
+          Buy On Devias For Best Experience
+        </h1>
+      </div>
+
+      <h1 className="text-3xl font-bold mb-10 text-center text-gray-800">
+        Explore Our Products
+      </h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
         {products.map((product, index) => (
           <div
             key={index}
-            className="bg-white shadow-md rounded-2xl overflow-hidden hover:shadow-lg transition"
+            className="border border-gray-200 rounded-2xl overflow-hidden flex flex-col"
+            style={{ minHeight: "430px" }} // Fixed min-height for same size cards
           >
             <img
               src={product.image}
               alt={product.title}
               className="w-full h-48 object-cover"
             />
-            <div className="p-4">
-              <h2 className="text-lg font-semibold">{product.title}</h2>
-              <p className="text-gray-600 text-sm mb-2">{product.brand}</p>
-              <p className="text-gray-700 font-bold">${product.price}</p>
-              <p className="text-yellow-500 text-sm">
-                ⭐ {product.rating} ({product.reviews} reviews)
+
+            <div className="p-5 flex flex-col flex-grow">
+              <h2 className="text-lg font-semibold text-gray-800 truncate">
+                {product.title}
+              </h2>
+              <p className="text-sm  text-gray-800 truncate">
+                {product.description}
               </p>
+              <p className="text-gray-500 text-sm">{product.brand}</p>
+
+              <div className="flex justify-between items-center mt-2">
+                <span className="text-gray-900 font-bold text-lg">
+                  ${product.price}
+                </span>
+                <span className="text-yellow-500 text-sm">
+                  ⭐ {product.rating} ({product.reviews})
+                </span>
+              </div>
+
               {product.isFeatured && (
-                <span className="mt-2 inline-block text-xs text-white bg-blue-500 rounded-full px-2 py-1">
+                <span className="mt-2 self-start text-xs font-medium text-white bg-blue-600 rounded-full px-3 py-1">
                   Featured
                 </span>
               )}
+
+              {/* Push button to the bottom */}
+              <div className="mt-auto pt-4">
+                <button className="w-full cursor-pointer bg-black text-white py-2 rounded-md hover:bg-gray-800 transition">
+                  Buy Now
+                </button>
+              </div>
             </div>
           </div>
         ))}
