@@ -3,9 +3,9 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.routes.js";
 import contactRouter from "./routes/contact.routes.js";
 import productRouter from "./routes/products.routes.js";
-import { connectDb } from "./config/DB_CONNECTION.js";
 import cors from "cors"
 import dotenv from "dotenv";
+import { connectDb } from "./config/DB_CONNECTION.js";
 dotenv.config();
 
 const app = express();
@@ -17,12 +17,15 @@ app.use(
     credentials: true,
   })
 );
+
 connectDb();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
 app.use("/api/users", userRouter);
 app.use("/api/contact", contactRouter);
 app.use("/api/products", productRouter);
-app.use(cookieParser());
 
 app.listen(PORT);
