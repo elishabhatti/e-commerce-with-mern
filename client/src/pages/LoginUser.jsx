@@ -20,8 +20,8 @@ const LoginUser = () => {
   };
 
   return (
-    <div className="flex mt-10 items-center justify-center px-4">
-      <div className=" overflow-hidden flex w-full max-w-5xl">
+    <div className="flex mt-20 items-center justify-center px-4">
+      <div className="flex w-full max-w-6xl">
         {/* Left form side */}
         <div className="w-full flex justify-center items-center md:w-1/2 px-8">
           <form onSubmit={handleSubmit} className="space-y-4 w-full">
@@ -50,9 +50,9 @@ const LoginUser = () => {
         </div>
 
         {/* Right image side */}
-        <div className="hidden md:block w-1/2 relative">
+        <div className="">
           <img
-            src="https://img.freepik.com/free-vector/sign-page-abstract-concept-illustration_335657-3875.jpg"
+            src="https://img.freepik.com/premium-vector/character-using-cyber-security-services-protect-private-personal-data-user-account-password_773844-395.jpg?uid=R196206353&ga=GA1.1.2122685195.1748845237&semt=ais_items_boosted&w=740"
             alt="Sign up illustration"
             className="w-full h-full object-cover"
           />

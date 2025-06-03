@@ -21,7 +21,7 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="flex items-center justify-center px-4">
+    <div className="flex items-center justify-center mt-10  px-4">
       <div className=" overflow-hidden flex w-full max-w-5xl">
         {/* Left form side */}
         <div className="w-full flex justify-center items-center md:w-1/2 p-8">
@@ -61,7 +61,7 @@ const ContactUs = () => {
         <div className="hidden md:block w-1/2 relative">
           <img
             src="
-            https://cdni.iconscout.com/illustration/premium/thumb/contact-us-illustration-download-in-svg-png-gif-file-formats--call-logo-customer-service-support-product-center-query-maggy-pack-design-development-illustrations-4097177.png"
+            https://img.freepik.com/free-vector/flat-design-illustration-customer-support_23-2148887720.jpg?semt=ais_hybrid&w=740"
             alt="Contact US illustration"
             className="w-full h-full object-cover"
           />

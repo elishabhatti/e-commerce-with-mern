@@ -25,7 +25,7 @@ const RegisterUser = () => {
 
   return (
     <div className="flex items-center mt-20 justify-center">
-      <div className="overflow-hidden flex w-full max-w-5xl">
+      <div className="overflow-hidden flex w-full max-w-6xl">
         {/* Left form side */}
         <div className="w-full md:w-1/2 px-2">
           <form onSubmit={handleSubmit} className="space-x-4">
