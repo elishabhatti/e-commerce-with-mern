@@ -8,6 +8,7 @@ import Page404 from "./pages/Page404";
 import AboutUs from "./pages/AboutUs";
 import Home from "./pages/Home";
 import Services from "./pages/Services";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </div>
   );

@@ -15,7 +15,6 @@ const Navbar = () => {
           <NavLink to="/">DEVIAS</NavLink>
         </div>
 
-        {/* Hamburger Icon (Mobile) */}
         <button
           onClick={toggleMenu}
           className="md:hidden text-gray-700 focus:outline-none"
