@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar";
 import ContactUs from "./pages/ContactUs";
 import Page404 from "./pages/Page404";
 import AboutUs from "./pages/AboutUs";
-import Home from "./Home";
+import Home from "./pages/Home";
 import Services from "./pages/Services";
 
 const App = () => {
