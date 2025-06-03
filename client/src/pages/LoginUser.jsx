@@ -20,7 +20,7 @@ const LoginUser = () => {
   };
 
   return (
-    <div className="flex items-center justify-center px-4">
+    <div className="flex mt-10 items-center justify-center px-4">
       <div className=" overflow-hidden flex w-full max-w-5xl">
         {/* Left form side */}
         <div className="w-full flex justify-center items-center md:w-1/2 px-8">

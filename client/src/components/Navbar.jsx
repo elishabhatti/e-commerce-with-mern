@@ -23,9 +23,6 @@ const Navbar = () => {
               <li>
                 <NavLink to="/contact"> Contact </NavLink>
               </li>
-              <li>
-                <NavLink to="/logout">Logout</NavLink>
-              </li>
               <>
                 <li>
                   <NavLink to="/register"> Register </NavLink>
@@ -33,6 +30,9 @@ const Navbar = () => {
                 <li>
                   <NavLink to="/login"> Login </NavLink>
                 </li>
+              <li>
+                <NavLink to="/logout">Logout</NavLink>
+              </li>
               </>
             </ul>
           </nav>

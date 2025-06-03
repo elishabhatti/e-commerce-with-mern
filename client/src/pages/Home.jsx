@@ -23,7 +23,7 @@ const Home = () => {
   }
 
   return (
-    <div className="py-8 px-20 w-full ">
+    <div className="py-8 px-30 w-full ">
       <div className="relative my-5">
         <img
           className="h-[550px] rounded-sm w-full object-cover"
@@ -31,7 +31,7 @@ const Home = () => {
           alt="Scenic view of plants"
         />
         <h1 className="absolute top-10 left-10 text-black text-4xl font-bold drop-shadow-lg">
-          Buy On Devias For Best Experience
+          Buy On Devias For Best Services
         </h1>
       </div>
 
@@ -44,7 +44,7 @@ const Home = () => {
           <div
             key={index}
             className="border border-gray-200 rounded-2xl overflow-hidden flex flex-col"
-            style={{ minHeight: "430px" }} // Fixed min-height for same size cards
+            style={{ minHeight: "430px" }} 
           >
             <img
               src={product.image}
