@@ -22,7 +22,30 @@ export const registerUser = async (req, res) => {
       address,
       avatar,
     });
-    res.status(201).json({ message: "User Created", createdUser });
+
+     const accessToken = await createAccessToken({
+      id: createdUser._id,
+      email,
+      name,
+      phone,
+      address,
+      avatar
+    });
+
+     res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
+    });
+
+    res.status(201).json({
+      id: createdUser._id,
+      email: createdUser.email,
+      username: createdUser.username,
+      token: accessToken,
+    });
+
   } catch (error) {
     res.status(500).json({ message: error });
     console.error("Error from User Register Controller: ", error);
