@@ -3,6 +3,7 @@ import {
   hashPassword,
   getUserByEmail,
   comparePassword,
+  createAccessToken,
 } from "../services/user.services.js";
 
 export const registerUser = async (req, res) => {
