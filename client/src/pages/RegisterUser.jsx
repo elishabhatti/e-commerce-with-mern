@@ -64,6 +64,13 @@ const RegisterUser = () => {
               value={formData.phone}
               onChange={handleChange}
             />
+            <Input
+              label="Avatar"
+              name="avatar"
+              type="url"
+              value={formData.avatar}
+              onChange={handleChange}
+            />
 
             <div className="flex items-start text-sm">
               <input
