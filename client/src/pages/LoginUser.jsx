@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import Input from "../components/Input";
+import { toast } from "react-toastify";
+import { useAuth } from "../store/auth";
+import { useNavigate } from "react-router-dom";
 
 const LoginUser = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const { storeTokenIns } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -14,9 +19,29 @@ const LoginUser = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login user:", formData);
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/users/login",
+        JSON.stringify(formData),
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      storeTokenIns(response.data.token);
+      navigate("/");
+      setFormData({
+        email: "",
+        password: "",
+      });
+
+      toast.success("User Registered!");
+    } catch (error) {
+      toast.error(error.message);
+      console.error("Registration error:", error);
+    }
   };
 
   return (
