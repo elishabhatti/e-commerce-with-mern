@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X } from "lucide-react"; // Install lucide-react for icons
+import { Menu, X } from "lucide-react"; 
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
