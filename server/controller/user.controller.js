@@ -28,8 +28,6 @@ export const registerUser = async (req, res) => {
       id: createdUser._id,
       email,
       name,
-      phone,
-      address,
       avatar
     });
 
