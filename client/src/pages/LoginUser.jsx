@@ -3,6 +3,7 @@ import Input from "../components/Input";
 import { toast } from "react-toastify";
 import { useAuth } from "../store/auth";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginUser = () => {
   const [formData, setFormData] = useState({
