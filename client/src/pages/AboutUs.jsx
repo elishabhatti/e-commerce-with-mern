@@ -4,7 +4,10 @@ const AboutUs = () => {
   return (
     <div className="w-full max-w-7xl mx-auto px-6 py-12 text-gray-800">
       {/* Hero Image */}
-      <div className="mb-10">
+      <div className="mb-10 relative">
+        <div className="absolute top-10 left-10 text-black text-4xl font-bold drop-shadow-lg">
+          <h1>About Us</h1>
+        </div>
         <img
           className="w-full h-[350px] md:h-[500px] object-cover rounded-lg shadow-md"
           src="https://img.freepik.com/premium-vector/diverse-creative-team-looking-happy-flat-vector-illustration-white-background_674398-1414.jpg?semt=ais_items_boosted&w=740"
@@ -25,9 +28,9 @@ const AboutUs = () => {
           </p>
           <p className="mb-4 text-lg leading-relaxed">
             Founded in 2025, Devias started as a small family-run studio with a
-            single goal: to make quality furniture accessible to everyone. Today,
-            we serve thousands of customers across the country who trust us to
-            provide timeless pieces that elevate their everyday spaces.
+            single goal: to make quality furniture accessible to everyone.
+            Today, we serve thousands of customers across the country who trust
+            us to provide timeless pieces that elevate their everyday spaces.
           </p>
           <p className="mb-4 text-lg leading-relaxed">
             We work with ethical suppliers, use eco-conscious materials, and aim

@@ -4,7 +4,10 @@ const Services = () => {
   return (
     <div className="w-full max-w-7xl mx-auto px-6 py-12 text-gray-800">
       {/* Hero Section */}
-      <div className="mb-10">
+      <div className="mb-10 relative">
+        <div className="absolute top-10 left-10 text-black text-4xl font-bold drop-shadow-lg">
+        <h1>Services</h1>
+        </div>
         <img
           className="w-full h-[350px] md:h-[500px] object-cover rounded-lg shadow"
           src="https://cdni.iconscout.com/illustration/premium/thumb/relocation-service-worker-loaders-loading-furniture-illustration-download-in-svg-png-gif-file-formats--house-moving-services-picking-up-sofa-couch-delivery-guys-industries-pack-people-illustrations-4315399.png?f=webp"
