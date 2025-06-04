@@ -8,8 +8,9 @@ export const AuthProvider = ({children}) => {
     const storeTokenIns = (token) => {
         localStorage.setItem("token", token)
     }
+    let isLoggedIn = !!token
     return (
-        <AuthContext.Provider value={{token,storeTokenIns}}>
+        <AuthContext.Provider value={{token,storeTokenIns, isLoggedIn}}>
             {children}
         </AuthContext.Provider>
     )
