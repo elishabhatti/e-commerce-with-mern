@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Input from "../components/Input";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RegisterUser = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,8 @@ const RegisterUser = () => {
     address: "",
     phone: "",
   });
+
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -29,6 +32,7 @@ const RegisterUser = () => {
           withCredentials: true,
         }
       );
+      navigate("/")
       console.log(res);
 
       console.log("Registration successful");
