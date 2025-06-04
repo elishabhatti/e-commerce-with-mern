@@ -9,7 +9,7 @@ import AboutUs from "./pages/AboutUs";
 import Home from "./pages/Home";
 import Services from "./pages/Services";
 import Footer from "./components/Footer";
-import LogoutUser from "./pages/LogoutUser";
+import LogoutPage from "./pages/LogoutPage";
 
 const App = () => {
   return (
@@ -22,11 +22,11 @@ const App = () => {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/service" element={<Services />} />
-          <Route path="/logout" element={<LogoutUser />} />
+          <Route path="/logout" element={<LogoutPage />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </BrowserRouter>
     </div>
   );

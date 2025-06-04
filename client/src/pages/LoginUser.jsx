@@ -6,12 +6,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const LoginUser = () => {
+  const { storeTokenIns} = useAuth();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const { storeTokenIns } = useAuth();
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
