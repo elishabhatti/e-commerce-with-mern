@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Input from "../components/Input";
+import axios from "axios";
 
 const RegisterUser = () => {
   const [formData, setFormData] = useState({
@@ -18,9 +19,22 @@ const RegisterUser = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Registering user:", formData);
+    try {
+      let res = await axios.post(
+        "http://localhost:3000/api/users/register",
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(res);
+
+      console.log("Registration successful");
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
   };
 
   return (
@@ -41,9 +55,9 @@ const RegisterUser = () => {
               name="email"
               type="email"
               value={formData.email}
-                onChange={handleChange}
-              />
-              <Input
+              onChange={handleChange}
+            />
+            <Input
               label="Password"
               name="password"
               type="password"
