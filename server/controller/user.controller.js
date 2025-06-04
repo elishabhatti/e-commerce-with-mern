@@ -24,14 +24,14 @@ export const registerUser = async (req, res) => {
       avatar,
     });
 
-     const accessToken = await createAccessToken({
+    const accessToken = await createAccessToken({
       id: createdUser._id,
       email,
       name,
-      avatar
+      avatar,
     });
 
-     res.cookie("accessToken", accessToken, {
+    res.cookie("accessToken", accessToken, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 30,
       secure: process.env.NODE_ENV === "production",
@@ -41,10 +41,9 @@ export const registerUser = async (req, res) => {
     res.status(201).json({
       id: createdUser._id,
       email: createdUser.email,
-      username: createdUser.username,
+      username: createdUser.name,
       token: accessToken,
     });
-
   } catch (error) {
     res.status(500).json({ message: error });
     console.error("Error from User Register Controller: ", error);
@@ -64,6 +63,26 @@ export const loginUser = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
+    const accessToken = await createAccessToken({
+      id: user._id,
+      email,
+      name: user.name,
+      avatar: user.avatar,
+    });
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
+    });
+
+    res.status(201).json({
+      id: user._id,
+      email: user.email,
+      username: user.name,
+      token: accessToken,
+    });
 
     res.status(200).json({ message: "Login successful", user });
   } catch (error) {
