@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Services from "./pages/Services";
 import Footer from "./components/Footer";
 import LogoutPage from "./pages/LogoutPage";
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/service" element={<Services />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/logout" element={<LogoutPage />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Page404 />} />

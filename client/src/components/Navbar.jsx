@@ -50,9 +50,14 @@ const Navbar = () => {
               </>
             )}
             {isLoggedIn && (
-              <li>
-              <NavLink to="/logout">Logout</NavLink>
-            </li>
+              <>
+                <li>
+                  <NavLink to="/logout">Logout</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/profile">Profile</NavLink>
+                </li>
+              </>
             )}
           </ul>
         </nav>
