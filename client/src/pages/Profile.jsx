@@ -25,7 +25,7 @@ const cartProducts = [
 ];
 
 const ProductCard = ({ product }) => (
-  <div className="border border-gray-300 rounded-xl p-4 shadow-sm bg-white">
+  <div className="border border-gray-300 rounded-xl p-4  bg-white">
     <img
       src={product.image}
       alt={product.name}
@@ -42,7 +42,7 @@ const Profile = () => {
       {/* Main Profile Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Left Profile Info */}
-        <div className="bg-white border border-gray-300 rounded-lg p-6 space-y-6 shadow-sm">
+        <div className="bg-white border border-gray-300 rounded-lg p-6 space-y-6">
           <div className="flex items-center space-x-4">
             <img
               src="https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
@@ -69,7 +69,9 @@ const Profile = () => {
           </div>
 
           <div className="border-t pt-4">
-            <h3 className="font-semibold text-gray-700 mb-2">Employee details</h3>
+            <h3 className="font-semibold text-gray-700 mb-2">
+              Employee details
+            </h3>
             <p className="text-gray-600">🎂 Sep 26, 1988</p>
             <p className="text-gray-600">🆔 GER10654</p>
             <p className="text-gray-600">💼 Project Manager</p>
@@ -80,7 +82,7 @@ const Profile = () => {
         {/* Right Detailed Info */}
         <div className="md:col-span-2 space-y-10">
           {/* Job Info */}
-          <div className="bg-white border border-gray-300 rounded-lg p-6 shadow-sm">
+          <div className="bg-white border border-gray-300 rounded-lg p-6">
             <div className="flex justify-between items-center mb-3">
               <h3 className="font-semibold text-lg">Job Information</h3>
               <button className="text-red-500 font-medium text-sm hover:underline">
@@ -126,7 +128,7 @@ const Profile = () => {
           {/* Activity & Compensation */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Activity */}
-            <div className="bg-white border border-gray-300 rounded-lg p-6 shadow-sm">
+            <div className="bg-white border border-gray-300 rounded-lg p-6">
               <h3 className="font-semibold text-lg mb-3">Activity</h3>
               <ul className="space-y-3">
                 <li className="flex items-center space-x-3">
@@ -136,7 +138,8 @@ const Profile = () => {
                     className="w-8 h-8 rounded-full"
                   />
                   <span className="text-gray-700">
-                    <strong>John Miller</strong> last login on Jul 13, 2024 – 05:36 PM
+                    <strong>John Miller</strong> last login on Jul 13, 2024 –
+                    05:36 PM
                   </span>
                 </li>
                 <li className="flex items-center space-x-3">
@@ -146,23 +149,28 @@ const Profile = () => {
                     className="w-8 h-8 rounded-full"
                   />
                   <span className="text-gray-700">
-                    <strong>Merva Sahin</strong> created on Sep 08, 2024 – 03:12 PM
+                    <strong>Merva Sahin</strong> created on Sep 08, 2024 – 03:12
+                    PM
                   </span>
                 </li>
               </ul>
             </div>
 
             {/* Compensation */}
-            <div className="bg-white border border-gray-300 rounded-lg p-6 shadow-sm">
+            <div className="bg-white border border-gray-300 rounded-lg p-6">
               <h3 className="font-semibold text-lg mb-3">Compensation</h3>
               <ul className="space-y-3 text-gray-700">
                 <li>
                   <strong>862.00 USD/month</strong>
-                  <p className="text-xs text-gray-500">Effective date: May 10, 2015</p>
+                  <p className="text-xs text-gray-500">
+                    Effective date: May 10, 2015
+                  </p>
                 </li>
                 <li>
                   <strong>1560.00 USD/quarter</strong>
-                  <p className="text-xs text-gray-500">Effective date: Jun 08, 2022</p>
+                  <p className="text-xs text-gray-500">
+                    Effective date: Jun 08, 2022
+                  </p>
                 </li>
               </ul>
             </div>
