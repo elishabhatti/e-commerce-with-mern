@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RegisterUser from "./pages/RegisterUser";
 import LoginUser from "./pages/LoginUser";
@@ -12,8 +11,8 @@ import Footer from "./components/Footer";
 import LogoutPage from "./pages/LogoutPage";
 import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
-import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
+import PurchaseProducts from "./pages/PurchaseProducts";
 
 const App = () => {
   return (
@@ -28,7 +27,7 @@ const App = () => {
           <Route path="/service" element={<Services />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/product" element={<Products />} />
+          <Route path="/purchase" element={<PurchaseProducts />} />
           <Route path="/logout" element={<LogoutPage />} />
           <Route path="/product-details/:id" element={<ProductDetails />} />
           <Route path="/" element={<Home />} />
