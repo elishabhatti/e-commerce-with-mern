@@ -4,13 +4,13 @@ export const createPurchase = async (req, res) => {
   try {
     const { productId, size, quantity } = req.body;
 
-    const newBuy = await buyProductModel.create({
+    const newBuy = await purchaseModel.create({
       product: productId,
       size,
       quantity,
     });
-
     const purchases = await purchaseModel.find().populate("product");
+
     res.status(201).json({
       message: "Product purchased successfully",
       data: newBuy,

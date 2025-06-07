@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -29,6 +30,27 @@ const ProductDetails = () => {
   }, [id]);
 
   if (!product) return <div className="p-10">Loading...</div>;
+
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/purchase/purchase-product",
+        {
+          productId: product._id,
+          quantity: Number(quantity),
+          size,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("Purchase Product:", res);
+      toast.success("Purchase successful!");
+    } catch (error) {
+      console.error("Purchase failed:", error);
+      toast.warning("Purchase failed!");
+    }
+  };
 
   return (
     <div>
@@ -100,9 +122,7 @@ const ProductDetails = () => {
 
             {/* Buy Now Button */}
             <button
-              onClick={() =>
-                alert(`Buying ${quantity} x ${product.title} (Size: ${size})`)
-              }
+              onClick={() => handleSubmit()}
               className="bg-black text-white py-3 rounded-md w-full hover:bg-gray-800 transition"
             >
               Buy Now

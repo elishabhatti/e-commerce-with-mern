@@ -3,6 +3,6 @@ import { createPurchase } from "../controller/purchase.controller.js";
 
 const router = Router();
 
-router.post("/buy-product", createPurchase);
+router.post("/purchase-product", createPurchase);
 
 export default router;
