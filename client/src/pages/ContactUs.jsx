@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import Input from "../components/Input";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +10,7 @@ const ContactUs = () => {
     email: "",
     message: "",
   });
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -15,9 +19,31 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Add Contact:", formData);
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/contact/add-contact",
+        JSON.stringify(formData),
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log(response);
+      
+      navigate("/contact");
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+
+      toast.success("Form Submitted");
+    } catch (error) {
+      toast.error(error.message);
+      console.error("Registration error:", error);
+    }
   };
 
   return (

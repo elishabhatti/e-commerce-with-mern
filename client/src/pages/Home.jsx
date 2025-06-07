@@ -43,7 +43,7 @@ const Home = () => {
         {products.map((product, index) => (
           <div
             key={index}
-            className="border border-gray-300 shadow-md rounded-2xl overflow-hidden flex flex-col"
+            className="border border-gray-300 rounded-2xl overflow-hidden flex flex-col"
             style={{ minHeight: "430px" }} 
           >
             <img
