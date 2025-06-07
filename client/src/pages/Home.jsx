@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllProducts();
@@ -26,8 +26,7 @@ const Home = () => {
 
   const handleProductClick = (id) => {
     console.log(id);
-    
-  }
+  };
 
   return (
     <div className="py-8 px-30 w-full ">
@@ -51,7 +50,7 @@ const Home = () => {
           <div
             key={index}
             className="border border-gray-300 rounded-2xl overflow-hidden flex flex-col"
-            style={{ minHeight: "430px" }} 
+            style={{ minHeight: "430px" }}
           >
             <img
               src={product.image}
@@ -86,8 +85,9 @@ const Home = () => {
               {/* Push button to the bottom */}
               <div className="mt-auto pt-4">
                 <button
-                onClick={() => navigate(product._id)}
-                 className="w-full cursor-pointer bg-black text-white py-2 rounded-md hover:bg-gray-800 transition">
+                  onClick={() => navigate(`product-details/${product._id}`)}
+                  className="w-full cursor-pointer bg-black text-white py-2 rounded-md hover:bg-gray-800 transition"
+                >
                   Buy Now
                 </button>
               </div>
