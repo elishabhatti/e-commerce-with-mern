@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     getAllProducts();
@@ -20,6 +22,11 @@ const Home = () => {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  const handleProductClick = (id) => {
+    console.log(id);
+    
   }
 
   return (
@@ -78,7 +85,9 @@ const Home = () => {
 
               {/* Push button to the bottom */}
               <div className="mt-auto pt-4">
-                <button className="w-full cursor-pointer bg-black text-white py-2 rounded-md hover:bg-gray-800 transition">
+                <button
+                onClick={() => navigate(product._id)}
+                 className="w-full cursor-pointer bg-black text-white py-2 rounded-md hover:bg-gray-800 transition">
                   Buy Now
                 </button>
               </div>
