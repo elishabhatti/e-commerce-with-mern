@@ -10,3 +10,15 @@ export const getAllProductsData = async (req, res) => {
     console.error("Error From Get Products Controller: ", error);
   }
 };
+
+export const productDetails = async (req, res) => {
+  try {
+    const product = await productModel.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.json({ message: product });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
