@@ -19,15 +19,18 @@ export const createPurchase = async (req, res) => {
     res.status(500).json({ message: "Failed to buy product", error });
   }
 };
-
-export const getPurchaseProduct = (req, res) => {
+export const getPurchaseProduct = async (req, res) => {
+  if (!req.user) return res.status(400).send("Login");
   try {
-    const getProduct = purchaseModel.find();
-    res.status(201).json({
-      message: "Product purchased successfully",
+    const getProduct = await purchaseModel.find();
+    console.log("Fetched Products:", getProduct);
+
+    res.status(200).json({
+      message: "Products fetched successfully",
       data: getProduct,
     });
   } catch (error) {
-    res.status(500).json({ message: "Failed to buy product", error });
+    console.error("Error:", error);
+    res.status(500).json({ message: "Failed to get products", error });
   }
 };
