@@ -19,11 +19,16 @@ export const createPurchase = async (req, res) => {
     res.status(500).json({ message: "Failed to buy product", error });
   }
 };
+
 export const getPurchaseProduct = async (req, res) => {
   if (!req.user) return res.status(400).send("Login");
+
   try {
-    const getProduct = await purchaseModel.find();
-    console.log("Fetched Products:", getProduct);
+    const getProduct = await purchaseModel
+      .find({ user: req.user.id })
+      .populate('product'); 
+
+    console.log("Fetched Products for user:", getProduct);
 
     res.status(200).json({
       message: "Products fetched successfully",
