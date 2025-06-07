@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.routes.js";
 import contactRouter from "./routes/contact.routes.js";
 import productRouter from "./routes/products.routes.js";
+import purchaseRouter from "./routes/purchase.route.js";
 import cors from "cors"
 import dotenv from "dotenv";
 import { connectDb } from "./config/DB_CONNECTION.js";
@@ -27,5 +28,6 @@ app.use(cookieParser());
 app.use("/api/users", userRouter);
 app.use("/api/contact", contactRouter);
 app.use("/api/products", productRouter);
+app.use("/api/purchase", purchaseRouter);
 
 app.listen(PORT);

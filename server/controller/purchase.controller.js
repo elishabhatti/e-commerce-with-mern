@@ -1,6 +1,6 @@
-import { buyProductModel } from "../models/buyProductModel.js";
+import { purchaseModel } from "../models/purchase.model.js";
 
-export const createBuyProduct = async (req, res) => {
+export const createPurchase = async (req, res) => {
   try {
     const { productId, size, quantity } = req.body;
 
@@ -10,7 +10,7 @@ export const createBuyProduct = async (req, res) => {
       quantity,
     });
 
-    const purchases = await buyProductModel.find().populate("product");
+    const purchases = await purchaseModel.find().populate("product");
     res.status(201).json({
       message: "Product purchased successfully",
       data: newBuy,

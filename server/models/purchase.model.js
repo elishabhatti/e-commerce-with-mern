@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const buyProductSchema = new mongoose.Schema(
+const purchaseSchema = new mongoose.Schema(
   {
     product: {
       type: mongoose.Schema.Types.ObjectId,
@@ -13,4 +13,4 @@ const buyProductSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const buyProductModel = mongoose.model("BuyProduct", buyProductSchema);
+export const purchaseModel = mongoose.model("Purchase", purchaseSchema);
