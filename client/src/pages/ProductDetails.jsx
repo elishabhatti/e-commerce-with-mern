@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState("M");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -44,6 +46,7 @@ const ProductDetails = () => {
           withCredentials: true,
         }
       );
+      navigate("/purchase");
       console.log("Purchase Product:", res);
       toast.success("Purchase successful!");
     } catch (error) {
