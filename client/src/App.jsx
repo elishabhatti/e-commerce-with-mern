@@ -11,6 +11,8 @@ import Services from "./pages/Services";
 import Footer from "./components/Footer";
 import LogoutPage from "./pages/LogoutPage";
 import Profile from "./pages/Profile";
+import Cart from "./pages/Cart";
+import Products from "./pages/Products";
 
 const App = () => {
   return (
@@ -24,6 +26,8 @@ const App = () => {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/service" element={<Services />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/product" element={<Products />} />
           <Route path="/logout" element={<LogoutPage />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Page404 />} />
