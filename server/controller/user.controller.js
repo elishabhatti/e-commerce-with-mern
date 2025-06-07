@@ -82,9 +82,8 @@ export const loginUser = async (req, res) => {
       email: user.email,
       username: user.name,
       token: accessToken,
+      message: "Login successful",
     });
-
-    res.status(200).json({ message: "Login successful", user });
   } catch (error) {
     console.error("Error from loginUser controller:", error);
     res.status(500).json({ message: "Internal server error" });

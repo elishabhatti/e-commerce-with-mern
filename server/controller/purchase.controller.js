@@ -5,6 +5,7 @@ export const createPurchase = async (req, res) => {
     const { productId, size, quantity } = req.body;
 
     const newBuy = await purchaseModel.create({
+      user: req.user.id,
       product: productId,
       size,
       quantity,

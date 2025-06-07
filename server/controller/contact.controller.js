@@ -1,7 +1,7 @@
 import { contactModel } from "../models/contact.model.js";
 
 export const contactUs = async (req, res) => {
-  const { name, email, message } = req.body;
+  const { name, email, message } = req.body;  
 
   try {
     if (!name || !email || !message) {
