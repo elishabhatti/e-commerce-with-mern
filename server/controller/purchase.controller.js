@@ -28,8 +28,6 @@ export const getPurchaseProduct = async (req, res) => {
       .find({ user: req.user.id })
       .populate('product'); 
 
-    console.log("Fetched Products for user:", getProduct);
-
     res.status(200).json({
       message: "Products fetched successfully",
       data: getProduct,

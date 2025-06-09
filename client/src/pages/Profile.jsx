@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Square } from "lucide-react"
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -162,6 +163,7 @@ const Profile = () => {
                   <th>Size</th>
                   <th>Qty</th>
                   <th>Price</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -174,6 +176,7 @@ const Profile = () => {
                     <td className="py-1">
                       ${purchased.product.price.toFixed(2)}
                     </td>
+                    <button className=""><Square/></button>
                   </tr>
                 ))}
               </tbody>
