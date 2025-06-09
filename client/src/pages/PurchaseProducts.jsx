@@ -45,12 +45,18 @@ const PurchaseProducts = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
-      <h2 className="text-3xl inline font-bold text-center mb-8 text-gray-900">
-        <span className="flex justify-center items-center gap-4">
-          <ShoppingBag />
-          Your Purchases
-        </span>
-      </h2>
+      <div className="flex justify-between items-center gap-4">
+        <h2 className="inline font-bold text-center mb-8 text-gray-900">
+          <div className="flex text-3xl justify-center items-center gap-4">
+            <ShoppingBag />
+            Your Purchases
+          </div>
+        </h2>
+        <div>
+          <p>All Purchased Products: {products.length}</p>
+        </div>
+      </div>
+      <hr />
       <div className="divide-y divide-gray-200">
         {products.map((purchase) => {
           const { product, size, quantity } = purchase;
