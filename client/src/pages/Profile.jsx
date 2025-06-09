@@ -1,77 +1,101 @@
-import React from "react";
-
-const buyedProducts = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    price: "$99.99",
-    image: "https://via.placeholder.com/150",
-  },
-  {
-    id: 2,
-    name: "Smart Watch",
-    price: "$199.99",
-    image: "https://via.placeholder.com/150",
-  },
-];
-
-const cartProducts = [
-  {
-    id: 1,
-    name: "Bluetooth Speaker",
-    price: "$49.99",
-    image: "https://via.placeholder.com/150",
-  },
-];
-
-const ProductCard = ({ product }) => (
-  <div className="border border-gray-300 rounded-xl p-4  bg-white">
-    <img
-      src={product.image}
-      alt={product.name}
-      className="w-full h-40 object-cover rounded-lg mb-2"
-    />
-    <h3 className="text-lg font-semibold">{product.name}</h3>
-    <p className="text-gray-500">{product.price}</p>
-  </div>
-);
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Profile = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetchUSerProfileData();
+  }, []);
+
+  const buyedProducts = [
+    {
+      id: 1,
+      name: "Wireless Headphones",
+      price: "$99.99",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 2,
+      name: "Smart Watch",
+      price: "$199.99",
+      image: "https://via.placeholder.com/150",
+    },
+  ];
+
+  const cartProducts = [
+    {
+      id: 1,
+      name: "Bluetooth Speaker",
+      price: "$49.99",
+      image: "https://via.placeholder.com/150",
+    },
+  ];
+
+  const ProductCard = ({ product }) => (
+    <div className="border border-gray-300 rounded-xl p-4  bg-white">
+      <img
+        src={product.image}
+        alt={product.name}
+        className="w-full h-40 object-cover rounded-lg mb-2"
+      />
+      <h3 className="text-lg font-semibold">{product.name}</h3>
+      <p className="text-gray-500">{product.price}</p>
+    </div>
+  );
+
+  const fetchUSerProfileData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        "http://localhost:3000/api/users/profile",
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUser(response.data.data); // <--- Set user data here
+      console.log(response);
+    } catch (error) {
+      console.error(
+        "Error fetching purchased products:",
+        error.response?.data || error.message
+      );
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 space-y-10 text-sm">
-      {/* Main Profile Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Left Profile Info */}
         <div className="bg-white border border-gray-300 rounded-lg p-6 space-y-6">
           <div className="flex items-center space-x-4">
             <img
-              src="https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
+              src={user?.avatar || "https://cdn-icons-png.flaticon.com/128/1999/1999625.png"}
               alt="User"
               className="w-20 h-20 rounded-full object-cover"
             />
             <div>
-              <h2 className="text-lg font-semibold">John Doe</h2>
-              <p className="text-gray-500">#ERD246534</p>
+              <h2 className="text-lg font-semibold">{user?.name || "No Name"}</h2>
+              <p className="text-gray-500">{user?._id?.slice(0, 10).toUpperCase()}</p>
             </div>
           </div>
 
           <div className="border-t pt-4">
             <h3 className="font-semibold text-gray-700 mb-2">About</h3>
-            <p className="text-gray-600">📞 0300 2476683</p>
-            <p className="text-gray-600">📧 johndoe@example.com</p>
+            <p className="text-gray-600">📞 {user?.phone || "N/A"}</p>
+            <p className="text-gray-600">📧 {user?.email || "N/A"}</p>
           </div>
 
           <div className="border-t pt-4">
             <h3 className="font-semibold text-gray-700 mb-2">Address</h3>
-            <p className="text-gray-600">🏠 KDA TP-2 Mehmoodabad</p>
-            <p className="text-gray-600">🏙️ Karachi, PK</p>
-            <p className="text-gray-600">📮 75600</p>
+            <p className="text-gray-600">🏠 {user?.address || "N/A"}</p>
           </div>
 
           <div className="border-t pt-4">
-            <h3 className="font-semibold text-gray-700 mb-2">
-              Employee details
-            </h3>
+            <h3 className="font-semibold text-gray-700 mb-2">Employee details</h3>
             <p className="text-gray-600">🎂 Sep 26, 1988</p>
             <p className="text-gray-600">🆔 GER10654</p>
             <p className="text-gray-600">💼 Project Manager</p>
@@ -79,7 +103,7 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Right Detailed Info */}
+        {/* Keep rest of the layout unchanged */}
         <div className="md:col-span-2 space-y-10">
           {/* Job Info */}
           <div className="bg-white border border-gray-300 rounded-lg p-6">
@@ -138,8 +162,7 @@ const Profile = () => {
                     className="w-8 h-8 rounded-full"
                   />
                   <span className="text-gray-700">
-                    <strong>John Miller</strong> last login on Jul 13, 2024 –
-                    05:36 PM
+                    <strong>John Miller</strong> last login on Jul 13, 2024 – 05:36 PM
                   </span>
                 </li>
                 <li className="flex items-center space-x-3">
@@ -149,8 +172,7 @@ const Profile = () => {
                     className="w-8 h-8 rounded-full"
                   />
                   <span className="text-gray-700">
-                    <strong>Merva Sahin</strong> created on Sep 08, 2024 – 03:12
-                    PM
+                    <strong>Merva Sahin</strong> created on Sep 08, 2024 – 03:12 PM
                   </span>
                 </li>
               </ul>
@@ -162,15 +184,11 @@ const Profile = () => {
               <ul className="space-y-3 text-gray-700">
                 <li>
                   <strong>862.00 USD/month</strong>
-                  <p className="text-xs text-gray-500">
-                    Effective date: May 10, 2015
-                  </p>
+                  <p className="text-xs text-gray-500">Effective date: May 10, 2015</p>
                 </li>
                 <li>
                   <strong>1560.00 USD/quarter</strong>
-                  <p className="text-xs text-gray-500">
-                    Effective date: Jun 08, 2022
-                  </p>
+                  <p className="text-xs text-gray-500">Effective date: Jun 08, 2022</p>
                 </li>
               </ul>
             </div>

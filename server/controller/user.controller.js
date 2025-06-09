@@ -103,6 +103,8 @@ export const logoutUserFromServer = (req, res) => {
 export const getProfileData = async (req, res) => {
   try {
     let userId = req.user.id;
+    console.log(userId);
+    
     let profile = await userModel.findById(userId);
     res.status(200).json({ data: profile });
   } catch (error) {
