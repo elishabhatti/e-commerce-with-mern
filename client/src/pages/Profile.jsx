@@ -96,7 +96,6 @@ const Profile = () => {
   const handleRemoveProduct = async (productId) => {
     try {
       const token = localStorage.getItem("token");
-
       const response = await axios.post(
         `http://localhost:3000/api/purchase/remove-purchased-product/${productId}`,
         {},
@@ -108,8 +107,6 @@ const Profile = () => {
         }
       );
 
-      console.log("Deleted:", response.data);
-      
       setProducts((prev) =>
         prev.filter((purchased) => purchased._id !== productId)
       );
@@ -218,9 +215,7 @@ const Profile = () => {
                     </td>
                     <td>
                       <button
-                        onClick={() =>
-                          handleRemoveProduct(purchased._id)
-                        }
+                        onClick={() => handleRemoveProduct(purchased._id)}
                         className="text-red-500 rounded-sm cursor-pointer my-1 border border-red-600"
                       >
                         <X />

@@ -43,10 +43,7 @@ export const removePurchaseProduct = async (req, res) => {
 
   try {
     const productId = req.params.id;
-    console.log(productId);
-
     const deleteProduct = await purchaseModel.findByIdAndDelete(productId);
-    console.log(deleteProduct);
 
     if (!deleteProduct)
       return res.status(500).json({ message: "Product not Deleted" });
