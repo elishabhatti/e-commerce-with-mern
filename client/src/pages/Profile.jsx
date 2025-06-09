@@ -94,8 +94,8 @@ const Profile = () => {
     }
   };
 
-  // if (loading)
-  // return <p className="text-center mt-6 text-lg font-medium">Loading...</p>;
+  if (loading)
+    return <p className="text-center mt-6 text-lg font-medium">Loading...</p>;
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 space-y-10 text-sm">
@@ -144,12 +144,12 @@ const Profile = () => {
         </div>
 
         <div className="md:col-span-2 space-y-10">
-          <div className="bg-white border border-gray-300 rounded-lg p-6">
+          <div className="bg-white h-[200px] overflow-y-scroll border border-gray-300 rounded-lg p-6">
             <div className="flex justify-between items-center mb-3">
               <h3 className="font-semibold text-lg">Purchased Products</h3>
               <button
                 onClick={() => navigate("/")}
-                className="text-red-500 font-medium text-sm hover:underline"
+                className="text-red-500 cursor-pointer font-medium text-sm hover:underline"
               >
                 + Add More Products
               </button>
@@ -167,11 +167,13 @@ const Profile = () => {
               <tbody>
                 {product.map((purchased) => (
                   <tr key={purchased._id} className="border-b">
-                    <td>{purchased.product.title}</td>
-                    <td>{purchased.product.brand}</td>
-                    <td>{purchased.size}</td>
-                    <td>{purchased.quantity}</td>
-                    <td>${purchased.product.price.toFixed(2)}</td>
+                    <td className="py-1">{purchased.product.title}</td>
+                    <td className="py-1">{purchased.product.brand}</td>
+                    <td className="py-1">{purchased.size}</td>
+                    <td className="py-1">{purchased.quantity}</td>
+                    <td className="py-1">
+                      ${purchased.product.price.toFixed(2)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
