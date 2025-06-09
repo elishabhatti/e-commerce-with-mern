@@ -5,9 +5,7 @@ dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET_KEY;
 
 export const verifyAuthentication = (req, res, next) => {
-  const accessToken = req.cookies.accessToken;
-  console.log("access token",accessToken);
-  
+  const accessToken = req.cookies.accessToken;  
 
   if (!accessToken) {
     return res.status(401).json({ message: "Token missing from cookies" });

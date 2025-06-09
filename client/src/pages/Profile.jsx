@@ -63,7 +63,6 @@ const Profile = () => {
         }
       );
       setUser(response.data.data);
-      console.log(response);
     } catch (error) {
       console.error(
         "Error fetching purchased products:",
@@ -83,7 +82,7 @@ const Profile = () => {
           },
         }
       );
-      console.log(response.data.data);
+      console.log(response.data);
       setProducts(response.data.data);
     } catch (error) {
       console.error(
@@ -94,8 +93,32 @@ const Profile = () => {
       setLoading(false);
     }
   };
-  const handleRemoveProduct = (id) => {
-    console.log(id);
+  const handleRemoveProduct = async (productId) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.post(
+        `http://localhost:3000/api/purchase/remove-purchased-product/${productId}`,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Deleted:", response.data);
+      
+      setProducts((prev) =>
+        prev.filter((purchased) => purchased._id !== productId)
+      );
+    } catch (error) {
+      console.error(
+        "Error deleting purchased product:",
+        error.response?.data || error.message
+      );
+    }
   };
 
   const handleUpdateProduct = (id) => {
@@ -196,7 +219,7 @@ const Profile = () => {
                     <td>
                       <button
                         onClick={() =>
-                          handleRemoveProduct(purchased.product._id)
+                          handleRemoveProduct(purchased._id)
                         }
                         className="text-red-500 rounded-sm cursor-pointer my-1 border border-red-600"
                       >

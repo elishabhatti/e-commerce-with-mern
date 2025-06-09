@@ -26,11 +26,34 @@ export const getPurchaseProduct = async (req, res) => {
   try {
     const getProduct = await purchaseModel
       .find({ user: req.user.id })
-      .populate('product'); 
+      .populate("product");
 
     res.status(200).json({
       message: "Products fetched successfully",
       data: getProduct,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: "Failed to get products", error });
+  }
+};
+
+export const removePurchaseProduct = async (req, res) => {
+  if (!req.user) return res.status(400).send("Login");
+
+  try {
+    const productId = req.params.id;
+    console.log(productId);
+
+    const deleteProduct = await purchaseModel.findByIdAndDelete(productId);
+    console.log(deleteProduct);
+
+    if (!deleteProduct)
+      return res.status(500).json({ message: "Product not Deleted" });
+
+    res.status(200).json({
+      message: "Products Deleted successfully",
+      data: deleteProduct,
     });
   } catch (error) {
     console.error("Error:", error);
