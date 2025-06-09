@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { ShoppingBag } from "lucide-react";
 
 const PurchaseProducts = () => {
   const [products, setProducts] = useState([]);
@@ -9,8 +10,6 @@ const PurchaseProducts = () => {
     const fetchPurchasedProducts = async () => {
       try {
         const token = localStorage.getItem("token");
-        console.log("Token:", token);
-
         const response = await axios.get(
           "http://localhost:3000/api/purchase/get-purchase-product",
           {
@@ -20,7 +19,6 @@ const PurchaseProducts = () => {
             },
           }
         );
-
         setProducts(response.data.data);
       } catch (error) {
         console.error(
@@ -35,38 +33,65 @@ const PurchaseProducts = () => {
     fetchPurchasedProducts();
   }, []);
 
-  if (loading) return <p className="text-center mt-4">Loading...</p>;
+  if (loading)
+    return <p className="text-center mt-6 text-lg font-medium">Loading...</p>;
 
   if (products.length === 0)
-    return <p className="text-center mt-4 text-gray-600">No products purchased.</p>;
+    return (
+      <p className="text-center mt-6 text-gray-500 text-lg">
+        No products purchased.
+      </p>
+    );
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-2xl font-semibold mb-6 text-center">Purchased Products</h2>
-      <ul className="space-y-6">
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      <h2 className="text-3xl inline font-bold text-center mb-8 text-gray-900">
+        <span className="flex justify-center items-center gap-4">
+          <ShoppingBag />
+          Your Purchases
+        </span>
+      </h2>
+      <div className="divide-y divide-gray-200">
         {products.map((purchase) => {
           const { product, size, quantity } = purchase;
           return (
-            <li
+            <div
               key={purchase._id}
-              className="flex items-center gap-6 border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+              className="flex items-center justify-between py-6 hover:bg-gray-50 transition-colors"
             >
-              <img
-                src={product.image}
-                alt={product.title}
-                className="w-32 h-24 object-cover rounded-md"
-              />
-              <div>
-                <h3 className="text-lg font-bold mb-1">{product.title}</h3>
-                <p className="text-gray-700 font-semibold mb-1">Brand: {product.brand}</p>
-                <p className="text-gray-600 mb-1">Price: ${product.price.toFixed(2)}</p>
-                <p className="text-gray-600 mb-1">Size: {size}</p>
-                <p className="text-gray-600">Quantity: {quantity}</p>
+              {/* Image & Info */}
+              <div className="flex items-center gap-5 flex-1">
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="w-24 h-20 object-cover rounded-lg border"
+                />
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {product.title}
+                  </h3>
+                  <p className="text-sm text-gray-500">
+                    Brand: {product.brand}
+                  </p>
+                </div>
               </div>
-            </li>
+
+              {/* Details */}
+              <div className="text-right space-y-1 w-40 shrink-0">
+                <p className="text-gray-600 text-sm">
+                  Size: <span className="font-medium">{size}</span>
+                </p>
+                <p className="text-gray-600 text-sm">
+                  Qty: <span className="font-medium">{quantity}</span>
+                </p>
+                <p className="text-gray-900 font-bold text-base">
+                  ${product.price.toFixed(2)}
+                </p>
+              </div>
+            </div>
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 };
