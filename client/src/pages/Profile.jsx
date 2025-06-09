@@ -146,8 +146,17 @@ const Profile = () => {
             </h3>
             <p className="text-gray-600">🎂 Sep 26, 1988</p>
             <p className="text-gray-600">🆔 GER10654</p>
-            <p className="text-gray-600">💼 Project Manager</p>
-            <p className="text-gray-600">📅 Jan 05, 2023</p>
+            <p className="text-gray-600">💼 User</p>
+            <p className="text-gray-600">
+              🗓️ Joined:{" "}
+              {user?.createdAt
+                ? new Date(user.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                : "N/A"}
+            </p>
           </div>
         </div>
 
@@ -189,7 +198,7 @@ const Profile = () => {
                         onClick={() =>
                           handleRemoveProduct(purchased.product._id)
                         }
-                        className="text-red-500 rounded-smad cursor-pointer my-1 border border-red-600"
+                        className="text-red-500 rounded-sm cursor-pointer my-1 border border-red-600"
                       >
                         <X />
                       </button>
