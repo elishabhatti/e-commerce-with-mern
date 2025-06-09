@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Square, X } from "lucide-react";
+import { SquarePen, Square, X } from "lucide-react";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -98,6 +98,10 @@ const Profile = () => {
     console.log(id);
   };
 
+  const handleUpdateProduct = (id) => {
+    console.log(id);
+  };
+
   if (loading)
     return <p className="text-center mt-6 text-lg font-medium">Loading...</p>;
 
@@ -167,6 +171,7 @@ const Profile = () => {
                   <th>Qty</th>
                   <th>Price</th>
                   <th>Delete</th>
+                  <th>Update</th>
                 </tr>
               </thead>
               <tbody>
@@ -184,9 +189,19 @@ const Profile = () => {
                         onClick={() =>
                           handleRemoveProduct(purchased.product._id)
                         }
-                        className="text-red-500 cursor-pointer my-1 border border-red-600"
+                        className="text-red-500 rounded-smad cursor-pointer my-1 border border-red-600"
                       >
                         <X />
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() =>
+                          handleUpdateProduct(purchased.product._id)
+                        }
+                        className="text-blue-500 cursor-pointer my-1"
+                      >
+                        <SquarePen />
                       </button>
                     </td>
                   </tr>
