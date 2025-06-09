@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Square } from "lucide-react"
+import { Square, X } from "lucide-react";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -94,6 +94,9 @@ const Profile = () => {
       setLoading(false);
     }
   };
+  const handleRemoveProduct = (id) => {
+    console.log(id);
+  };
 
   if (loading)
     return <p className="text-center mt-6 text-lg font-medium">Loading...</p>;
@@ -176,7 +179,16 @@ const Profile = () => {
                     <td className="py-1">
                       ${purchased.product.price.toFixed(2)}
                     </td>
-                    <button className=""><Square/></button>
+                    <td>
+                      <button
+                        onClick={() =>
+                          handleRemoveProduct(purchased.product._id)
+                        }
+                        className="text-red-500 cursor-pointer my-1 border border-red-600"
+                      >
+                        <X />
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
