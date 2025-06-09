@@ -126,7 +126,7 @@ const ProductDetails = () => {
             {/* Buy Now Button */}
             <button
               onClick={() => handleSubmit()}
-              className="bg-black text-white py-3 rounded-md w-full hover:bg-gray-800 transition"
+              className="bg-black text-white py-3 cursor-pointer rounded-md w-full hover:bg-gray-800 transition"
             >
               Buy Now
             </button>
