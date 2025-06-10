@@ -204,35 +204,43 @@ const Profile = () => {
                 </tr>
               </thead>
               <tbody>
-                {product.map((purchased) => (
-                  <tr key={purchased._id} className="border-b">
-                    <td className="py-1">{purchased.product.title}</td>
-                    <td className="py-1">{purchased.product.brand}</td>
-                    <td className="py-1">{purchased.size}</td>
-                    <td className="py-1">{purchased.quantity}</td>
-                    <td className="py-1">
-                      ${purchased.product.price.toFixed(2)}
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => handleRemoveProduct(purchased._id)}
-                        className="text-red-500 rounded-sm cursor-pointer my-1 border border-red-600"
-                      >
-                        <X />
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        onClick={() =>
-                          handleUpdateProduct(purchased.product._id)
-                        }
-                        className="text-blue-500 cursor-pointer my-1"
-                      >
-                        <SquarePen />
-                      </button>
+                {product.length === 0 ? (
+                  <tr>
+                    <td colSpan="7" className="text-center py-4 text-gray-500">
+                      No products found
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  product.map((purchased) => (
+                    <tr key={purchased._id} className="border-b">
+                      <td className="py-1">{purchased.product.title}</td>
+                      <td className="py-1">{purchased.product.brand}</td>
+                      <td className="py-1">{purchased.size}</td>
+                      <td className="py-1">{purchased.quantity}</td>
+                      <td className="py-1">
+                        ${purchased.product.price.toFixed(2)}
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => handleRemoveProduct(purchased._id)}
+                          className="text-red-500 rounded-sm cursor-pointer my-1 border border-red-600"
+                        >
+                          <X />
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          onClick={() =>
+                            handleUpdateProduct(purchased.product._id)
+                          }
+                          className="text-blue-500 cursor-pointer my-1"
+                        >
+                          <SquarePen />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
