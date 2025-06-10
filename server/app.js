@@ -4,7 +4,7 @@ import userRouter from "./routes/user.routes.js";
 import contactRouter from "./routes/contact.routes.js";
 import productRouter from "./routes/products.routes.js";
 import purchaseRouter from "./routes/purchase.route.js";
-import cartRouter from "./routes/cart.route.js";
+import cartRouter from "./routes/cart.routes.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import { connectDb } from "./config/DB_CONNECTION.js";
