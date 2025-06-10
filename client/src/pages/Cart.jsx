@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {  ShoppingCart } from "lucide-react";
+import {  ShoppingCart, Trash } from "lucide-react";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -32,6 +32,31 @@ const Cart = () => {
 
     fetchCartProducts();
   }, []);
+
+    const handleRemoveProduct = async (productId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `http://localhost:3000/api/cart/remove-cart-product/${productId}`,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setProducts((prev) =>
+        prev.filter((purchased) => purchased._id !== productId)
+      );
+    } catch (error) {
+      console.error(
+        "Error deleting cart product:",
+        error.response?.data || error.message
+      );
+    }
+  };
 
   if (loading)
     return <p className="text-center mt-6 text-lg font-medium">Loading...</p>;
@@ -93,6 +118,9 @@ const Cart = () => {
                 <p className="text-gray-900 font-bold text-base">
                   ${product.price.toFixed(2)}
                 </p>
+                <button onClick={() => handleRemoveProduct(product._id)}>
+                  <Trash/>
+                </button>
               </div>
             </div>
           );
