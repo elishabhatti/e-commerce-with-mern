@@ -43,7 +43,10 @@ export const removeCartProduct = async (req, res) => {
 
   try {
     const productId = req.params.id;
+    console.log(productId);
+    
     const deleteCartProduct = await cartModel.findByIdAndDelete(productId);
+    console.log(deleteCartProduct);
 
     if (!deleteCartProduct)
       return res.status(500).json({ message: "Product not Deleted" });
