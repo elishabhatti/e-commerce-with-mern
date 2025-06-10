@@ -58,6 +58,9 @@ const Navbar = () => {
                   <NavLink to="/profile">Profile</NavLink>
                 </li>
                 <li>
+                  <NavLink to="/cart">Cart</NavLink>
+                </li>
+                <li>
                   <NavLink to="/purchase">Purchase</NavLink>
                 </li>
               </>
@@ -67,47 +70,62 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <nav className="md:hidden mt-4">
-          <ul className="flex flex-col gap-4">
-            <li>
-              <NavLink to="/" onClick={toggleMenu}>
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/about" onClick={toggleMenu}>
-                About
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/service" onClick={toggleMenu}>
-                Services
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/contact" onClick={toggleMenu}>
-                Contact
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/register" onClick={toggleMenu}>
-                Register
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/login" onClick={toggleMenu}>
-                Login
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/logout" onClick={toggleMenu}>
-                Logout
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
+     {/* Mobile Menu */}
+{isOpen && (
+  <nav className="md:hidden mt-4">
+    <ul className="flex flex-col gap-4">
+      <li>
+        <NavLink to="/" onClick={toggleMenu}>Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/about" onClick={toggleMenu}>About</NavLink>
+      </li>
+      <li>
+        <NavLink to="/service" onClick={toggleMenu}>Services</NavLink>
+      </li>
+      <li>
+        <NavLink to="/contact" onClick={toggleMenu}>Contact</NavLink>
+      </li>
+
+      {!isLoggedIn && (
+        <>
+          <li>
+            <NavLink to="/register" onClick={toggleMenu}>Register</NavLink>
+          </li>
+          <li>
+            <NavLink to="/login" onClick={toggleMenu}>Login</NavLink>
+          </li>
+        </>
       )}
+
+      {isLoggedIn && (
+        <>
+          <li>
+            <button
+              onClick={() => {
+                handleLogout();
+                toggleMenu();
+              }}
+              className="text-blue-500 text-left"
+            >
+              Logout
+            </button>
+          </li>
+          <li>
+            <NavLink to="/profile" onClick={toggleMenu}>Profile</NavLink>
+          </li>
+          <li>
+            <NavLink to="/cart" onClick={toggleMenu}>Cart</NavLink>
+          </li>
+          <li>
+            <NavLink to="/purchase" onClick={toggleMenu}>Purchase</NavLink>
+          </li>
+        </>
+      )}
+    </ul>
+  </nav>
+)}
+
     </header>
   );
 };
