@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { ShoppingCart } from "lucide-react";
 
 const CartDetails = () => {
   const { id } = useParams();
@@ -36,7 +37,7 @@ const CartDetails = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/purchase/purchase-product",
+        "http://localhost:3000/api/cart/cart-product",
         {
           productId: product._id,
           quantity: Number(quantity),
@@ -46,12 +47,12 @@ const CartDetails = () => {
           withCredentials: true,
         }
       );
-      navigate("/purchase");
-      console.log("Purchase Product:", res);
-      toast.success("Purchase successful!");
+      navigate("/cart");
+      console.log("Cart Product:", res);
+      toast.success("Cart successful!");
     } catch (error) {
-      console.error("Purchase failed:", error);
-      toast.warning("Purchase failed!");
+      console.error("Cart failed:", error);
+      toast.warning("Cart failed!");
     }
   };
 
@@ -126,9 +127,9 @@ const CartDetails = () => {
             {/* Buy Now Button */}
             <button
               onClick={() => handleSubmit()}
-              className="bg-black text-white py-3 cursor-pointer rounded-md w-full hover:bg-gray-800 transition"
+              className="bg-black text-white py-3 flex justify-center items-center gap-2 cursor-pointer rounded-md w-full hover:bg-gray-800 transition"
             >
-              Buy Now
+              Add To Cart <ShoppingCart/>
             </button>
           </div>
         </div>
