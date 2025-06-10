@@ -37,3 +37,23 @@ export const getCartProducts = async (req, res) => {
     res.status(500).json({ message: "Failed to get products", error });
   }
 };
+
+export const removeCartProduct = async (req, res) => {
+  if (!req.user) return res.status(400).send("Login");
+
+  try {
+    const productId = req.params.id;
+    const deleteCartProduct = await cartModel.findByIdAndDelete(productId);
+
+    if (!deleteCartProduct)
+      return res.status(500).json({ message: "Product not Deleted" });
+
+    res.status(200).json({
+      message: "Products Deleted successfully",
+      data: deleteCartProduct,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: "Failed to get products", error });
+  }
+};
