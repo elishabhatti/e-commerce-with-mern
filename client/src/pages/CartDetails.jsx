@@ -58,7 +58,7 @@ const CartDetails = () => {
   return (
     <div>
       <div className="flex justify-center items-center w-full pt-7">
-        <h1 className="text-4xl font-bold">Product Details</h1>
+        <h1 className="text-4xl font-bold">Cart  Details</h1>
       </div>
       <div className="p-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left: Product Image */}

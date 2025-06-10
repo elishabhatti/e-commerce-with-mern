@@ -25,10 +25,6 @@ const Home = () => {
     }
   }
 
-  const handleProductClick = (id) => {
-    console.log(id);
-  };
-
   return (
     <div className="py-8 px-30 w-full ">
       <div className="relative my-5">

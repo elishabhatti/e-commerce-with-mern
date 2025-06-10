@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
 import ProductDetails from "./pages/ProductDetails";
 import PurchaseProducts from "./pages/PurchaseProducts";
+import CartDetails from "./pages/CartDetails";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/purchase" element={<PurchaseProducts />} />
           <Route path="/logout" element={<LogoutPage />} />
           <Route path="/product-details/:id" element={<ProductDetails />} />
+          <Route path="/product-cart/:id" element={<CartDetails />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
