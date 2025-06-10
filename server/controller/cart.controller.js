@@ -19,3 +19,21 @@ export const addToCart = async (req, res) => {
     res.status(500).json({ message: "Failed to buy product", error });
   }
 };
+
+export const getCartProducts = async (req, res) => {
+  if (!req.user) return res.status(400).send("Login");
+
+  try {
+    const getCartProduct = await cartModel
+      .find({ user: req.user.id })
+      .populate("product");
+
+    res.status(200).json({
+      message: "Products fetched successfully",
+      data: getCartProduct,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: "Failed to get products", error });
+  }
+};
