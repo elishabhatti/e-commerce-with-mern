@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ShoppingCart } from "lucide-react";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -83,13 +84,26 @@ const Home = () => {
               )}
 
               {/* Push button to the bottom */}
-              <div className="mt-auto pt-4">
+              <div className="flex mt-auto justify-between items-center gap-2 pt-4">
                 <button
                   onClick={() => navigate(`product-details/${product._id}`)}
-                  className="w-full cursor-pointer bg-black text-white py-2 rounded-md hover:bg-gray-800 transition"
+                  className="w-[85%] p-2 cursor-pointer bg-black text-white rounded-md hover:bg-gray-800 transition"
                 >
                   Buy Now
                 </button>
+                <div className="relative group w-[15%]">
+                  <button
+                    onClick={() => navigate(`product-cart/${product._id}`)}
+                    className="flex justify-center py-2 w-full cursor-pointer bg-black text-white rounded-md hover:bg-gray-800 transition"
+                  >
+                    <ShoppingCart />
+                  </button>
+
+                  {/* Tooltip */}
+                  <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-gray-900 px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    Add to cart
+                  </span>
+                </div>
               </div>
             </div>
           </div>
