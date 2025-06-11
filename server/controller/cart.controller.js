@@ -61,33 +61,53 @@ export const removeCartProduct = async (req, res) => {
   }
 };
 
-export const updateQuantityOfCareItem = async (req, res) => {
+export const updateQuantityOfCartItem = async (req, res) => {
   try {
     const { cartItemId } = req.params;
     const { quantity } = req.body;
     const userId = req.user.id;
 
-    if (!quantity || isNaN(quantity) || quantity < 1) {
-      return res
-        .status(400)
-        .json({ message: "Quantity must be a positive number" });
+    if (!quantity || isNaN(quantity)) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Quantity must be a number" 
+      });
     }
 
-    const updateCartItem = await cartModel
-      .findOneAndUpdate(
-        { _id: cartItemId, user: userId },
-        { quantity },
-        { new: true }
-      )
-      .populate("product");
+    if (quantity < 1 || quantity > 100) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Quantity must be between 1 and 100" 
+      });
+    }
+
+    const cartItem = await cartModel.findOne({ _id: cartItemId }).populate('product');
+    if (cartItem?.product?.stock < quantity) {
+      return res.status(400).json({
+        success: false,
+        message: `Only ${cartItem.product.stock} items available in stock`
+      });
+    }
+
+    const updateCartItem = await cartModel.findOneAndUpdate(
+      { _id: cartItemId, user: userId },
+      { quantity },
+      { new: true }
+    ).populate("product");
 
     if (!updateCartItem) {
-      return res.status(404).json({ message: "Cart Item not Found" });
+      return res.status(404).json({ 
+        success: false,
+        message: "Cart item not found" 
+      });
     }
 
-    res
-      .status(200)
-      .json({ message: "Quantity updated Successfully", data: updateCartItem });
+    res.status(200).json({ 
+      success: true,
+      message: "Quantity updated successfully", 
+      data: updateCartItem 
+    });
+
   } catch (error) {
     console.error("Error updating cart item quantity:", error);
     res.status(500).json({

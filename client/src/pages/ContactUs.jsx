@@ -91,7 +91,7 @@ const handleSubmit = async (e) => {
             alt="Contact US illustration"
             className="w-full h-full object-cover"
           />
-        </div>
+      </div>
       </div>
     </div>
   );

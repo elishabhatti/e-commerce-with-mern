@@ -9,6 +9,7 @@ import {
   PenBox,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -83,34 +84,46 @@ const Cart = () => {
     }
   };
 
-  const handleQuantityChange = async (cartItemId, newQuantity) => {
-    if (newQuantity < 1) return;
+const handleQuantityChange = async (cartItemId, newQuantity) => {
+  if (newQuantity < 1 || newQuantity > 100) return;
 
-    try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-        `http://localhost:3000/api/cart/update-quantity/${cartItemId}`,
-        { quantity: newQuantity },
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  const optimisticProducts = products.map(item =>
+    item._id === cartItemId ? { ...item, quantity: newQuantity } : item
+  );
+  setProducts(optimisticProducts);
+  calculateSubtotal(optimisticProducts);
 
-      const updatedProducts = products.map((item) =>
-        item._id === cartItemId ? { ...item, quantity: newQuantity } : item
-      );
-      setProducts(updatedProducts);
-      calculateSubtotal(updatedProducts);
-    } catch (error) {
-      console.error(
-        "Error updating quantity:",
-        error.response?.data || error.message
-      );
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(
+      `http://localhost:3000/api/cart/update-quantity/${cartItemId}`,
+      { quantity: newQuantity },
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.data.success) {
+      toast.success(response.data.message);
+    } else {
+      throw new Error(response.data.message);
     }
-  };
+
+  } catch (error) {
+    console.error("Error updating quantity:", error.response?.data || error.message);
+
+    const originalProducts = products.map(item =>
+      item._id === cartItemId ? { ...item, quantity: item.quantity } : item
+    );
+    setProducts(originalProducts);
+    calculateSubtotal(originalProducts);
+
+    toast.error(error.response?.data?.message || "Failed to update quantity");
+  }
+};
 
   if (loading) {
     return (
