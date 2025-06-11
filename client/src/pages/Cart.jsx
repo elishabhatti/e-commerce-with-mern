@@ -53,6 +53,11 @@ const Cart = () => {
 
   const handleRemoveProduct = async (cartItemId) => {
     try {
+      const isConfirmed = window.confirm(
+        "Are you sure you want to remove this item from your cart?"
+      );
+
+      if (!isConfirmed) return;
       const token = localStorage.getItem("token");
       await axios.post(
         `http://localhost:3000/api/cart/remove-cart-product/${cartItemId}`,
