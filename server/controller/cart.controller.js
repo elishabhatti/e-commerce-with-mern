@@ -1,4 +1,5 @@
 import { cartModel } from "../models/cart.model.js";
+import { purchaseModel } from "../models/purchase.model.js";
 
 export const addToCart = async (req, res) => {
   try {
@@ -66,48 +67,55 @@ export const updateQuantityOfCartItem = async (req, res) => {
     const { cartItemId } = req.params;
     const { quantity } = req.body;
     const userId = req.user.id;
+    console.log(userId);
 
     if (!quantity || isNaN(quantity)) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        message: "Quantity must be a number" 
+        message: "Quantity must be a number",
       });
     }
 
     if (quantity < 1 || quantity > 100) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        message: "Quantity must be between 1 and 100" 
+        message: "Quantity must be between 1 and 100",
       });
     }
+    
+    const cartItem = await cartModel
+      .findOne({ _id: cartItemId })
+      .populate("product");
 
-    const cartItem = await cartModel.findOne({ _id: cartItemId }).populate('product');
     if (cartItem?.product?.stock < quantity) {
       return res.status(400).json({
         success: false,
-        message: `Only ${cartItem.product.stock} items available in stock`
+        message: `Only ${cartItem.product.stock} items available in stock`,
       });
     }
 
-    const updateCartItem = await cartModel.findOneAndUpdate(
-      { _id: cartItemId, user: userId },
-      { quantity },
-      { new: true }
-    ).populate("product");
+    const updateCartItem = await cartModel
+      .findOneAndUpdate(
+        { _id: cartItemId, user: userId },
+        { quantity },
+        { new: true }
+      )
+      .populate("product");
+
+    console.log(updateCartItem);
 
     if (!updateCartItem) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: "Cart item not found" 
+        message: "Cart item not found",
       });
     }
 
-    res.status(200).json({ 
+    res.status(200).json({
       success: true,
-      message: "Quantity updated successfully", 
-      data: updateCartItem 
+      message: "Quantity updated successfully",
+      data: updateCartItem,
     });
-
   } catch (error) {
     console.error("Error updating cart item quantity:", error);
     res.status(500).json({

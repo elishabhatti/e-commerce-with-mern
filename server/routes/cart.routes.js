@@ -11,6 +11,6 @@ const router = Router();
 router.post("/cart-product", addToCart);
 router.get("/get-cart-product", getCartProducts);
 router.post("/remove-cart-product/:id", removeCartProduct);
-router.post("/update-quantity/:id", updateQuantityOfCartItem);
+router.put("/update-quantity/:cartItemId", updateQuantityOfCartItem);
 
 export default router;
