@@ -35,11 +35,6 @@ const PurchaseProducts = () => {
     fetchPurchasedProducts();
   }, [token]);
 
-  const handleEdit = (id) => {
-    console.log("Edit purchase:", id);
-    // Navigate or show modal logic here
-  };
-
   const handleDelete = async (id) => {
     console.log(id);
 

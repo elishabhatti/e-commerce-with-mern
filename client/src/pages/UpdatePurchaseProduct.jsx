@@ -26,7 +26,7 @@ const UpdatePurchaseProduct = () => {
         );
         console.log(res);
 
-        setProduct(res.data.data.product); // or .data if you need all cart info
+        setProduct(res.data.data.product);
         setQuantity(res.data.data.quantity);
         setSize(res.data.data.size);
       } catch (error) {
@@ -43,30 +43,34 @@ const UpdatePurchaseProduct = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/purchase/update-purchase-product",
+      const res = await axios.put(
+        `http://localhost:3000/api/purchase/update-purchase-product/${id}`,
         {
-          productId: product._id,
           quantity: Number(quantity),
           size,
         },
         {
           withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
-      navigate("/cart");
-      console.log("Cart Product:", res);
-      toast.success("Cart successful!");
+      console.log("Purchase Product:", res);
+
+      navigate("/purchase");
+      console.log("Purchase Product:", res);
+      toast.success("Purchase successful!");
     } catch (error) {
-      console.error("Cart failed:", error);
-      toast.warning("Cart failed!");
+      console.error("Purchase failed:", error);
+      toast.warning("Purchase failed!");
     }
   };
 
   return (
     <div>
       <div className="flex justify-center items-center w-full pt-7">
-        <h1 className="text-4xl font-bold">Cart Product Details</h1>
+        <h1 className="text-4xl font-bold">Purchase Product Details</h1>
       </div>
       <div className="p-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left: Product Image */}
