@@ -1,5 +1,4 @@
 import { cartModel } from "../models/cart.model.js";
-import { purchaseModel } from "../models/purchase.model.js";
 
 export const addToCart = async (req, res) => {
   try {
@@ -38,6 +37,29 @@ export const getCartProducts = async (req, res) => {
     res.status(500).json({ message: "Failed to get products", error });
   }
 };
+
+export const getCartProductsById = async (req, res) => {
+  if (!req.user) return res.status(400).send("Login");
+
+  try {
+    const getCartProduct = await cartModel
+      .findOne({ _id: req.params.id, user: req.user.id })
+      .populate("product");      
+
+    if (!getCartProduct) {
+      return res.status(404).json({ message: "Cart product not found" });
+    }
+
+    res.status(200).json({
+      message: "Product fetched successfully",
+      data: getCartProduct,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: "Failed to get product", error });
+  }
+};
+
 
 export const removeCartProduct = async (req, res) => {
   if (!req.user) return res.status(400).send("Login");
@@ -81,7 +103,7 @@ export const updateQuantityOfCartItem = async (req, res) => {
         message: "Quantity must be between 1 and 100",
       });
     }
-    
+
     const cartItem = await cartModel
       .findOne({ _id: cartItemId })
       .populate("product");
