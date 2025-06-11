@@ -44,7 +44,7 @@ export const removeCartProduct = async (req, res) => {
   try {
     const productId = req.params.id;
     console.log(productId);
-    
+
     const deleteCartProduct = await cartModel.findByIdAndDelete(productId);
     console.log(deleteCartProduct);
 
@@ -62,5 +62,38 @@ export const removeCartProduct = async (req, res) => {
 };
 
 export const updateQuantityOfCareItem = async (req, res) => {
-  a
-}
+  try {
+    const { cartItemId } = req.params;
+    const { quantity } = req.body;
+    const userId = req.user.id;
+
+    if (!quantity || isNaN(quantity) || quantity < 1) {
+      return res
+        .status(400)
+        .json({ message: "Quantity must be a positive number" });
+    }
+
+    const updateCartItem = await cartModel
+      .findOneAndUpdate(
+        { _id: cartItemId, user: userId },
+        { quantity },
+        { new: true }
+      )
+      .populate("product");
+
+    if (!updateCartItem) {
+      return res.status(404).json({ message: "Cart Item not Found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Quantity updated Successfully", data: updateCartItem });
+  } catch (error) {
+    console.error("Error updating cart item quantity:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
