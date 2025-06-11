@@ -21,7 +21,10 @@ const PurchaseProducts = () => {
         );
         setProducts(response.data.data);
       } catch (error) {
-        console.error("Error fetching purchased products:", error.response?.data || error.message);
+        console.error(
+          "Error fetching purchased products:",
+          error.response?.data || error.message
+        );
       } finally {
         setLoading(false);
       }
@@ -36,18 +39,33 @@ const PurchaseProducts = () => {
   };
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this purchase?");
-    if (!confirmDelete) return;
+    console.log(id);
 
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this purchase?"
+    );
+    if (!confirmDelete) return;
     try {
-      await axios.delete(`http://localhost:3000/api/purchase/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProducts((prev) => prev.filter((item) => item._id !== id));
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `http://localhost:3000/api/purchase/remove-purchased-product/${id}`,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setProducts((prev) =>
+        prev.filter((purchased) => purchased._id !== id)
+      );
     } catch (error) {
-      console.error("Error deleting product:", error.response?.data || error.message);
+      console.error(
+        "Error deleting purchased product:",
+        error.response?.data || error.message
+      );
     }
   };
 
@@ -63,8 +81,12 @@ const PurchaseProducts = () => {
       <div className="max-w-5xl mx-auto px-4 py-12 text-center">
         <div className="bg-gray-50 rounded-lg p-8">
           <ShoppingBag size={48} className="mx-auto text-gray-400 mb-4" />
-          <h3 className="text-2xl font-bold text-gray-700 mb-2">No Purchases Found</h3>
-          <p className="text-gray-500">You haven’t purchased any products yet.</p>
+          <h3 className="text-2xl font-bold text-gray-700 mb-2">
+            No Purchases Found
+          </h3>
+          <p className="text-gray-500">
+            You haven’t purchased any products yet.
+          </p>
         </div>
       </div>
     );
@@ -76,23 +98,28 @@ const PurchaseProducts = () => {
           <ShoppingBag size={24} />
           Your Purchases
         </h1>
-        <span className="text-sm text-gray-500">Total Items: {products.length}</span>
+        <span className="text-sm text-gray-500">
+          Total Items: {products.length}
+        </span>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-lg divide-y divide-gray-100">
         {products.map(({ product, size, quantity, _id }) => (
-          <div key={_id} className="p-4 hover:bg-gray-50 transition-colors relative">
+          <div
+            key={_id}
+            className="p-4 hover:bg-gray-50 transition-colors relative"
+          >
             <div className="absolute top-4 right-4 flex gap-3">
               <button
                 onClick={() => handleEdit(_id)}
-                className="text-blue-600 hover:text-blue-800"
+                className="text-blue-600 hover:text-blue-800 cursor-pointer"
                 aria-label="Edit purchase"
               >
                 <PenBox size={20} />
               </button>
               <button
                 onClick={() => handleDelete(_id)}
-                className="text-red-600 hover:text-red-800"
+                className="text-red-600 hover:text-red-800 cursor-pointer"
                 aria-label="Delete purchase"
               >
                 <Trash2 size={20} />
@@ -112,11 +139,19 @@ const PurchaseProducts = () => {
               {/* Product Info */}
               <div className="flex flex-col justify-between flex-grow">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800">{product.title}</h3>
-                  <p className="text-sm text-gray-500">Brand: {product.brand}</p>
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {product.title}
+                  </h3>
+                  <p className="text-sm text-gray-500">
+                    Brand: {product.brand}
+                  </p>
                   <div className="mt-2 space-y-1 text-sm text-gray-600">
-                    <p>Size: <span className="font-medium">{size}</span></p>
-                    <p>Quantity: <span className="font-medium">{quantity}</span></p>
+                    <p>
+                      Size: <span className="font-medium">{size}</span>
+                    </p>
+                    <p>
+                      Quantity: <span className="font-medium">{quantity}</span>
+                    </p>
                   </div>
                 </div>
                 <p className="text-lg font-bold text-gray-900 mt-2 sm:mt-0 sm:text-right">
