@@ -15,6 +15,7 @@ import ProductDetails from "./pages/ProductDetails";
 import PurchaseProducts from "./pages/PurchaseProducts";
 import CartDetails from "./pages/CartDetails";
 import UpdateCartProduct from "./pages/UpdateCartProduct";
+import UpdatePurchaseProduct from "./pages/UpdatePurchaseProduct";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/product-details/:id" element={<ProductDetails />} />
           <Route path="/product-cart/:id" element={<CartDetails />} />
           <Route path="/update-cart-product/:id" element={<UpdateCartProduct />} />
+          <Route path="/update-purchase/:id" element={<UpdatePurchaseProduct />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Page404 />} />
         </Routes>

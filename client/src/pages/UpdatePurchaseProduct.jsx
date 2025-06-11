@@ -25,7 +25,7 @@ const UpdatePurchaseProduct = () => {
           }
         );
         console.log(res);
-        
+
         setProduct(res.data.data.product); // or .data if you need all cart info
         setQuantity(res.data.data.quantity);
         setSize(res.data.data.size);

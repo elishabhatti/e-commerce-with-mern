@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ShoppingBag, Trash2, PenBox } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const PurchaseProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPurchasedProducts = async () => {
@@ -58,9 +60,7 @@ const PurchaseProducts = () => {
         }
       );
 
-      setProducts((prev) =>
-        prev.filter((purchased) => purchased._id !== id)
-      );
+      setProducts((prev) => prev.filter((purchased) => purchased._id !== id));
     } catch (error) {
       console.error(
         "Error deleting purchased product:",
@@ -111,7 +111,7 @@ const PurchaseProducts = () => {
           >
             <div className="absolute top-4 right-4 flex gap-3">
               <button
-                onClick={() => handleEdit(_id)}
+                onClick={() => navigate(`/update-purchase/${_id}`)}
                 className="text-blue-600 hover:text-blue-800 cursor-pointer"
                 aria-label="Edit purchase"
               >
