@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, Trash2, PenBox } from "lucide-react";
 
 const PurchaseProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchPurchasedProducts = async () => {
       try {
-        const token = localStorage.getItem("token");
         const response = await axios.get(
           "http://localhost:3000/api/purchase/get-purchase-product",
           {
@@ -21,82 +21,111 @@ const PurchaseProducts = () => {
         );
         setProducts(response.data.data);
       } catch (error) {
-        console.error(
-          "Error fetching purchased products:",
-          error.response?.data || error.message
-        );
+        console.error("Error fetching purchased products:", error.response?.data || error.message);
       } finally {
         setLoading(false);
       }
     };
 
     fetchPurchasedProducts();
-  }, []);
+  }, [token]);
+
+  const handleEdit = (id) => {
+    console.log("Edit purchase:", id);
+    // Navigate or show modal logic here
+  };
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this purchase?");
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`http://localhost:3000/api/purchase/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setProducts((prev) => prev.filter((item) => item._id !== id));
+    } catch (error) {
+      console.error("Error deleting product:", error.response?.data || error.message);
+    }
+  };
 
   if (loading)
-    return <p className="text-center mt-6 text-lg font-medium">Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin h-10 w-10 border-4 border-t-transparent border-gray-600 rounded-full" />
+      </div>
+    );
 
   if (products.length === 0)
     return (
-      <p className="text-center mt-6 text-gray-500 text-lg">
-        No products purchased.
-      </p>
+      <div className="max-w-5xl mx-auto px-4 py-12 text-center">
+        <div className="bg-gray-50 rounded-lg p-8">
+          <ShoppingBag size={48} className="mx-auto text-gray-400 mb-4" />
+          <h3 className="text-2xl font-bold text-gray-700 mb-2">No Purchases Found</h3>
+          <p className="text-gray-500">You haven’t purchased any products yet.</p>
+        </div>
+      </div>
     );
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <div className="flex justify-between items-center gap-4">
-        <h2 className="inline font-bold text-center mb-8 text-gray-900">
-          <div className="flex text-3xl justify-center items-center gap-4">
-            <ShoppingBag />
-            Your Purchases
-          </div>
-        </h2>
-        <div>
-          <p>All Purchased Products: {products.length}</p>
-        </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold flex items-center gap-3 text-gray-800">
+          <ShoppingBag size={24} />
+          Your Purchases
+        </h1>
+        <span className="text-sm text-gray-500">Total Items: {products.length}</span>
       </div>
-      <hr />
-      <div className="divide-y divide-gray-200">
-        {products.map((purchase) => {
-          const { product, size, quantity } = purchase;
-          return (
-            <div
-              key={purchase._id}
-              className="flex items-center justify-between py-6 hover:bg-gray-50 transition-colors"
-            >
-              {/* Image & Info */}
-              <div className="flex items-center gap-5 flex-1">
+
+      <div className="bg-white border border-gray-200 rounded-lg divide-y divide-gray-100">
+        {products.map(({ product, size, quantity, _id }) => (
+          <div key={_id} className="p-4 hover:bg-gray-50 transition-colors relative">
+            <div className="absolute top-4 right-4 flex gap-3">
+              <button
+                onClick={() => handleEdit(_id)}
+                className="text-blue-600 hover:text-blue-800"
+                aria-label="Edit purchase"
+              >
+                <PenBox size={20} />
+              </button>
+              <button
+                onClick={() => handleDelete(_id)}
+                className="text-red-600 hover:text-red-800"
+                aria-label="Delete purchase"
+              >
+                <Trash2 size={20} />
+              </button>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              {/* Product Image */}
+              <div className="w-full sm:w-32 h-32">
                 <img
                   src={product.image}
                   alt={product.title}
-                  className="w-24 h-20 object-cover rounded-lg border"
+                  className="w-full h-full object-cover rounded-md border"
                 />
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    {product.title}
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    Brand: {product.brand}
-                  </p>
-                </div>
               </div>
 
-              {/* Details */}
-              <div className="text-right space-y-1 w-40 shrink-0">
-                <p className="text-gray-600 text-sm">
-                  Size: <span className="font-medium">{size}</span>
-                </p>
-                <p className="text-gray-600 text-sm">
-                  Qty: <span className="font-medium">{quantity}</span>
-                </p>
-                <p className="text-gray-900 font-bold text-base">
+              {/* Product Info */}
+              <div className="flex flex-col justify-between flex-grow">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">{product.title}</h3>
+                  <p className="text-sm text-gray-500">Brand: {product.brand}</p>
+                  <div className="mt-2 space-y-1 text-sm text-gray-600">
+                    <p>Size: <span className="font-medium">{size}</span></p>
+                    <p>Quantity: <span className="font-medium">{quantity}</span></p>
+                  </div>
+                </div>
+                <p className="text-lg font-bold text-gray-900 mt-2 sm:mt-0 sm:text-right">
                   ${product.price.toFixed(2)}
                 </p>
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     </div>
   );
