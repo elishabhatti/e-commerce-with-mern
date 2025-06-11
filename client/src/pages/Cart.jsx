@@ -8,11 +8,13 @@ import {
   Minus,
   PenBox,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subtotal, setSubtotal] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartProducts = async () => {
@@ -124,7 +126,10 @@ const Cart = () => {
           <p className="text-gray-500 mb-6">
             Looks like you haven't added anything to your cart yet
           </p>
-          <button className="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800 transition-colors">
+          <button
+            onClick={() => navigate("/")}
+            className="bg-black text-white cursor-pointer px-6 py-3 rounded-md hover:bg-gray-800 transition-colors"
+          >
             Continue Shopping
           </button>
         </div>
