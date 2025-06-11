@@ -6,12 +6,14 @@ import { SquarePen, Square, X } from "lucide-react";
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [product, setProducts] = useState([]);
+  const [cartProduct, setCartProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchUSerProfileData();
     fetchPurchasedProducts();
+    fetchCartProducts();
   }, []);
 
   const buyedProducts = [
@@ -70,6 +72,7 @@ const Profile = () => {
       );
     }
   };
+
   const fetchPurchasedProducts = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -93,6 +96,31 @@ const Profile = () => {
       setLoading(false);
     }
   };
+
+  const fetchCartProducts = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        "http://localhost:3000/api/cart/get-cart-product",
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      setCartProducts(response.data.data);
+    } catch (error) {
+      console.error(
+        "Error fetching purchased products:",
+        error.response?.data || error.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleRemoveProduct = async (productId) => {
     try {
       const token = localStorage.getItem("token");
@@ -120,6 +148,34 @@ const Profile = () => {
 
   const handleUpdateProduct = (id) => {
     console.log(id);
+  };
+  const handleUpdateCartProduct = (id) => {
+    console.log(id);
+  };
+  const handleRemoveCartProduct = async (cartItemId) => {
+    try {
+      console.log(cartItemId);
+
+      const token = localStorage.getItem("token");
+      await axios.post(
+        `http://localhost:3000/api/cart/remove-cart-product/${cartItemId}`,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const updatedProducts = product.filter((item) => item._id !== cartItemId);
+      setProducts(updatedProducts);
+    } catch (error) {
+      console.error(
+        "Error deleting cart product:",
+        error.response?.data || error.message
+      );
+    }
   };
 
   if (loading)
@@ -244,56 +300,66 @@ const Profile = () => {
               </tbody>
             </table>
           </div>
-
-          {/* Activity & Compensation */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Activity */}
-            <div className="bg-white border border-gray-300 rounded-lg p-6">
-              <h3 className="font-semibold text-lg mb-3">Activity</h3>
-              <ul className="space-y-3">
-                <li className="flex items-center space-x-3">
-                  <img
-                    src="https://randomuser.me/api/portraits/men/12.jpg"
-                    alt="User"
-                    className="w-8 h-8 rounded-full"
-                  />
-                  <span className="text-gray-700">
-                    <strong>John Miller</strong> last login on Jul 13, 2024 –
-                    05:36 PM
-                  </span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <img
-                    src="https://randomuser.me/api/portraits/women/14.jpg"
-                    alt="User"
-                    className="w-8 h-8 rounded-full"
-                  />
-                  <span className="text-gray-700">
-                    <strong>Merva Sahin</strong> created on Sep 08, 2024 – 03:12
-                    PM
-                  </span>
-                </li>
-              </ul>
+          <div className="bg-white h-[200px] overflow-y-scroll border border-gray-300 rounded-lg p-6">
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="font-semibold text-lg">Carts Products</h3>
+              <button
+                onClick={() => navigate("/")}
+                className="text-red-500 cursor-pointer font-medium text-sm hover:underline"
+              >
+                + Add More Cart Products
+              </button>
             </div>
-
-            {/* Compensation */}
-            <div className="bg-white border border-gray-300 rounded-lg p-6">
-              <h3 className="font-semibold text-lg mb-3">Compensation</h3>
-              <ul className="space-y-3 text-gray-700">
-                <li>
-                  <strong>862.00 USD/month</strong>
-                  <p className="text-xs text-gray-500">
-                    Effective date: May 10, 2015
-                  </p>
-                </li>
-                <li>
-                  <strong>1560.00 USD/quarter</strong>
-                  <p className="text-xs text-gray-500">
-                    Effective date: Jun 08, 2022
-                  </p>
-                </li>
-              </ul>
-            </div>
+            <table className="w-full text-left text-gray-700 text-sm border-t border-gray-200">
+              <thead>
+                <tr className="border-b font-semibold">
+                  <th>Name</th>
+                  <th>Brand</th>
+                  <th>Size</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                  <th>Delete</th>
+                  <th>Update</th>
+                </tr>
+              </thead>
+              <tbody>
+                {product.length === 0 ? (
+                  <tr>
+                    <td colSpan="7" className="text-center py-4 text-gray-500">
+                      No products found
+                    </td>
+                  </tr>
+                ) : (
+                  cartProduct.map((cart) => (
+                    <tr key={cart._id} className="border-b">
+                      <td className="py-1">{cart.product.title}</td>
+                      <td className="py-1">{cart.product.brand}</td>
+                      <td className="py-1">{cart.size}</td>
+                      <td className="py-1">{cart.quantity}</td>
+                      <td className="py-1">${cart.product.price.toFixed(2)}</td>
+                      <td>
+                        <button
+                          onClick={() => handleRemoveCartProduct(cart._id)}
+                          className="text-red-500 rounded-sm cursor-pointer my-1 border border-red-600"
+                        >
+                          <X />
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          onClick={() =>
+                            handleUpdateCartProduct(cart.product._id)
+                          }
+                          className="text-blue-500 cursor-pointer my-1"
+                        >
+                          <SquarePen />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
