@@ -144,3 +144,32 @@ export const updateQuantityOfCartItem = async (req, res) => {
     });
   }
 };
+
+export const updateCartItem = async (req, res) => {
+  const userId = req.user?.id;
+  const { productId, quantity, size } = req.body;
+
+  if (!userId || !productId) {
+    return res.status(400).json({ message: "User or Product ID missing" });
+  }
+
+  try {
+    const cartItem = await cartModel.findOne({ user: userId, product: productId });
+    if (!cartItem) {
+      return res.status(404).json({ message: "Cart item not found" });
+    }
+
+    cartItem.quantity = quantity;
+    cartItem.size = size;
+    await cartItem.save();
+
+    res.status(200).json({
+      message: "Cart item updated successfully",
+      data: cartItem,
+    });
+    
+  } catch (error) {
+    console.error("Error updating cart item:", error);
+    res.status(500).json({ message: "Internal server error", error });
+  }
+};
