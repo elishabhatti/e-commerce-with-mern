@@ -84,50 +84,39 @@ const Cart = () => {
     }
   };
 
-const handleQuantityChange = async (cartItemId, newQuantity) => {
-  console.log(cartItemId, newQuantity);
-  console.log(products);
-  
-  
-  if (newQuantity < 1 || newQuantity > 100) return;
+  const handleQuantityChange = async (cartItemId, newQuantity) => {
+    if (newQuantity < 1 || newQuantity > 100) return;
 
-  const optimisticProducts = products.map(item =>
-    item._id === cartItemId ? { ...item, quantity: newQuantity } : item
-  );
-  setProducts(optimisticProducts);
-  calculateSubtotal(optimisticProducts);
-
-  try {
-    const token = localStorage.getItem("token");
-    const response = await axios.put(
-      `http://localhost:3000/api/cart/update-quantity/${cartItemId}`,
-      { quantity: newQuantity },
-      {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+    const optimisticProducts = products.map((item) =>
+      item._id === cartItemId ? { ...item, quantity: newQuantity } : item
     );
+    setProducts(optimisticProducts);
+    calculateSubtotal(optimisticProducts);
 
-    if (response.data.success) {
-      toast.success(response.data.message);
-    } else {
-      throw new Error(response.data.message);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `http://localhost:3000/api/cart/update-quantity/${cartItemId}`,
+        { quantity: newQuantity },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+
+      const originalProducts = products.map((item) =>
+        item._id === cartItemId ? { ...item, quantity: item.quantity } : item
+      );
+      setProducts(originalProducts);
+      calculateSubtotal(originalProducts);
+
+      toast.error(error.response?.data?.message || "Failed to update quantity");
     }
-
-  } catch (error) {
-    console.error("Error updating quantity:", error);
-
-    const originalProducts = products.map(item =>
-      item._id === cartItemId ? { ...item, quantity: item.quantity } : item
-    );
-    setProducts(originalProducts);
-    calculateSubtotal(originalProducts);
-
-    toast.error(error.response?.data?.message || "Failed to update quantity");
-  }
-};
+  };
 
   if (loading) {
     return (
@@ -180,7 +169,7 @@ const handleQuantityChange = async (cartItemId, newQuantity) => {
             <div className="divide-y divide-gray-100">
               {products.map((purchase) => {
                 const { product, size, quantity } = purchase;
-                
+
                 return (
                   <div
                     key={purchase._id}
@@ -233,7 +222,7 @@ const handleQuantityChange = async (cartItemId, newQuantity) => {
                           <div className="flex items-center border rounded-md">
                             <button
                               onClick={() =>
-                                  handleQuantityChange(purchase._id, quantity - 1)
+                                handleQuantityChange(purchase._id, quantity - 1)
                               }
                               className="px-3 py-1 text-gray-600 hover:bg-gray-100"
                               disabled={quantity <= 1}
@@ -245,7 +234,7 @@ const handleQuantityChange = async (cartItemId, newQuantity) => {
                             </span>
                             <button
                               onClick={() =>
-                                  handleQuantityChange(purchase._id, quantity + 1)
+                                handleQuantityChange(purchase._id, quantity + 1)
                               }
                               className="px-3 py-1 text-gray-600 hover:bg-gray-100"
                             >

@@ -67,7 +67,6 @@ export const updateQuantityOfCartItem = async (req, res) => {
     const { cartItemId } = req.params;
     const { quantity } = req.body;
     const userId = req.user.id;
-    console.log(userId);
 
     if (!quantity || isNaN(quantity)) {
       return res.status(400).json({
@@ -101,8 +100,6 @@ export const updateQuantityOfCartItem = async (req, res) => {
         { new: true }
       )
       .populate("product");
-
-    console.log(updateCartItem);
 
     if (!updateCartItem) {
       return res.status(404).json({
