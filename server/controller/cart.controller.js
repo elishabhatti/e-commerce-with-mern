@@ -60,3 +60,7 @@ export const removeCartProduct = async (req, res) => {
     res.status(500).json({ message: "Failed to get products", error });
   }
 };
+
+export const updateQuantityOfCareItem = async (req, res) => {
+  a
+}
