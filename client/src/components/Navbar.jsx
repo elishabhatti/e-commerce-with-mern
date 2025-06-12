@@ -106,11 +106,9 @@ const Navbar = () => {
                     <img
                       src={user.avatar}
                       alt="Profile"
-                      className="w-8 h-8 rounded-full object-cover"
+                      className="w-10 h-10 cursor-pointer rounded-full object-cover"
                     />
                   )}
-                  <span>Profile</span>
-                  <ChevronDown className="w-4 h-4" />
                 </button>
 
                 {showDropdown && (
