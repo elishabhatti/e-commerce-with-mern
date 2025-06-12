@@ -1,6 +1,20 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { ChevronDown, Menu, X } from "lucide-react";
+import {
+  ChevronDown,
+  House,
+  Menu,
+  X,
+  Info,
+  Hammer,
+  Phone,
+  UserPlus,
+  LogIn,
+  UserCircle,
+  ShoppingCart,
+  PackageCheck,
+  LogOut,
+} from "lucide-react";
 import { useAuth } from "../store/auth";
 import axios from "axios";
 
@@ -36,12 +50,10 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
   const toggleDropdown = () => setShowDropdown(!showDropdown);
   const handleLogout = () => {
-    // Logout logic here
     console.log("Logged out");
     navigate("/logout");
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     fetchUserProfileData();
     const handleClickOutside = (e) => {
@@ -56,12 +68,10 @@ const Navbar = () => {
   return (
     <header className="border-b border-gray-300 px-6 md:px-10 py-3">
       <div className="flex justify-between items-center">
-        {/* Logo */}
         <div className="text-2xl font-black">
           <NavLink to="/">DEVIAS</NavLink>
         </div>
 
-        {/* Hamburger Menu (Mobile) */}
         <button
           onClick={toggleMenu}
           className="md:hidden text-gray-700 focus:outline-none"
@@ -69,29 +79,40 @@ const Navbar = () => {
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
 
-        {/* Desktop Menu */}
         <nav className="hidden md:block">
           <ul className="flex gap-6 items-center relative">
             <li>
-              <NavLink to="/">Home</NavLink>
+              <NavLink to="/" className="flex items-center gap-1">
+                <House size={18} /> Home
+              </NavLink>
             </li>
             <li>
-              <NavLink to="/about">About</NavLink>
+              <NavLink to="/about" className="flex items-center gap-1">
+                <Info size={18} /> About
+              </NavLink>
             </li>
             <li>
-              <NavLink to="/service">Services</NavLink>
+              <NavLink to="/service" className="flex items-center gap-1">
+                <Hammer size={18} /> Services
+              </NavLink>
             </li>
             <li>
-              <NavLink to="/contact">Contact</NavLink>
+              <NavLink to="/contact" className="flex items-center gap-1">
+                <Phone size={18} /> Contact
+              </NavLink>
             </li>
 
             {!isLoggedIn && (
               <>
                 <li>
-                  <NavLink to="/register">Register</NavLink>
+                  <NavLink to="/register" className="flex items-center gap-1">
+                    <UserPlus size={18} /> Register
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/login">Login</NavLink>
+                  <NavLink to="/login" className="flex items-center gap-1">
+                    <LogIn size={18} /> Login
+                  </NavLink>
                 </li>
               </>
             )}
@@ -109,40 +130,41 @@ const Navbar = () => {
                       className="w-10 h-10 cursor-pointer rounded-full object-cover"
                     />
                   )}
+                  <ChevronDown className="w-4 h-4" />
                 </button>
 
                 {showDropdown && (
-                  <ul className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-lg py-2 z-10">
+                  <ul className="absolute right-0 mt-2 w-44 bg-white shadow-md rounded-lg py-2 z-10">
                     <li>
                       <NavLink
                         to="/profile"
-                        className="block px-4 py-2 hover:bg-gray-100"
+                        className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"
                       >
-                        Profile
+                        <UserCircle size={16} /> Profile
                       </NavLink>
                     </li>
                     <li>
                       <NavLink
                         to="/cart"
-                        className="block px-4 py-2 hover:bg-gray-100"
+                        className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"
                       >
-                        Cart
+                        <ShoppingCart size={16} /> Cart
                       </NavLink>
                     </li>
                     <li>
                       <NavLink
                         to="/purchase"
-                        className="block px-4 py-2 hover:bg-gray-100"
+                        className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"
                       >
-                        Purchase
+                        <PackageCheck size={16} /> Purchase
                       </NavLink>
                     </li>
                     <li>
                       <button
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500"
+                        className="w-full flex items-center gap-2 text-left px-4 py-2 hover:bg-gray-100 text-red-500"
                       >
-                        Logout
+                        <LogOut size={16} /> Logout
                       </button>
                     </li>
                   </ul>
@@ -158,36 +180,36 @@ const Navbar = () => {
         <nav className="md:hidden mt-4">
           <ul className="flex flex-col gap-4">
             <li>
-              <NavLink to="/" onClick={toggleMenu}>
-                Home
+              <NavLink to="/" onClick={toggleMenu} className="flex items-center gap-2">
+                <House size={18} /> Home
               </NavLink>
             </li>
             <li>
-              <NavLink to="/about" onClick={toggleMenu}>
-                About
+              <NavLink to="/about" onClick={toggleMenu} className="flex items-center gap-2">
+                <Info size={18} /> About
               </NavLink>
             </li>
             <li>
-              <NavLink to="/service" onClick={toggleMenu}>
-                Services
+              <NavLink to="/service" onClick={toggleMenu} className="flex items-center gap-2">
+                <Hammer size={18} /> Services
               </NavLink>
             </li>
             <li>
-              <NavLink to="/contact" onClick={toggleMenu}>
-                Contact
+              <NavLink to="/contact" onClick={toggleMenu} className="flex items-center gap-2">
+                <Phone size={18} /> Contact
               </NavLink>
             </li>
 
             {!isLoggedIn && (
               <>
                 <li>
-                  <NavLink to="/register" onClick={toggleMenu}>
-                    Register
+                  <NavLink to="/register" onClick={toggleMenu} className="flex items-center gap-2">
+                    <UserPlus size={18} /> Register
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/login" onClick={toggleMenu}>
-                    Login
+                  <NavLink to="/login" onClick={toggleMenu} className="flex items-center gap-2">
+                    <LogIn size={18} /> Login
                   </NavLink>
                 </li>
               </>
@@ -196,18 +218,18 @@ const Navbar = () => {
             {isLoggedIn && (
               <>
                 <li>
-                  <NavLink to="/profile" onClick={toggleMenu}>
-                    Profile
+                  <NavLink to="/profile" onClick={toggleMenu} className="flex items-center gap-2">
+                    <UserCircle size={18} /> Profile
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/cart" onClick={toggleMenu}>
-                    Cart
+                  <NavLink to="/cart" onClick={toggleMenu} className="flex items-center gap-2">
+                    <ShoppingCart size={18} /> Cart
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/purchase" onClick={toggleMenu}>
-                    Purchase
+                  <NavLink to="/purchase" onClick={toggleMenu} className="flex items-center gap-2">
+                    <PackageCheck size={18} /> Purchase
                   </NavLink>
                 </li>
                 <li>
@@ -216,9 +238,9 @@ const Navbar = () => {
                       handleLogout();
                       toggleMenu();
                     }}
-                    className="text-left text-red-500"
+                    className="flex items-center gap-2 text-left text-red-500"
                   >
-                    Logout
+                    <LogOut size={18} /> Logout
                   </button>
                 </li>
               </>
