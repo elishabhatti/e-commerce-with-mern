@@ -213,6 +213,9 @@ const Profile = () => {
                     <p className="text-sm">{user?.email || "N/A"}</p>
                   </div>
                 </div>
+                <div>
+                  <button className="text-sm underline">Edit Profile</button>
+                </div>
               </div>
 
               <div className="p-6 space-y-4">
