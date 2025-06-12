@@ -44,7 +44,7 @@ const Profile = () => {
         }
       );
       console.log(response);
-      
+
       setContacts(response.data.data);
     } catch (error) {
       console.error(
@@ -416,7 +416,7 @@ const Profile = () => {
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2">
                               <button
                                 onClick={() =>
-                                  handleUpdateProduct(p.product._id)
+                                  navigate(`/update-purchase/${p._id}`)
                                 }
                                 className="text-blue-600 hover:text-blue-900 p-1 rounded-md hover:bg-blue-50"
                                 title="Edit"
