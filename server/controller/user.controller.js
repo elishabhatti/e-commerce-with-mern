@@ -110,3 +110,30 @@ export const getProfileData = async (req, res) => {
     res.status(500).json({ data: error });
   }
 };
+
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const { name, email, phone, address, avatar } = req.body;
+
+    const updatedUser = await userModel.findByIdAndUpdate(
+      userId,
+      {
+        name,
+        email,
+        phone,
+        address,
+        avatar,
+      },
+      { new: true, runValidators: true }
+    ).select("-password");
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      data: updatedUser,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Update failed", error: err.message });
+  }
+};

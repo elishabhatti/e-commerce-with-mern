@@ -43,8 +43,6 @@ const Profile = () => {
           },
         }
       );
-      console.log(response);
-
       setContacts(response.data.data);
     } catch (error) {
       console.error(

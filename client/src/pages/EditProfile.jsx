@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const EditProfile = () => {
   const [userData, setUserData] = useState({
@@ -14,14 +15,17 @@ const EditProfile = () => {
   const navigate = useNavigate();
 
   const fetchUserProfileData = async () => {
+    const token = localStorage.getItem("token");
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3000/api/users/profile", {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:3000/api/users/profile",
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const { name, email, phone, address, avatar } = response.data.data;
 
@@ -33,7 +37,10 @@ const EditProfile = () => {
         avatar: avatar || "",
       });
     } catch (error) {
-      console.error("Error fetching user profile:", error.response?.data || error.message);
+      console.error(
+        "Error fetching user profile:",
+        error.response?.data || error.message
+      );
     }
   };
 
@@ -42,7 +49,7 @@ const EditProfile = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.put(
+      const response = await axios.put(
         "http://localhost:3000/api/users/update-profile",
         userData,
         {
@@ -52,12 +59,16 @@ const EditProfile = () => {
           },
         }
       );
+      console.log(response);
 
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
       navigate("/profile");
     } catch (error) {
-      console.error("Error updating profile:", error.response?.data || error.message);
-      alert("Failed to update profile.");
+      console.error(
+        "Error updating profile:",
+        error.response?.data || error.message
+      );
+      toast.warning("Failed to update profile.");
     }
   };
 
@@ -85,7 +96,9 @@ const EditProfile = () => {
             type="email"
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white text-black"
             value={userData.email}
-            onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+            onChange={(e) =>
+              setUserData({ ...userData, email: e.target.value })
+            }
           />
         </div>
 
@@ -95,7 +108,9 @@ const EditProfile = () => {
             type="text"
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white text-black"
             value={userData.phone}
-            onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
+            onChange={(e) =>
+              setUserData({ ...userData, phone: e.target.value })
+            }
           />
         </div>
 
@@ -105,7 +120,9 @@ const EditProfile = () => {
             type="text"
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white text-black"
             value={userData.address}
-            onChange={(e) => setUserData({ ...userData, address: e.target.value })}
+            onChange={(e) =>
+              setUserData({ ...userData, address: e.target.value })
+            }
           />
         </div>
 
@@ -115,7 +132,9 @@ const EditProfile = () => {
             type="text"
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white text-black"
             value={userData.avatar}
-            onChange={(e) => setUserData({ ...userData, avatar: e.target.value })}
+            onChange={(e) =>
+              setUserData({ ...userData, avatar: e.target.value })
+            }
           />
         </div>
 
