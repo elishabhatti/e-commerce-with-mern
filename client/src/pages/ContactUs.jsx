@@ -18,31 +18,39 @@ const ContactUs = () => {
       [e.target.name]: e.target.value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/contact/add-contact",
-        formData,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log(response);
+    const token = localStorage.getItem("token");
 
-      navigate("/contact");
-      setFormData({
-        name: "",
-        email: "",
-        message: "",
-      });
+    if (!token) {
+      toast.error("Please login first to continue");
+    } else {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/contact/add-contact",
+          formData,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      toast.success("Contact Form Submitted");
-    } catch (error) {
-      toast.error(error.message);
-      console.error("Contact error:", error);
+        console.log(response);
+        navigate("/contact");
+        setFormData({
+          name: "",
+          email: "",
+          message: "",
+        });
+
+        toast.success("Contact Form Submitted");
+      } catch (error) {
+        toast.error(error.response?.data?.message || error.message);
+        console.error("Contact error:", error);
+      }
     }
   };
 
