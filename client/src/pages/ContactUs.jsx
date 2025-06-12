@@ -10,7 +10,7 @@ const ContactUs = () => {
     email: "",
     message: "",
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -19,19 +19,19 @@ const ContactUs = () => {
     }));
   };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
         "http://localhost:3000/api/contact/add-contact",
-        JSON.stringify(formData),
+        formData,
         {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
         }
       );
       console.log(response);
-      
+
       navigate("/contact");
       setFormData({
         name: "",
@@ -39,10 +39,10 @@ const handleSubmit = async (e) => {
         message: "",
       });
 
-      toast.success("Form Submitted");
+      toast.success("Contact Form Submitted");
     } catch (error) {
       toast.error(error.message);
-      console.error("Registration error:", error);
+      console.error("Contact error:", error);
     }
   };
 
@@ -91,7 +91,7 @@ const handleSubmit = async (e) => {
             alt="Contact US illustration"
             className="w-full h-full object-cover"
           />
-      </div>
+        </div>
       </div>
     </div>
   );
