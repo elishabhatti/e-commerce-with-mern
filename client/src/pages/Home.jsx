@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 import { toast } from "react-toastify";
+import RotatingText from "../components/RotatingText";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -14,9 +15,12 @@ const Home = () => {
 
   async function getAllProducts() {
     try {
-      const res = await axios.get("http://localhost:3000/api/products/get-product", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        "http://localhost:3000/api/products/get-product",
+        {
+          withCredentials: true,
+        }
+      );
       setProducts(res.data.message);
     } catch (error) {
       console.error(error);
@@ -32,8 +36,29 @@ const Home = () => {
           src="https://sunnymate.co/wp-content/uploads/2024/11/%E8%8A%AC%E6%81%A9%E6%A4%85E905E827%E8%BE%B9%E5%87%A0-2048x1536.webp"
           alt="Scenic view of plants"
         />
-        <h1 className="absolute top-6 left-6 sm:top-10 sm:left-10 text-black text-1xl sm:text-2xl md:text-4xl font-bold drop-shadow-lg">
-          Buy On Devias For Best Services
+        <h1 className="absolute flex justify-center items-center overflow-hidden gap-4 top-6 left-6 sm:top-5 sm:left-10 text-black text-1xl sm:text-2xl md:text-4xl font-bold drop-shadow-lg">
+          What We Sell{" "}
+          <RotatingText
+            texts={[
+              "Shop Smart",
+              "New Arrivals",
+              "Best Deals",
+              "Trending Now",
+              "Fast Delivery",
+              "Secure Checkout",
+              "Big Discounts",
+              "Cool Products",
+            ]}
+            mainClassName="px-2 sm:px-2 md:px-3 bg-black text-white overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
+            staggerFrom="last"
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "-120%" }}
+            staggerDuration={0.025}
+            splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+            transition={{ type: "spring", damping: 30, stiffness: 400 }}
+            rotationInterval={2000}
+          />
         </h1>
       </div>
 
