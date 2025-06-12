@@ -98,7 +98,14 @@ const Home = () => {
 
                 <div className="relative group w-[15%]">
                   <button
-                    onClick={() => navigate(`product-cart/${product._id}`)}
+                    onClick={() => {
+                      const token = localStorage.getItem("token");
+                      if (!token) {
+                        toast.error("Please login first to continue");
+                      } else {
+                        navigate(`product-cart/${product._id}`);
+                      }
+                    }}
                     className="flex justify-center py-2 w-full cursor-pointer bg-black text-white rounded-md hover:bg-gray-800 transition"
                   >
                     <ShoppingCart />
