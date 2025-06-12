@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -82,11 +83,19 @@ const Home = () => {
               {/* Push button to the bottom */}
               <div className="flex mt-auto justify-between items-center gap-2 pt-4">
                 <button
-                  onClick={() => navigate(`product-details/${product._id}`)}
+                  onClick={() => {
+                    const token = localStorage.getItem("token");
+                    if (!token) {
+                      toast.error("Please login first to continue");
+                    } else {
+                      navigate(`product-details/${product._id}`);
+                    }
+                  }}
                   className="w-[85%] p-2 cursor-pointer bg-black text-white rounded-md hover:bg-gray-800 transition"
                 >
                   Buy Now
                 </button>
+
                 <div className="relative group w-[15%]">
                   <button
                     onClick={() => navigate(`product-cart/${product._id}`)}
