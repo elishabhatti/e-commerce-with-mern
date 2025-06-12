@@ -50,7 +50,7 @@ const LoginUser = () => {
     <div className="flex items-center my-20  justify-center px-4">
       <div className="flex flex-col-reverse md:flex-row w-full max-w-5xl  rounded-lg overflow-hidden">
         {/* Form Side */}
-        <div className="w-full md:w-1/2  flex flex-col justify-center">
+        <div className="w-full md:w-1/2 p-2  flex flex-col justify-center">
           <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Login User</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
