@@ -25,11 +25,11 @@ export const contactUs = async (req, res) => {
 
 export const getAllUserContact = async (req, res) => {
   try {
-    const getContact = await contactModel.find();
+    const getContact = await contactModel.find({ user: req.user.id });
     if (!getContact)
       return res.status(500).json({ message: "Contact Not Found" });
-    
-    console.log(getContact);
+
+    res.status(200).json({ data: getContact });
   } catch (error) {
     console.error("Error from get all user contact", error);
     res.status(500).json({ message: "Internal Server Error" });

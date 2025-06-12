@@ -6,6 +6,7 @@ import { SquarePen, Square, X } from "lucide-react";
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [product, setProducts] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const [cartProduct, setCartProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -14,43 +15,31 @@ const Profile = () => {
     fetchUSerProfileData();
     fetchPurchasedProducts();
     fetchCartProducts();
+    fetchContacts();
   }, []);
 
-  const buyedProducts = [
-    {
-      id: 1,
-      name: "Wireless Headphones",
-      price: "$99.99",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      id: 2,
-      name: "Smart Watch",
-      price: "$199.99",
-      image: "https://via.placeholder.com/150",
-    },
-  ];
+  const fetchContacts = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        "http://localhost:3000/api/contact/get-contact",
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response);
 
-  const cartProducts = [
-    {
-      id: 1,
-      name: "Bluetooth Speaker",
-      price: "$49.99",
-      image: "https://via.placeholder.com/150",
-    },
-  ];
-
-  const ProductCard = ({ product }) => (
-    <div className="border border-gray-300 rounded-xl p-4  bg-white">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="w-full h-40 object-cover rounded-lg mb-2"
-      />
-      <h3 className="text-lg font-semibold">{product.name}</h3>
-      <p className="text-gray-500">{product.price}</p>
-    </div>
-  );
+      setContacts(response.data.data);
+    } catch (error) {
+      console.error(
+        "Error fetching contacts:",
+        error.response?.data || error.message
+      );
+    }
+  };
 
   const fetchUSerProfileData = async () => {
     try {
@@ -85,7 +74,6 @@ const Profile = () => {
           },
         }
       );
-      console.log(response.data);
       setProducts(response.data.data);
     } catch (error) {
       console.error(
@@ -109,7 +97,6 @@ const Profile = () => {
           },
         }
       );
-      console.log(response.data);
       setCartProducts(response.data.data);
     } catch (error) {
       console.error(
@@ -152,6 +139,7 @@ const Profile = () => {
   const handleUpdateCartProduct = (id) => {
     console.log(id);
   };
+
   const handleRemoveCartProduct = async (cartItemId) => {
     try {
       console.log(cartItemId);
@@ -236,7 +224,9 @@ const Profile = () => {
           </div>
         </div>
 
+        {/* Right Side: Products & Contacts */}
         <div className="md:col-span-2 space-y-10">
+          {/* Purchased Products */}
           <div className="bg-white h-[200px] overflow-y-scroll border border-gray-300 rounded-lg p-6">
             <div className="flex justify-between items-center mb-3">
               <h3 className="font-semibold text-lg">Purchased Products</h3>
@@ -300,9 +290,11 @@ const Profile = () => {
               </tbody>
             </table>
           </div>
+
+          {/* Cart Products */}
           <div className="bg-white h-[200px] overflow-y-scroll border border-gray-300 rounded-lg p-6">
             <div className="flex justify-between items-center mb-3">
-              <h3 className="font-semibold text-lg">Carts Products</h3>
+              <h3 className="font-semibold text-lg">Cart Products</h3>
               <button
                 onClick={() => navigate("/")}
                 className="text-red-500 cursor-pointer font-medium text-sm hover:underline"
@@ -323,7 +315,7 @@ const Profile = () => {
                 </tr>
               </thead>
               <tbody>
-                {product.length === 0 ? (
+                {cartProduct.length === 0 ? (
                   <tr>
                     <td colSpan="7" className="text-center py-4 text-gray-500">
                       No products found
@@ -354,6 +346,45 @@ const Profile = () => {
                         >
                           <SquarePen />
                         </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Contact Submissions */}
+          <div className="bg-white h-[200px] overflow-y-scroll border border-gray-300 rounded-lg p-6">
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="font-semibold text-lg">Contact Submissions</h3>
+            </div>
+            <table className="w-full text-left text-gray-700 text-sm border-t border-gray-200">
+              <thead>
+                <tr className="border-b font-semibold">
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Message</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contacts.length === 0 ? (
+                  <tr>
+                    <td colSpan="4" className="text-center py-4 text-gray-500">
+                      No contact submissions
+                    </td>
+                  </tr>
+                ) : (
+                  contacts.map((c) => (
+                    <tr key={c._id} className="border-b">
+                      <td className="py-1">{c.name}</td>
+                      <td className="py-1">{c.email}</td>
+                      <td className="py-1 truncate max-w-[200px]">
+                        {c.message}
+                      </td>
+                      <td className="py-1">
+                        {new Date(c.submittedAt).toLocaleDateString()}
                       </td>
                     </tr>
                   ))
