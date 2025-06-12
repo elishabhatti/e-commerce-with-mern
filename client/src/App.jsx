@@ -14,6 +14,7 @@ import Cart from "./pages/Cart";
 import ProductDetails from "./pages/ProductDetails";
 import PurchaseProducts from "./pages/PurchaseProducts";
 import CartDetails from "./pages/CartDetails";
+import EditProfile from "./pages/EditProfile"
 import UpdateCartProduct from "./pages/UpdateCartProduct";
 import UpdatePurchaseProduct from "./pages/UpdatePurchaseProduct";
 
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/product-cart/:id" element={<CartDetails />} />
           <Route path="/update-cart-product/:id" element={<UpdateCartProduct />} />
           <Route path="/update-purchase/:id" element={<UpdatePurchaseProduct />} />
+          <Route path="/edit-profile/:id" element={<EditProfile />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Page404 />} />
         </Routes>

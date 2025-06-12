@@ -214,7 +214,9 @@ const Profile = () => {
                   </div>
                 </div>
                 <div>
-                  <button className="text-sm underline">Edit Profile</button>
+                  <button
+                  onClick={() => navigate(`/edit-profile/${user._id}`)}
+                   className="text-sm cursor-pointer underline">Edit Profile</button>
                 </div>
               </div>
 
