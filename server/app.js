@@ -34,7 +34,7 @@ app.use(cookieParser());
 
 app.use("/api/users", userRouter);
 app.use("/api/contact", verifyAuthentication, contactRouter);
-app.use("/api/products", verifyAuthentication, productRouter);
+app.use("/api/products", productRouter);
 app.use("/api/purchase", verifyAuthentication, purchaseRouter);
 app.use("/api/cart", verifyAuthentication, cartRouter);
 
