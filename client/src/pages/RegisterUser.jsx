@@ -15,7 +15,6 @@ const RegisterUser = () => {
     phone: "",
   });
   const { storeTokenIns } = useAuth();
-
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -55,12 +54,12 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="flex items-center mt-20 justify-center">
-      <div className="overflow-hidden flex w-full max-w-6xl">
+    <div className="flex items-center justify-center px-4 py-10">
+      <div className="flex flex-col md:flex-row w-full max-w-6xl  rounded-lg overflow-hidden">
         {/* Left form side */}
-        <div className="w-full md:w-1/2 px-2">
-          <form onSubmit={handleSubmit} className="space-x-4">
-            <h2 className="text-2xl font-bold">REGISTER USER</h2>
+        <div className="w-full md:w-1/2 px-6 py-8">
+          <form onSubmit={handleSubmit} className="space-y-4 w-full">
+            <h2 className="text-2xl font-bold mb-4">REGISTER USER</h2>
             <Input
               label="Full name"
               name="name"
@@ -119,7 +118,7 @@ const RegisterUser = () => {
 
             <button
               type="submit"
-              className="w-full cursor-pointer bg-[#110C30] text-white py-2 my-2 rounded-md hover:bg-[#110C30] transition"
+              className="w-full cursor-pointer bg-[#110C30] text-white py-2 my-2 rounded-md hover:bg-[#1a1342] transition"
             >
               SIGN UP NOW
             </button>
@@ -127,9 +126,9 @@ const RegisterUser = () => {
         </div>
 
         {/* Right image side */}
-        <div className="hidden md:block w-1/2 relative">
+        <div className="hidden md:block md:w-1/2">
           <img
-            src="https://img.freepik.com/premium-vector/account-login-line-icon-new-user-register-registration-concept-illustration_1948-2099.jpg" // Replace with your image path
+            src="https://img.freepik.com/premium-vector/account-login-line-icon-new-user-register-registration-concept-illustration_1948-2099.jpg"
             alt="Sign up illustration"
             className="w-full h-full object-cover"
           />
@@ -138,4 +137,5 @@ const RegisterUser = () => {
     </div>
   );
 };
+
 export default RegisterUser;
