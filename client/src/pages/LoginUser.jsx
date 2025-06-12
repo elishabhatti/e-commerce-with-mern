@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const LoginUser = () => {
-  const { storeTokenIns} = useAuth();
+  const { storeTokenIns } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -39,20 +39,20 @@ const LoginUser = () => {
         password: "",
       });
 
-      toast.success("User Registered!");
+      toast.success("User Logged In!");
     } catch (error) {
-      toast.error(error.message);
-      console.error("Registration error:", error);
+      toast.error(error.response?.data?.message || "Login failed.");
+      console.error("Login error:", error);
     }
   };
 
   return (
-    <div className="flex mt-20 items-center justify-center px-4">
-      <div className="flex w-full max-w-6xl">
-        {/* Left form side */}
-        <div className="w-full flex justify-center items-center md:w-1/2 px-8">
-          <form onSubmit={handleSubmit} className="space-y-4 w-full">
-            <h2 className="text-2xl font-bold">LOGIN USER</h2>
+    <div className="flex items-center my-20  justify-center px-4">
+      <div className="flex flex-col-reverse md:flex-row w-full max-w-5xl  rounded-lg overflow-hidden">
+        {/* Form Side */}
+        <div className="w-full md:w-1/2  flex flex-col justify-center">
+          <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Login User</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
             <Input
               label="Email Address"
               name="email"
@@ -69,18 +69,18 @@ const LoginUser = () => {
             />
             <button
               type="submit"
-              className="w-full cursor-pointer bg-[#110C30] text-white py-2 rounded-md hover:bg-[#110C30] transition"
+              className="w-full bg-[#110C30] text-white py-2 rounded-md hover:bg-[#1a1342] transition"
             >
-              LOGIN NOW
+              Login Now
             </button>
           </form>
         </div>
 
-        {/* Right image side */}
-        <div className="">
+        {/* Image Side */}
+        <div className="w-full md:w-1/2 h-64 md:h-auto">
           <img
-            src="https://img.freepik.com/premium-vector/character-using-cyber-security-services-protect-private-personal-data-user-account-password_773844-395.jpg?uid=R196206353&ga=GA1.1.2122685195.1748845237&semt=ais_items_boosted&w=740"
-            alt="Sign up illustration"
+            src="https://img.freepik.com/premium-vector/character-using-cyber-security-services-protect-private-personal-data-user-account-password_773844-395.jpg"
+            alt="Login Illustration"
             className="w-full h-full object-cover"
           />
         </div>
