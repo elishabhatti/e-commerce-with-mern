@@ -19,6 +19,9 @@ const CartDetails = () => {
           `http://localhost:3000/api/products/products/${id}`,
           {
             withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         setProduct(res.data.message);
@@ -59,7 +62,7 @@ const CartDetails = () => {
   return (
     <div>
       <div className="flex justify-center items-center w-full pt-7">
-        <h1 className="text-4xl font-bold">Cart  Details</h1>
+        <h1 className="text-4xl font-bold">Cart Details</h1>
       </div>
       <div className="p-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left: Product Image */}
@@ -129,7 +132,7 @@ const CartDetails = () => {
               onClick={() => handleSubmit()}
               className="bg-black text-white py-3 flex justify-center items-center gap-2 cursor-pointer rounded-md w-full hover:bg-gray-800 transition"
             >
-              Add To Cart <ShoppingCart/>
+              Add To Cart <ShoppingCart />
             </button>
           </div>
         </div>

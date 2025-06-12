@@ -107,18 +107,6 @@ export const getProfileData = async (req, res) => {
     res.status(200).json({ data: profile });
   } catch (error) {
     console.error(error);
-  }
-};
-
-export const getEditProfileData = async (req, res) => {
-  try {
-    let userId = req.params;
-    const userData = userModel.findById(userId);
-    if (!userData) return res.status(500).json({ message: "User Not Found" });
-    res.status(200).json({ message: userData });
-    console.log(userData);
-  } catch (error) {
-    console.error("Error from get edit profile data controller", error);
-    res.status(500).json({ message: error });
+    res.status(500).json({ data: error });
   }
 };
