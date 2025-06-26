@@ -6,16 +6,6 @@ import { useAuth } from "../store/auth";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion"; // Import Framer Motion
 
-// Import icons from Heroicons (make sure you have them installed)
-import {
-  UserIcon,
-  MailIcon,
-  LockClosedIcon,
-  HomeIcon,
-  PhoneIcon,
-  PhotographIcon,
-} from "@heroicons/react/outline";
-
 const RegisterUser = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -143,8 +133,8 @@ const RegisterUser = () => {
         animate="visible"
       >
         <Link to="/" className="flex items-center space-x-2">
-            <span className="text-4xl font-bold text-blue-600">Your</span>
-            <span className="text-4xl font-bold text-gray-900">Logo</span>
+            <span className="text-4xl font-bold text-blue-600">Devias</span>
+            <span className="text-4xl font-bold text-gray-900">Register Page</span>
         </Link>
       </motion.div>
 
@@ -161,7 +151,7 @@ const RegisterUser = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-br from-blue-700/10 to-indigo-700/10 z-0"></div>
           <img
-            src="https://img.freepik.com/premium-vector/account-login-line-icon-new-user-register-registration-concept-illustration_1948-2099.jpg" // IMPORTANT: Consider downloading and using a local path
+            src="" 
             alt="Register Illustration"
             className="relative z-10 w-full max-w-xs md:max-w-sm lg:max-w-md object-contain drop-shadow-lg"
             loading="lazy"
@@ -199,7 +189,6 @@ const RegisterUser = () => {
                 placeholder="John Doe"
                 required
                 error={errors.name}
-                icon={UserIcon} // Add UserIcon
               />
             </motion.div>
             <motion.div variants={itemVariants}>
@@ -212,7 +201,6 @@ const RegisterUser = () => {
                 placeholder="your@example.com"
                 required
                 error={errors.email}
-                icon={MailIcon} // Add MailIcon
               />
             </motion.div>
             <motion.div variants={itemVariants}>
@@ -225,7 +213,6 @@ const RegisterUser = () => {
                 placeholder="••••••••"
                 required
                 error={errors.password}
-                icon={LockClosedIcon} // Add LockClosedIcon
                 hint="Password must be at least 6 characters long."
               />
             </motion.div>
@@ -238,7 +225,6 @@ const RegisterUser = () => {
                 placeholder="123 Main St, Anytown"
                 required
                 error={errors.address}
-                icon={HomeIcon} // Add HomeIcon
               />
             </motion.div>
             <motion.div variants={itemVariants}>
@@ -251,7 +237,6 @@ const RegisterUser = () => {
                 placeholder="e.g., +1 (555) 123-4567"
                 required
                 error={errors.phone}
-                icon={PhoneIcon} // Add PhoneIcon
               />
             </motion.div>
             <motion.div variants={itemVariants}>
@@ -262,7 +247,6 @@ const RegisterUser = () => {
                 value={formData.avatar}
                 onChange={handleChange}
                 placeholder="https://example.com/your-avatar.jpg"
-                icon={PhotographIcon} // Add PhotographIcon
                 hint="Provide a direct link to your profile picture."
               />
             </motion.div>
