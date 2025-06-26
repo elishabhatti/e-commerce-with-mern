@@ -96,7 +96,7 @@ const Home = () => {
   };
 
   return (
-    <div className="py-8 px-4 sm:px-6 md:px-10 xl:px-20 w-full font-sans bg-gray-50 min-h-screen">
+    <div className="py-8 px-4 sm:px-6 md:px-10 xl:px-20 w-full font-sans s min-h-screen">
       {/* Hero Banner */}
       <div
         ref={heroRef}
