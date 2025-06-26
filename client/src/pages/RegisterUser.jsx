@@ -1,139 +1,328 @@
 import React, { useState } from "react";
-import Input from "../components/Input";
+import Input from "../components/Input"; // Ensure this path is correct
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
 import { useAuth } from "../store/auth";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion"; // Import Framer Motion
+
+// Import icons from Heroicons (make sure you have them installed)
+import {
+  UserIcon,
+  MailIcon,
+  LockClosedIcon,
+  HomeIcon,
+  PhoneIcon,
+  PhotographIcon,
+} from "@heroicons/react/outline";
 
 const RegisterUser = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    avatar: "",
+    avatar: "", // This will be a URL string
     address: "",
     phone: "",
   });
   const { storeTokenIns } = useAuth();
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({}); // State for client-side validation errors
+
+  // Framer Motion Variants
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        ease: "easeOut",
+        when: "beforeChildren",
+        staggerChildren: 0.08,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
+  const logoVariants = {
+    hidden: { opacity: 0, y: -50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut", delay: 0.1 } },
+  };
+
+  const imageSideVariants = {
+    hidden: { opacity: 0, x: 50 }, // Adjusted for right-side entrance
+    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.3 } },
+  };
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    // Clear error for the specific field when user types
+    if (errors[e.target.name]) {
+      setErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name) newErrors.name = "Full name is required.";
+    if (!formData.email) newErrors.email = "Email is required.";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Email address is invalid.";
+    if (!formData.password) newErrors.password = "Password is required.";
+    else if (formData.password.length < 6)
+      newErrors.password = "Password must be at least 6 characters long."; // Adjusted minimum length for security
+    if (!formData.address) newErrors.address = "Address is required.";
+    if (!formData.phone) newErrors.phone = "Phone number is required.";
+    else if (!/^\d{10,}$/.test(formData.phone))
+      newErrors.phone = "Please enter a valid phone number.";
+    // Avatar is optional in your current form, no validation added for it unless needed.
+    return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setErrors({}); // Clear previous errors
+
+    const formValidationErrors = validateForm();
+    if (Object.keys(formValidationErrors).length > 0) {
+      setErrors(formValidationErrors);
+      toast.error("Please correct the form errors.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:3000/api/users/register",
-        JSON.stringify(formData),
+        formData, // Axios automatically stringifies, no need for JSON.stringify
         {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
         }
       );
       storeTokenIns(response.data.token);
+      toast.success("Registration successful! Welcome.");
       navigate("/");
+      // Reset form data
       setFormData({
-        username: "",
+        name: "",
         email: "",
         password: "",
         avatar: "",
         address: "",
         phone: "",
       });
-
-      toast.success("User Registered!");
     } catch (error) {
-      toast.error(error.message);
+      const errorMessage =
+        error.response?.data?.message || "Registration failed. Please try again.";
+      toast.error(errorMessage);
       console.error("Registration error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center px-4 py-10">
-      <div className="flex flex-col md:flex-row w-full max-w-6xl  rounded-lg overflow-hidden">
-        {/* Left form side */}
-        <div className="w-full md:w-1/2 px-6 py-8">
-          <form onSubmit={handleSubmit} className="space-y-4 w-full">
-            <h2 className="text-2xl font-bold mb-4">REGISTER USER</h2>
-            <Input
-              label="Full name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <Input
-              label="Email Address"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            <Input
-              label="Password"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              hint="The password must be between 4 and 6 characters"
-            />
-            <Input
-              label="Address"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-            />
-            <Input
-              label="Phone"
-              name="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={handleChange}
-            />
-            <Input
-              label="Avatar"
-              name="avatar"
-              type="url"
-              value={formData.avatar}
-              onChange={handleChange}
-            />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4 font-sans text-gray-800">
+      {/* Top Logo Section (consistent with LoginUser) */}
+      <motion.div
+        className="mb-8 md:mb-12"
+        variants={logoVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <Link to="/" className="flex items-center space-x-2">
+            <span className="text-4xl font-bold text-blue-600">Your</span>
+            <span className="text-4xl font-bold text-gray-900">Logo</span>
+        </Link>
+      </motion.div>
 
-            <div className="flex items-start text-sm">
+      <motion.div
+        className="flex flex-col md:flex-row-reverse w-full max-w-5xl lg:max-w-6xl xl:max-w-7xl bg-white shadow-xl rounded-2xl overflow-hidden" // md:flex-row-reverse to put image on right
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {/* Right Side: Illustration */}
+        <motion.div
+          className="relative w-full md:w-1/2 min-h-[300px] md:min-h-[500px] flex flex-col items-center justify-center p-8 bg-[#20202F] text-white text-center"
+          variants={imageSideVariants}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-700/10 to-indigo-700/10 z-0"></div>
+          <img
+            src="https://img.freepik.com/premium-vector/account-login-line-icon-new-user-register-registration-concept-illustration_1948-2099.jpg" // IMPORTANT: Consider downloading and using a local path
+            alt="Register Illustration"
+            className="relative z-10 w-full max-w-xs md:max-w-sm lg:max-w-md object-contain drop-shadow-lg"
+            loading="lazy"
+          />
+          <div className="relative z-10 mt-6 md:mt-10">
+            <h3 className="text-3xl font-bold mb-2">Join Us Today!</h3>
+            <p className="text-gray-300 text-lg">
+              Unlock a world of possibilities by creating your free account.
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Left Side: Registration Form */}
+        <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white">
+          <motion.h2
+            className="text-4xl font-extrabold mb-2 text-center text-gray-900 leading-tight"
+            variants={itemVariants}
+          >
+            Create Your Account
+          </motion.h2>
+          <motion.p
+            className="text-center text-gray-600 mb-8 text-md"
+            variants={itemVariants}
+          >
+            Fill in your details to get started.
+          </motion.p>
+
+          <motion.form onSubmit={handleSubmit} className="space-y-5" variants={containerVariants}>
+            <motion.div variants={itemVariants}>
+              <Input
+                label="Full Name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="John Doe"
+                required
+                error={errors.name}
+                icon={UserIcon} // Add UserIcon
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <Input
+                label="Email Address"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="your@example.com"
+                required
+                error={errors.email}
+                icon={MailIcon} // Add MailIcon
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <Input
+                label="Password"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                required
+                error={errors.password}
+                icon={LockClosedIcon} // Add LockClosedIcon
+                hint="Password must be at least 6 characters long."
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <Input
+                label="Address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                placeholder="123 Main St, Anytown"
+                required
+                error={errors.address}
+                icon={HomeIcon} // Add HomeIcon
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <Input
+                label="Phone"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="e.g., +1 (555) 123-4567"
+                required
+                error={errors.phone}
+                icon={PhoneIcon} // Add PhoneIcon
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <Input
+                label="Avatar URL (Optional)"
+                name="avatar"
+                type="url"
+                value={formData.avatar}
+                onChange={handleChange}
+                placeholder="https://example.com/your-avatar.jpg"
+                icon={PhotographIcon} // Add PhotographIcon
+                hint="Provide a direct link to your profile picture."
+              />
+            </motion.div>
+
+            {/* Terms and Conditions Checkbox */}
+            <motion.div className="flex items-start text-sm" variants={itemVariants}>
               <input
+                id="terms-checkbox"
                 type="checkbox"
                 required
-                className="mt-1 mr-2 accent-purple-600"
+                className="mt-1 mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" // Adjusted styling for consistency
               />
-              <p className="text-gray-600">
-                I have accepted the{" "}
-                <a href="#" className="text-purple-600 underline">
+              <label htmlFor="terms-checkbox" className="text-gray-600">
+                I have read and agree to the{" "}
+                <a href="#" className="text-blue-600 hover:underline font-medium hover:text-blue-700 transition-colors duration-200">
                   Terms and Conditions
                 </a>
-              </p>
-            </div>
+              </label>
+            </motion.div>
 
-            <button
+            {/* Submit Button */}
+            <motion.button
               type="submit"
-              className="w-full cursor-pointer bg-[#110C30] text-white py-2 my-2 rounded-md hover:bg-[#1a1342] transition"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out font-semibold text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.005] active:scale-[0.995] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              disabled={loading}
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
+              variants={itemVariants}
             >
-              SIGN UP NOW
-            </button>
-          </form>
-        </div>
+              {loading ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Registering...
+                </>
+              ) : (
+                "SIGN UP NOW"
+              )}
+            </motion.button>
+          </motion.form>
 
-        {/* Right image side */}
-        <div className="hidden md:block md:w-1/2">
-          <img
-            src="https://img.freepik.com/premium-vector/account-login-line-icon-new-user-register-registration-concept-illustration_1948-2099.jpg"
-            alt="Sign up illustration"
-            className="w-full h-full object-cover"
-          />
+          {/* Already have an account? */}
+          <motion.p
+            className="text-center text-sm text-gray-500 mt-6"
+            variants={itemVariants}
+          >
+            Already have an account?{" "}
+            <Link to="/login" className="font-semibold text-blue-600 hover:text-blue-700 transition-colors duration-200">
+              Login here
+            </Link>
+          </motion.p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
