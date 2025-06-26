@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,6 +14,8 @@ import {
   IdCard,
   Clock,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion"; // Import motion and AnimatePresence
+import { gsap } from "gsap"; // Import gsap
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -24,7 +26,17 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("purchases");
   const navigate = useNavigate();
 
+  // GSAP Ref for overall page entry animation
+  const profileRef = useRef(null);
+
   useEffect(() => {
+    // GSAP entry animation
+    gsap.fromTo(
+      profileRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
+    );
+
     fetchUSerProfileData();
     fetchPurchasedProducts();
     fetchCartProducts();
@@ -163,93 +175,105 @@ const Profile = () => {
     }
   };
 
-  const handleUpdateProduct = (id) => {
-    console.log(id);
-  };
-
-  const handleUpdateCartProduct = (id) => {
-    console.log(id);
-  };
-
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="flex justify-center items-center h-screen bg-gray-50">
+        <motion.div
+          className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
+        ></motion.div>
       </div>
     );
   }
 
   return (
-    <div className="py-8 px-4 sm:px-6 lg:px-8">
+    <div ref={profileRef} className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-8xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-          <p className="mt-2 text-gray-600">
-            Manage your account and activities
+        <motion.div
+          className="mb-8 text-center"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <h1 className="text-4xl font-extrabold text-gray-900 leading-tight">My Profile</h1>
+          <p className="mt-3 text-lg text-gray-600">
+            Manage your account details, purchases, and cart items.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Profile Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="border border-gray-300  rounded-lg  overflow-hidden">
-              <div className="p-6 border border-gray-300 rounded-lg">
+          <motion.div
+            className="lg:col-span-1"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <div className="bg-white shadow-xl rounded-lg overflow-hidden border border-gray-200">
+              <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
                 <div className="flex items-center space-x-4">
                   <img
                     src={
                       user?.avatar ||
                       "https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
                     }
-                    alt="User"
-                    className="w-16 h-16 rounded-full object-cover border-2 border-white"
+                    alt="User Avatar"
+                    className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md"
                   />
                   <div>
-                    <h2 className="text-xl font-semibold">
+                    <h2 className="text-2xl font-bold">
                       {user?.name || "No Name"}
                     </h2>
-                    <p className="text-sm">{user?.email || "N/A"}</p>
+                    <p className="text-sm opacity-90">{user?.email || "N/A"}</p>
                   </div>
                 </div>
-                <div>
+                <div className="mt-4">
                   <button
-                  onClick={() => navigate(`/edit-profile/${user._id}`)}
-                   className="text-sm cursor-pointer underline">Edit Profile</button>
+                    onClick={() => navigate(`/edit-profile/${user._id}`)}
+                    className="text-sm font-medium underline hover:text-blue-200 transition-colors duration-200"
+                  >
+                    Edit Profile
+                  </button>
                 </div>
               </div>
 
-              <div className="p-6 space-y-4">
-                <div className="space-y-2">
+              <div className="p-6 space-y-6">
+                {/* Account Info */}
+                <div className="space-y-3">
                   <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Account
+                    Account Information
                   </h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-3 text-gray-700">
-                      <User className="h-5 w-5 text-gray-400" />
-                      <span>Profile Information</span>
+                  <div className="space-y-4 text-gray-700">
+                    <div className="flex items-center space-x-3">
+                      <User className="h-5 w-5 text-blue-500" />
+                      <span className="font-medium">Profile Details</span>
                     </div>
-                    <div className="flex items-center space-x-3 text-gray-700">
-                      <Home className="h-5 w-5 text-gray-400" />
+                    <div className="flex items-start space-x-3">
+                      <Home className="h-5 w-5 text-gray-400 mt-1" />
                       <span>{user?.address || "No address provided"}</span>
                     </div>
-                    <div className="flex items-center space-x-3 text-gray-700">
+                    <div className="flex items-center space-x-3">
                       <Phone className="h-5 w-5 text-gray-400" />
                       <span>{user?.phone || "No phone number"}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-2">
+                {/* Activity Tabs */}
+                <div className="space-y-3 border-t pt-6 border-gray-200">
                   <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Activity
+                    My Activity
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <button
                       onClick={() => setActiveTab("purchases")}
-                      className={`flex items-center space-x-3 w-full p-2 rounded-md ${
+                      className={`flex items-center space-x-3 w-full p-3 rounded-md text-base font-medium transition-all duration-200 ${
                         activeTab === "purchases"
-                          ? "bg-blue-50 text-blue-600"
-                          : "text-gray-700 hover:bg-gray-50"
+                          ? "bg-blue-100 text-blue-700 shadow-sm"
+                          : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                       }`}
                     >
                       <Package className="h-5 w-5" />
@@ -257,10 +281,10 @@ const Profile = () => {
                     </button>
                     <button
                       onClick={() => setActiveTab("cart")}
-                      className={`flex items-center space-x-3 w-full p-2 rounded-md ${
+                      className={`flex items-center space-x-3 w-full p-3 rounded-md text-base font-medium transition-all duration-200 ${
                         activeTab === "cart"
-                          ? "bg-blue-50 text-blue-600"
-                          : "text-gray-700 hover:bg-gray-50"
+                          ? "bg-blue-100 text-blue-700 shadow-sm"
+                          : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                       }`}
                     >
                       <ShoppingCart className="h-5 w-5" />
@@ -268,10 +292,10 @@ const Profile = () => {
                     </button>
                     <button
                       onClick={() => setActiveTab("contacts")}
-                      className={`flex items-center space-x-3 w-full p-2 rounded-md ${
+                      className={`flex items-center space-x-3 w-full p-3 rounded-md text-base font-medium transition-all duration-200 ${
                         activeTab === "contacts"
-                          ? "bg-blue-50 text-blue-600"
-                          : "text-gray-700 hover:bg-gray-50"
+                          ? "bg-blue-100 text-blue-700 shadow-sm"
+                          : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                       }`}
                     >
                       <Mail className="h-5 w-5" />
@@ -280,18 +304,22 @@ const Profile = () => {
                   </div>
                 </div>
 
-                <div className="space-y-2 pt-4 border-t">
+                {/* Details */}
+                <div className="space-y-3 pt-6 border-t border-gray-200">
                   <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Details
+                    Account Details
                   </h3>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-center space-x-3 text-gray-700">
+                  <div className="space-y-4 text-sm text-gray-700">
+                    <div className="flex items-center space-x-3">
                       <IdCard className="h-5 w-5 text-gray-400" />
                       <span>
-                        User ID: {user?._id?.slice(0, 8).toUpperCase()}
+                        User ID:{" "}
+                        <span className="font-mono text-gray-600">
+                          {user?._id?.slice(0, 8).toUpperCase()}
+                        </span>
                       </span>
                     </div>
-                    <div className="flex items-center space-x-3 text-gray-700">
+                    <div className="flex items-center space-x-3">
                       <Clock className="h-5 w-5 text-gray-400" />
                       <span>
                         Joined:{" "}
@@ -311,348 +339,399 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Main Content */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Purchased Products Tab */}
-            {activeTab === "purchases" && (
-              <div className="overflow-hidden border rounded-lg border-gray-300 ">
-                <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                  <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                    <Package className="h-5 w-5 mr-2 text-blue-500" />
-                    Purchased Products
-                  </h2>
-                  <button
-                    onClick={() => navigate("/")}
-                    className="px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    + Add Products
-                  </button>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Product
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Brand
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Size
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Qty
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Price
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {product.length === 0 ? (
+          <motion.div
+            className="lg:col-span-3 space-y-6"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            <AnimatePresence mode="wait">
+              {activeTab === "purchases" && (
+                <motion.div
+                  key="purchasesTab"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-white shadow-xl rounded-lg overflow-hidden border border-gray-200"
+                >
+                  <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                    <h2 className="text-xl font-bold text-gray-900 flex items-center">
+                      <Package className="h-6 w-6 mr-3 text-blue-600" />
+                      Purchased Products
+                    </h2>
+                    <button
+                      onClick={() => navigate("/")}
+                      className="px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+                    >
+                      + Add More Products
+                    </button>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-100">
                         <tr>
-                          <td
-                            colSpan="6"
-                            className="px-6 py-4 text-center text-gray-500"
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                           >
-                            No purchased products found
-                          </td>
+                            Product
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Brand
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Size
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Qty
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Price
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Actions
+                          </th>
                         </tr>
-                      ) : (
-                        product.map((p) => (
-                          <tr key={p._id} className="hover:bg-gray-50">
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="flex items-center">
-                                <div className="flex-shrink-0 h-10 w-10">
-                                  <img
-                                    className="h-10 w-10 rounded-md object-cover"
-                                    src={
-                                      p.product.image ||
-                                      "https://via.placeholder.com/150"
-                                    }
-                                    alt={p.product.title}
-                                  />
-                                </div>
-                                <div className="ml-4">
-                                  <div className="text-sm font-medium text-gray-900">
-                                    {p.product.title}
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {product.length === 0 ? (
+                          <tr>
+                            <td
+                              colSpan="6"
+                              className="px-6 py-8 text-center text-gray-500 text-lg"
+                            >
+                              No purchased products found. Start shopping!
+                            </td>
+                          </tr>
+                        ) : (
+                          product.map((p, index) => (
+                            <motion.tr
+                              key={p._id}
+                              className="hover:bg-gray-50 transition-colors duration-150"
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3, delay: index * 0.05 }}
+                            >
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex items-center">
+                                  <div className="flex-shrink-0 h-12 w-12">
+                                    <img
+                                      className="h-12 w-12 rounded-md object-cover shadow-sm border border-gray-100"
+                                      src={
+                                        p.product.image ||
+                                        "https://via.placeholder.com/150"
+                                      }
+                                      alt={p.product.title}
+                                    />
+                                  </div>
+                                  <div className="ml-4">
+                                    <div className="text-sm font-medium text-gray-900">
+                                      {p.product.title}
+                                    </div>
+                                    <div className="text-xs text-gray-500">ID: {p.product._id.slice(0, 6)}...</div>
                                   </div>
                                 </div>
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {p.product.brand}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {p.size}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {p.quantity}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                              ${p.product.price.toFixed(2)}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2">
-                              <button
-                                onClick={() =>
-                                  navigate(`/update-purchase/${p._id}`)
-                                }
-                                className="text-blue-600 hover:text-blue-900 p-1 rounded-md hover:bg-blue-50"
-                                title="Edit"
-                              >
-                                <SquarePen className="h-4 w-4" />
-                              </button>
-                              <button
-                                onClick={() => handleRemoveProduct(p._id)}
-                                className="text-red-600 hover:text-red-900 p-1 rounded-md hover:bg-red-50"
-                                title="Remove"
-                              >
-                                <X className="h-4 w-4" />
-                              </button>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {p.product.brand}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {p.size}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {p.quantity}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-base font-semibold text-green-700">
+                                ${p.product.price.toFixed(2)}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2 items-center">
+                                <motion.button
+                                  onClick={() =>
+                                    navigate(`/update-purchase/${p._id}`)
+                                  }
+                                  className="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-50 transition-colors duration-150"
+                                  title="Edit Purchase"
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.9 }}
+                                >
+                                  <SquarePen className="h-5 w-5" />
+                                </motion.button>
+                                <motion.button
+                                  onClick={() => handleRemoveProduct(p._id)}
+                                  className="text-red-600 hover:text-red-800 p-2 rounded-full hover:bg-red-50 transition-colors duration-150"
+                                  title="Remove Purchase"
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.9 }}
+                                >
+                                  <X className="h-5 w-5" />
+                                </motion.button>
+                              </td>
+                            </motion.tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </motion.div>
+              )}
+
+              {activeTab === "cart" && (
+                <motion.div
+                  key="cartTab"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-white shadow-xl rounded-lg overflow-hidden border border-gray-200"
+                >
+                  <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                    <h2 className="text-xl font-bold text-gray-900 flex items-center">
+                      <ShoppingCart className="h-6 w-6 mr-3 text-blue-600" />
+                      Cart Products
+                    </h2>
+                    <button
+                      onClick={() => navigate("/")}
+                      className="px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+                    >
+                      + Add to Cart
+                    </button>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-100">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Product
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Brand
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Size
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Qty
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Price
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {cartProduct.length === 0 ? (
+                          <tr>
+                            <td
+                              colSpan="6"
+                              className="px-6 py-8 text-center text-gray-500 text-lg"
+                            >
+                              Your cart is empty. Time to find some great deals!
                             </td>
                           </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-
-            {/* Cart Products Tab */}
-            {activeTab === "cart" && (
-              <div className="border border-gray-300  rounded-lg overflow-hidden">
-                <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                  <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                    <ShoppingCart className="h-5 w-5 mr-2 text-blue-500" />
-                    Cart Products
-                  </h2>
-                  <button
-                    onClick={() => navigate("/")}
-                    className="px-4 py-2 -sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    + Add to Cart
-                  </button>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Product
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Brand
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Size
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Qty
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Price
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {cartProduct.length === 0 ? (
-                        <tr>
-                          <td
-                            colSpan="6"
-                            className="px-6 py-4 text-center text-gray-500"
-                          >
-                            No cart products found
-                          </td>
-                        </tr>
-                      ) : (
-                        cartProduct.map((c) => (
-                          <tr key={c._id} className="hover:bg-gray-50">
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="flex items-center">
-                                <div className="flex-shrink-0 h-10 w-10">
-                                  <img
-                                    className="h-10 w-10 rounded-md object-cover"
-                                    src={
-                                      c.product.image ||
-                                      "https://via.placeholder.com/150"
-                                    }
-                                    alt={c.product.title}
-                                  />
-                                </div>
-                                <div className="ml-4">
-                                  <div className="text-sm font-medium text-gray-900">
-                                    {c.product.title}
+                        ) : (
+                          cartProduct.map((c, index) => (
+                            <motion.tr
+                              key={c._id}
+                              className="hover:bg-gray-50 transition-colors duration-150"
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3, delay: index * 0.05 }}
+                            >
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex items-center">
+                                  <div className="flex-shrink-0 h-12 w-12">
+                                    <img
+                                      className="h-12 w-12 rounded-md object-cover shadow-sm border border-gray-100"
+                                      src={
+                                        c.product.image ||
+                                        "https://via.placeholder.com/150"
+                                      }
+                                      alt={c.product.title}
+                                    />
+                                  </div>
+                                  <div className="ml-4">
+                                    <div className="text-sm font-medium text-gray-900">
+                                      {c.product.title}
+                                    </div>
+                                    <div className="text-xs text-gray-500">ID: {c.product._id.slice(0, 6)}...</div>
                                   </div>
                                 </div>
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {c.product.brand}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {c.size}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {c.quantity}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                              ${c.product.price.toFixed(2)}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2">
-                              <button
-                                onClick={() =>
-                                  navigate(
-                                    `/update-cart-product/${c._id}`
-                                  )
-                                }
-                                className="text-blue-600 hover:text-blue-900 p-1 rounded-md hover:bg-blue-50"
-                                title="Edit"
-                              >
-                                <SquarePen className="h-4 w-4" />
-                              </button>
-                              <button
-                                onClick={() => handleRemoveCartProduct(c._id)}
-                                className="text-red-600 hover:text-red-900 p-1 rounded-md hover:bg-red-50"
-                                title="Remove"
-                              >
-                                <X className="h-4 w-4" />
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {c.product.brand}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {c.size}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {c.quantity}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-base font-semibold text-indigo-700">
+                                ${c.product.price.toFixed(2)}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2 items-center">
+                                <motion.button
+                                  onClick={() =>
+                                    navigate(`/update-cart-product/${c._id}`)
+                                  }
+                                  className="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-50 transition-colors duration-150"
+                                  title="Edit Cart Item"
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.9 }}
+                                >
+                                  <SquarePen className="h-5 w-5" />
+                                </motion.button>
+                                <motion.button
+                                  onClick={() => handleRemoveCartProduct(c._id)}
+                                  className="text-red-600 hover:text-red-800 p-2 rounded-full hover:bg-red-50 transition-colors duration-150"
+                                  title="Remove from Cart"
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.9 }}
+                                >
+                                  <X className="h-5 w-5" />
+                                </motion.button>
+                              </td>
+                            </motion.tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </motion.div>
+              )}
 
-            {/* Contact Submissions Tab */}
-            {activeTab === "contacts" && (
-              <div className=" rounded-lg border border-gray-300 overflow-hidden">
-                <div className="px-6 py-4 border-b border-gray-200">
-                  <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                    <Mail className="h-5 w-5 mr-2 text-blue-500" />
-                    Contact Submissions
-                  </h2>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Name
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Email
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Message
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Date
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {contacts.length === 0 ? (
+              {activeTab === "contacts" && (
+                <motion.div
+                  key="contactsTab"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-white shadow-xl rounded-lg overflow-hidden border border-gray-200"
+                >
+                  <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                    <h2 className="text-xl font-bold text-gray-900 flex items-center">
+                      <Mail className="h-6 w-6 mr-3 text-blue-600" />
+                      Contact Submissions
+                    </h2>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-100">
                         <tr>
-                          <td
-                            colSpan="4"
-                            className="px-6 py-4 text-center text-gray-500"
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                           >
-                            No contact submissions found
-                          </td>
+                            Name
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Email
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Message
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Date
+                          </th>
                         </tr>
-                      ) : (
-                        contacts.map((c) => (
-                          <tr key={c._id} className="hover:bg-gray-50">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                              {c.name}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {c.email}
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
-                              {c.message}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {new Date(c.createdAt).toLocaleDateString(
-                                "en-US",
-                                {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                }
-                              )}
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {contacts.length === 0 ? (
+                          <tr>
+                            <td
+                              colSpan="4"
+                              className="px-6 py-8 text-center text-gray-500 text-lg"
+                            >
+                              No contact submissions yet.
                             </td>
                           </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-          </div>
+                        ) : (
+                          contacts.map((c, index) => (
+                            <motion.tr
+                              key={c._id}
+                              className="hover:bg-gray-50 transition-colors duration-150"
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3, delay: index * 0.05 }}
+                            >
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                {c.name}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {c.email}
+                              </td>
+                              <td className="px-6 py-4 text-sm text-gray-700 max-w-xs overflow-hidden text-ellipsis">
+                                {c.message}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {new Date(c.createdAt).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  }
+                                )}
+                              </td>
+                            </motion.tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </div>
     </div>
