@@ -7,15 +7,11 @@ const ForgotPassword = () => {
   }, []);
 
   const callForgotPasswordApi = async () => {
-    const token = localStorage.getItem("token");
 
     const res = await axios.get(
-      "http://localhost:300/api/users/forgot-password",
+      "http://localhost:3000/api/users/forgot-password",
       {
         withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }
     );
     console.log(res);
