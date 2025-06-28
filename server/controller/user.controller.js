@@ -137,3 +137,7 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: "Update failed", error: err.message });
   }
 };
+
+export const forgotPassword = async (req, res) => {
+  res.send("Forgot Password")
+}
