@@ -19,6 +19,6 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.1",
-    "resend": "^4.5.1"
+    "resend": "^4.6.0"
   }
 }
