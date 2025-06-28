@@ -17,6 +17,7 @@ import CartDetails from "./pages/CartDetails";
 import EditProfile from "./pages/EditProfile";
 import UpdateCartProduct from "./pages/UpdateCartProduct";
 import UpdatePurchaseProduct from "./pages/UpdatePurchaseProduct";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const App = () => {
   return (
