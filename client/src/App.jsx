@@ -38,6 +38,7 @@ const App = () => {
             <Route path="/product-cart/:id" element={<CartDetails />} />
             <Route path="/update-cart-product/:id" element={<UpdateCartProduct />} />
             <Route path="/update-purchase/:id" element={<UpdatePurchaseProduct />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/edit-profile/:id" element={<EditProfile />} />
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Page404 />} />
