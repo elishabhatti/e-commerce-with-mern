@@ -1,3 +1,4 @@
+import { sendEmail } from "../lib/sendEmailForgotPassword.js";
 import { userModel } from "../models/user.models.js";
 import {
   createUser,
@@ -117,17 +118,19 @@ export const updateProfile = async (req, res) => {
 
     const { name, email, phone, address, avatar } = req.body;
 
-    const updatedUser = await userModel.findByIdAndUpdate(
-      userId,
-      {
-        name,
-        email,
-        phone,
-        address,
-        avatar,
-      },
-      { new: true, runValidators: true }
-    ).select("-password");
+    const updatedUser = await userModel
+      .findByIdAndUpdate(
+        userId,
+        {
+          name,
+          email,
+          phone,
+          address,
+          avatar,
+        },
+        { new: true, runValidators: true }
+      )
+      .select("-password");
 
     res.status(200).json({
       message: "Profile updated successfully",
@@ -139,5 +142,26 @@ export const updateProfile = async (req, res) => {
 };
 
 export const forgotPassword = async (req, res) => {
-  res.send("Forgot Password")
-}
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  const user = await db.users.findUnique({ where: { email } });
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  await sendEmail({
+    to: email,
+    subject: "Reset Your Password",
+    html: `
+      <p>You requested a password reset.</p>
+      <p>This link will expire in 15 minutes.</p>
+    `,
+  });
+
+  res.json({ message: "Password reset email sent" });
+};
