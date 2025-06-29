@@ -148,12 +148,6 @@ export const forgotPassword = async (req, res) => {
     return res.status(400).json({ error: "Email is required" });
   }
 
-  const user = await db.users.findUnique({ where: { email } });
-
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
   await sendEmail({
     to: email,
     subject: "Reset Your Password",
