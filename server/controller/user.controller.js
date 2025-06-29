@@ -1,4 +1,5 @@
 import { sendEmail } from "../lib/sendEmailForgotPassword.js";
+import crypto from "crypto";
 import { userModel } from "../models/user.models.js";
 import {
   createUser,
@@ -148,24 +149,17 @@ export const forgotPassword = async (req, res) => {
     return res.status(400).json({ error: "Email is required" });
   }
 
-  const user = await userModel.findUnique({ where: { email } });
-
+  const user = await userModel.findOne({ email });
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
 
-  // Generate reset token
   const token = crypto.randomBytes(32).toString("hex");
   const expires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
 
-  // Save token and expiration to the user (or a separate table if preferred)
-  await userModel.update({
-    where: { email },
-    data: {
-      resetToken: token,
-      resetTokenExpires: expires,
-    },
-  });
+  user.resetToken = token;
+  user.resetTokenExpires = expires;
+  await user.save();
 
   const resetLink = `http://localhost:5173/reset-password?token=${token}`;
 
