@@ -1,5 +1,3 @@
-import { sendEmail } from "../lib/sendEmailForgotPassword.js";
-import crypto from "crypto";
 import { userModel } from "../models/user.models.js";
 import {
   createUser,
@@ -140,28 +138,4 @@ export const updateProfile = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Update failed", error: err.message });
   }
-};
-
-export const forgotPassword = async (req, res) => {
-  const { email } = req.body;
-
-  if (!email) {
-    return res.status(400).json({ error: "Email is required" });
-  }
-
-  const token = crypto.randomBytes(32).toString("hex");
-
-  const resetLink = `http://localhost:5173/reset-password/${token}`;
-
-  await sendEmail({
-    to: email,
-    subject: "Reset Your Password",
-    html: `
-      <p>You requested a password reset.</p>
-      <p><a href="${resetLink}">Click here to reset your password</a></p>
-      <p>This link will expire in 15 minutes.</p>
-    `,
-  });
-
-  res.json({ message: "Password reset email sent" });
 };
