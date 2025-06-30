@@ -1,5 +1,7 @@
 import passwordResetTokenModel from "../models/password-reset.model.js";
 import { userModel } from "../models/user.models.js";
+import { sendEmail } from "../lib/sendEmailForgotPassword.js";
+import crypto from "crypto";
 import {
   createUser,
   hashPassword,
@@ -143,19 +145,42 @@ export const updateProfile = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
-  const user = await userModel.findOne({ email });
-  if (!user) return res.send("User not Found");
 
-  const token = crypto.randomBytes(32).toString("hex");
-  const expiresAt = new Date(Date.now() + 3600000); // 1 hour
+  try {
+    const user = await userModel.findOne({ email });
+    if (!user) return res.status(404).json({ error: "User not found" });
 
-  await passwordResetTokenModel.create({
-    userId: user._id,
-    token,
-    expiresAt,
-  });
-  
-  const resetLink = `http://localhost:3000/reset-password/${token}`;
+    const token = crypto.randomBytes(32).toString("hex");
+    const expiresAt = new Date(Date.now() + 3600000); // 1 hour
 
-  console.log(user);
+    // Optional: Delete existing tokens
+    await passwordResetTokenModel.deleteMany({ userId: user._id });
+
+    await passwordResetTokenModel.create({
+      userId: user._id,
+      token,
+      expiresAt,
+    });
+
+    const resetLink = `http://localhost:3000/reset-password/${token}`;
+    sendEmail({
+      to: user.email,
+      subject: "Reset Your Password",
+      html: `
+  <div style="font-family: sans-serif; padding: 20px;">
+    <h2>Reset your password</h2>
+    <p>Click the button below to reset your password:</p>
+    <a href="${resetLink}" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none;">Reset Password</a>
+    <p>If the button doesn't work, copy this link and paste it into your browser:</p>
+    <p>${resetLink}</p>
+  </div>
+`,
+    });
+    console.log(user);
+
+    return res.json({ success: true, message: "Reset link sent to email" });
+  } catch (error) {
+    console.error("Forgot Password Error:", error);
+    return res.status(500).json({ error: "Server error" });
+  }
 };
