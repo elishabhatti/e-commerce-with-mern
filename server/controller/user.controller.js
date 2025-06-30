@@ -1,6 +1,7 @@
 import passwordResetTokenModel from "../models/password-reset.model.js";
 import { userModel } from "../models/user.models.js";
 import { sendEmail } from "../lib/sendEmailForgotPassword.js";
+import argon2 from "argon2";
 import crypto from "crypto";
 import {
   createUser,
@@ -185,4 +186,32 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
-export const resetPassword = async (req, res) => {};
+export const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+  if (!token || !password) {
+    return res.status(400).json({ error: "Token and password are required" });
+  }
+
+  try {
+    const resetDoc = await passwordResetTokenModel.findOne({ token });
+    if (!resetDoc) {
+      return res.status(400).json({ error: "Invalid token" });
+    }
+
+    if (resetDoc.expiresAt < new Date()) {
+      await passwordResetTokenModel.deleteOne({ _id: resetDoc._id });
+      return res.status(400).json({ error: "Token has expired" });
+    }
+
+    const hashedPassword = await argon2.hash(password);
+    await userModel.findByIdAndUpdate(resetDoc.userId, {
+      password: hashedPassword,
+    });
+
+    await passwordResetTokenModel.deleteOne({ _id: resetDoc._id });
+    return res.json({ success: true, message: "Password reset successfully" });
+  } catch (err) {
+    console.error("Reset Password Error:", err);
+    return res.status(500).json({ error: "Server error" });
+  }
+};
