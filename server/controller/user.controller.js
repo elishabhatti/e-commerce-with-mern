@@ -10,6 +10,14 @@ import {
   comparePassword,
   createAccessToken,
 } from "../services/user.services.js";
+import { fileURLToPath } from "url";
+import fs from "fs/promises";
+import path from "path";
+import mjml2html from "mjml";
+import ejs from "ejs"
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const registerUser = async (req, res) => {
   const { name, email, password, phone, address, avatar } = req.body;
@@ -162,21 +170,25 @@ export const forgotPassword = async (req, res) => {
       expiresAt,
     });
 
-    const resetLink = `http://localhost:5173/reset-password/${token}`;
-    sendEmail({
+    const resetPasswordLink = `http://localhost:5173/reset-password/${token}`;
+
+    const mjmlTemplate = await fs.readFile(
+      path.join(__dirname, "..", "emails", "reset-password.mjml"),
+      "utf-8"
+    );
+
+    const filledTemplate = ejs.render(mjmlTemplate, {
+      name: user.name,
+      link: resetPasswordLink,
+    });
+
+    const htmlOutput = mjml2html(filledTemplate).html;
+
+    await sendEmail({
       to: user.email,
       subject: "Reset Your Password",
-      html: `
-  <div style="font-family: sans-serif; padding: 20px;">
-    <h2>Reset your password</h2>
-    <p>Click the button below to reset your password:</p>
-    <a href="${resetLink}" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none;">Reset Password</a>
-    <p>If the button doesn't work, copy this link and paste it into your browser:</p>
-    <p>${resetLink}</p>
-  </div>
-`,
+      html: htmlOutput,
     });
-    console.log(user);
 
     return res.json({ success: true, message: "Reset link sent to email" });
   } catch (error) {
