@@ -141,5 +141,8 @@ export const updateProfile = async (req, res) => {
 };
 
 export const forgotPassword = async (req, res) => {
-
-}
+  const { email } = req.body;
+  const user = await userModel.findOne({email});
+  if(!user) return res.send("User not Found")
+  console.log(user);
+};
