@@ -18,6 +18,7 @@ import EditProfile from "./pages/EditProfile";
 import UpdateCartProduct from "./pages/UpdateCartProduct";
 import UpdatePurchaseProduct from "./pages/UpdatePurchaseProduct";
 import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   return (
@@ -37,10 +38,17 @@ const App = () => {
             <Route path="/logout" element={<LogoutPage />} />
             <Route path="/product-details/:id" element={<ProductDetails />} />
             <Route path="/product-cart/:id" element={<CartDetails />} />
-            <Route path="/update-cart-product/:id" element={<UpdateCartProduct />} />
-            <Route path="/update-purchase/:id" element={<UpdatePurchaseProduct />} />
-            <Route path="/forgot-password" element={<ForgotPassword/>} />
+            <Route
+              path="/update-cart-product/:id"
+              element={<UpdateCartProduct />}
+            />
+            <Route
+              path="/update-purchase/:id"
+              element={<UpdatePurchaseProduct />}
+            />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/edit-profile/:id" element={<EditProfile />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Page404 />} />
           </Routes>

@@ -162,7 +162,7 @@ export const forgotPassword = async (req, res) => {
       expiresAt,
     });
 
-    const resetLink = `http://localhost:3000/reset-password/${token}`;
+    const resetLink = `http://localhost:5173/reset-password/${token}`;
     sendEmail({
       to: user.email,
       subject: "Reset Your Password",
