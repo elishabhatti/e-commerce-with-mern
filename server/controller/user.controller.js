@@ -1,3 +1,4 @@
+import passwordResetTokenModel from "../models/password-reset.model.js";
 import { userModel } from "../models/user.models.js";
 import {
   createUser,
@@ -142,7 +143,19 @@ export const updateProfile = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
-  const user = await userModel.findOne({email});
-  if(!user) return res.send("User not Found")
+  const user = await userModel.findOne({ email });
+  if (!user) return res.send("User not Found");
+
+  const token = crypto.randomBytes(32).toString("hex");
+  const expiresAt = new Date(Date.now() + 3600000); // 1 hour
+
+  await passwordResetTokenModel.create({
+    userId: user._id,
+    token,
+    expiresAt,
+  });
+  
+  const resetLink = `http://localhost:3000/reset-password/${token}`;
+
   console.log(user);
 };
