@@ -154,7 +154,6 @@ export const forgotPassword = async (req, res) => {
     const token = crypto.randomBytes(32).toString("hex");
     const expiresAt = new Date(Date.now() + 3600000); // 1 hour
 
-    // Optional: Delete existing tokens
     await passwordResetTokenModel.deleteMany({ userId: user._id });
 
     await passwordResetTokenModel.create({
