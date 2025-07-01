@@ -14,7 +14,7 @@ import { fileURLToPath } from "url";
 import fs from "fs/promises";
 import path from "path";
 import mjml2html from "mjml";
-import ejs from "ejs"
+import ejs from "ejs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -227,5 +227,24 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-export const changePassword = async (req, res) => {  
-}
+export const changePassword = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await userModel.findOne({ email });
+    if (!user) return res.status(500).json({ message: "User Not Found" });
+
+    const isMatch = await comparePassword(password, user.password);
+    if (!isMatch)
+      return res.status(500).json({ message: "Please Enter Valid Password" });
+
+    const hashedNewPassword = await hashPassword(password);
+    user.password = hashedNewPassword;
+    await user.save();
+
+    return res.status(200).json({ message: "Password Changed Successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(200).json({ message: error });
+  }
+};
