@@ -43,7 +43,8 @@ export const verifyJwtToken = (token) => {
 };
 
 export const findSessionById = async (sessionId) => {
-  return await sessionModel.findById(sessionId).lean();
+  console.log("Looking for session:", sessionId);
+  return await sessionModel.findById(sessionId)
 };
 
 export const createAccessToken = async ({
@@ -84,7 +85,10 @@ export const findByUserId = async (userId) => {
 export const refreshTokens = async (refreshToken) => {
   try {
     const decodedToken = verifyJwtToken(refreshToken);
+    console.log("decoded token", decodedToken);
+
     const currentSession = await findSessionById(decodedToken.sessionId);
+    console.log("current session", currentSession);
     if (!currentSession || !currentSession.valid) {
       throw new Error("Invalid Session");
     }
