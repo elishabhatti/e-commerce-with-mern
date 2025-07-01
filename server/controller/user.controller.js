@@ -9,6 +9,7 @@ import {
   getUserByEmail,
   comparePassword,
   createAccessToken,
+  authenticateUser,
 } from "../services/user.services.js";
 import { fileURLToPath } from "url";
 import fs from "fs/promises";
@@ -23,12 +24,13 @@ export const registerUser = async (req, res) => {
   const { name, email, password, phone, address, avatar } = req.body;
 
   if (!name || !email || !password || !phone || !address || !avatar) {
-    return res.status(401).json({ message: "All field are required" });
+    return res.status(400).json({ message: "All fields are required" });
   }
 
-  const hashedPassword = await hashPassword(password);
   try {
-    const createdUser = await createUser({
+    const hashedPassword = await hashPassword(password);
+
+    const user = await createUser({
       name,
       email,
       password: hashedPassword,
@@ -37,29 +39,18 @@ export const registerUser = async (req, res) => {
       avatar,
     });
 
-    const accessToken = await createAccessToken({
-      id: createdUser._id,
-      email,
-      name,
-      avatar,
-    });
-
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 30,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax",
-    });
+    const accessToken = await authenticateUser({ req, res, user });
 
     res.status(201).json({
-      id: createdUser._id,
-      email: createdUser.email,
-      username: createdUser.name,
+      id: user._id,
+      email: user.email,
+      username: user.name,
       token: accessToken,
+      message: "User registered and authenticated successfully",
     });
   } catch (error) {
-    res.status(500).json({ message: error });
     console.error("Error from User Register Controller: ", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 

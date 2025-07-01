@@ -32,3 +32,21 @@ export const createAccessToken = async ({ id, email, name, avatar }) => {
     expiresIn: "30d",
   });
 };
+
+export const authenticateUser = async ({ req, res, user }) => {
+  const accessToken = await createAccessToken({
+    id: user._id,
+    email: user.email,
+    name: user.name,
+    avatar: user.avatar,
+  });
+
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "Lax",
+  });
+
+  return accessToken; 
+};
