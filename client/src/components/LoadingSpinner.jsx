@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const LoadingSpinner = () => {
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="flex justify-center items-center h-screen">
       <motion.div
         className="relative flex justify-center items-center"
         initial={{ opacity: 0 }}

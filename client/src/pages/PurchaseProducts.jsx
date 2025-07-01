@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ShoppingBag, Trash2, PenBox } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const PurchaseProducts = () => {
   const [products, setProducts] = useState([]);
@@ -66,9 +67,7 @@ const PurchaseProducts = () => {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin h-10 w-10 border-4 border-t-transparent border-gray-600 rounded-full" />
-      </div>
+      <LoadingSpinner/>
     );
 
   if (products.length === 0)
