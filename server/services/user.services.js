@@ -38,6 +38,14 @@ export const createSession = async (userId, { ip, userAgent }) => {
   return session;
 };
 
+export const verifyJwtToken = (token) => {
+  return jwt.verify(token, process.env.JWT_SECRET_KEY);
+};
+
+export const findSessionById = async (sessionId) => {
+  return await sessionModel.findById(sessionId).lean();
+};
+
 export const createAccessToken = async ({ id, email, name, avatar }) => {
   return jwt.sign({ id, email, name, avatar }, process.env.JWT_SECRET_KEY, {
     expiresIn: ACCESS_TOKEN_EXPIRY / MILLISECONDS_PER_SECOND,
@@ -48,6 +56,44 @@ export const createRefreshToken = (sessionId) => {
   return jwt.sign({ sessionId }, process.env.JWT_SECRET_KEY, {
     expiresIn: REFRESH_TOKEN_EXPIRY / MILLISECONDS_PER_SECOND,
   });
+};
+
+export const findByUserId = async (userId) => {
+  const user = await userModel.findById(userId);
+  return user;
+};
+
+export const refreshTokens = async (refreshToken) => {
+  try {
+    const decodedToken = verifyJwtToken(refreshToken);
+    const currentSession = await findSessionById(decodedToken.sessionId);
+    if (!currentSession || !currentSession.valid) {
+      throw new Error("Invalid Session");
+    }
+
+    const user = await findByUserId(currentSession.userId);
+    if (!user) throw new Error("Invalid User");
+
+    const userInfo = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      isEmailValid: user.isEmailValid,
+      sessionId: currentSession.id,
+    };
+
+    const newAccessToken = createAccessToken(userInfo);
+    const newRefreshToken = createRefreshToken(currentSession.id);
+
+    return {
+      newAccessToken,
+      newRefreshToken,
+      user,
+    };
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+    throw new Error("Refresh token invalid or expired");
+  }
 };
 
 export const authenticateUser = async ({ req, res, user }) => {

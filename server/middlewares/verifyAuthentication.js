@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { refreshTokens } from "../services/user.services";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET_KEY;
 
-export const verifyAuthentication = (req, res, next) => {
+export const verifyAuthentication = async (req, res, next) => {
   const accessToken = req.cookies.access_token;
   const refreshToken = req.cookies.refresh_token;
 
@@ -35,9 +36,8 @@ export const verifyAuthentication = (req, res, next) => {
   }
   if (refreshToken) {
     try {
-      const { newAccessToken, newRefreshToken, user } = await refreshTokens(
-        refreshToken
-      );
+      const { newAccessToken, newRefreshToken, user } =
+        await refreshTokens(refreshToken);
       req.user = user;
 
       const baseConfig = { httpOnly: true, secure: true };
@@ -57,5 +57,5 @@ export const verifyAuthentication = (req, res, next) => {
       console.error("Refresh token invalid:", error);
     }
   }
-  return next()
+  return next();
 };
