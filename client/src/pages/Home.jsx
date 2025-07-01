@@ -5,14 +5,16 @@ import { ShoppingCart } from "lucide-react";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger"; // Import ScrollTrigger
-import RotatingText from "../components/RotatingText"; // Ensure this component is correctly implemented
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import RotatingText from "../components/RotatingText";
+import LoadingSpinner from "../components/LoadingSpinner";
 
-// Register ScrollTrigger plugin
+// Register ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // ✅ Loading state
   const navigate = useNavigate();
 
   const heroRef = useRef(null);
@@ -22,38 +24,44 @@ const Home = () => {
   useEffect(() => {
     getAllProducts();
 
-    // GSAP animations for the hero section
     if (heroRef.current && headingRef.current) {
-      const tl = gsap.timeline({ defaults: { ease: "power2.out" } }); // Softer ease
-
-      tl.fromTo(heroRef.current,
+      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+      tl.fromTo(
+        heroRef.current,
         { opacity: 0, y: 30 },
         { opacity: 1, y: 0, duration: 1.2 }
       )
-      .fromTo(headingRef.current,
-        { opacity: 0, y: -15 },
-        { opacity: 1, y: 0, duration: 0.9 }, "<0.4" // Slightly delayed and softer
-      )
-      .fromTo(".rotating-text-element",
-        { opacity: 0, x: -10 },
-        { opacity: 1, x: 0, duration: 0.7, stagger: 0.03 }, "<0.2"
-      );
+        .fromTo(
+          headingRef.current,
+          { opacity: 0, y: -15 },
+          { opacity: 1, y: 0, duration: 0.9 },
+          "<0.4"
+        )
+        .fromTo(
+          ".rotating-text-element",
+          { opacity: 0, x: -10 },
+          { opacity: 1, x: 0, duration: 0.7, stagger: 0.03 },
+          "<0.2"
+        );
     }
 
-    // GSAP animation for the section title on scroll
     if (sectionTitleRef.current) {
-      gsap.fromTo(sectionTitleRef.current,
+      gsap.fromTo(
+        sectionTitleRef.current,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.7, ease: "power2.out",
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: sectionTitleRef.current,
-            start: "top 85%", // Trigger when 85% of the element is in view
-            toggleActions: "play none none none"
-          }
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
         }
       );
     }
-
   }, []);
 
   async function getAllProducts() {
@@ -68,16 +76,17 @@ const Home = () => {
     } catch (error) {
       console.error(error);
       toast.error("Failed to load products.");
+    } finally {
+      setIsLoading(false); // ✅ Stop loading regardless of success/failure
     }
   }
 
-  // Framer Motion variants for product grid and items
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08, // Subtle stagger
+        staggerChildren: 0.08,
       },
     },
   };
@@ -89,7 +98,7 @@ const Home = () => {
       opacity: 1,
       transition: {
         type: "spring",
-        stiffness: 100, // Softer spring
+        stiffness: 100,
         damping: 12,
       },
     },
@@ -100,17 +109,17 @@ const Home = () => {
       {/* Hero Banner */}
       <div
         ref={heroRef}
-        className="relative my-5 overflow-hidden rounded-lg shadow-md transition-shadow duration-300 hover:shadow-lg" // Softer shadow
+        className="relative my-5 overflow-hidden rounded-lg shadow-md transition-shadow duration-300 hover:shadow-lg"
       >
         <img
-          className="h-64 sm:h-96 md:h-[500px] lg:h-[550px] w-full object-cover brightness-[0.85] rounded-lg" // Less intense darkening
+          className="h-64 sm:h-96 md:h-[500px] lg:h-[550px] w-full object-cover brightness-[0.85] rounded-lg"
           src="https://sunnymate.co/wp-content/uploads/2024/11/%E8%8A%AC%E6%81%A9%E6%A4%85E905E827%E8%BE%B9%E5%87%A0-2048x1536.webp"
           alt="Scenic view of plants"
         />
         <h1
           ref={headingRef}
           className="absolute flex items-center gap-3 top-8 left-8 sm:top-10 sm:left-10 text-white text-3xl sm:text-4xl md:text-5xl font-extrabold"
-          style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.6)' }} // Subtle text shadow
+          style={{ textShadow: "2px 2px 4px rgba(0,0,0,0.6)" }}
         >
           What We Sell{" "}
           <RotatingText
@@ -124,7 +133,7 @@ const Home = () => {
               "Big Discounts",
               "Cool Products",
             ]}
-            mainClassName="px-3 sm:px-4 md:px-4 bg-white/20 backdrop-blur-sm text-white overflow-hidden py-1.5 sm:py-2 md:py-2.5 rounded-xl shadow-inner flex items-center justify-center border border-white/30" // Translucent, minimalist background
+            mainClassName="px-3 sm:px-4 md:px-4 bg-white/20 backdrop-blur-sm text-white overflow-hidden py-1.5 sm:py-2 md:py-2.5 rounded-xl shadow-inner flex items-center justify-center border border-white/30"
             staggerFrom="last"
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
@@ -145,8 +154,12 @@ const Home = () => {
         Explore Our <span className="text-purple-600">Curated</span> Products
       </h1>
 
-      {/* Products Grid */}
-      {products.length > 0 ? (
+      {/* Loading State */}
+      {isLoading ? (
+        <div className="flex justify-center items-center h-64">
+          <LoadingSpinner />
+        </div>
+      ) : products.length > 0 ? (
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 lg:gap-8"
           variants={containerVariants}
@@ -156,9 +169,12 @@ const Home = () => {
           {products.map((product, index) => (
             <motion.div
               key={product._id || index}
-              className="border border-gray-100 rounded-xl overflow-hidden flex flex-col min-h-[400px] sm:min-h-[430px] shadow-sm hover:shadow-md transition-shadow duration-200 bg-white group" // Softer shadows, rounded less
+              className="border border-gray-100 rounded-xl overflow-hidden flex flex-col min-h-[400px] sm:min-h-[430px] shadow-sm hover:shadow-md transition-shadow duration-200 bg-white group"
               variants={itemVariants}
-              whileHover={{ y: -5, transition: { duration: 0.2, ease: "easeOut" } }} // Lift effect on hover
+              whileHover={{
+                y: -5,
+                transition: { duration: 0.2, ease: "easeOut" },
+              }}
               whileTap={{ scale: 0.98 }}
             >
               <div className="w-full h-48 sm:h-56 overflow-hidden rounded-t-xl relative">
@@ -171,8 +187,13 @@ const Home = () => {
                   <motion.span
                     initial={{ x: "100%" }}
                     animate={{ x: "0%" }}
-                    transition={{ type: "spring", stiffness: 100, damping: 10, delay: 0.1 }}
-                    className="absolute top-4 right-4 text-xs font-semibold text-white bg-blue-500 rounded-full px-3 py-1 shadow-md" // Solid color, smaller tag
+                    transition={{
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 10,
+                      delay: 0.1,
+                    }}
+                    className="absolute top-4 right-4 text-xs font-semibold text-white bg-blue-500 rounded-full px-3 py-1 shadow-md"
                   >
                     Featured
                   </motion.span>
@@ -187,7 +208,10 @@ const Home = () => {
                   {product.description}
                 </p>
                 <p className="text-gray-500 text-xs mb-3 font-medium uppercase tracking-wide">
-                  Brand: <span className="font-semibold text-gray-700">{product.brand}</span>
+                  Brand:{" "}
+                  <span className="font-semibold text-gray-700">
+                    {product.brand}
+                  </span>
                 </p>
 
                 <div className="flex justify-between items-center mt-auto pt-4 border-t border-gray-100">
@@ -195,14 +219,14 @@ const Home = () => {
                     ${product.price}
                   </span>
                   <span className="text-yellow-500 text-sm font-semibold flex items-center">
-                    <span className="mr-1">⭐</span> {product.rating} ({product.reviews})
+                    <span className="mr-1">⭐</span> {product.rating} (
+                    {product.reviews})
                   </span>
                 </div>
 
-                {/* Action Buttons */}
                 <div className="flex mt-6 justify-between items-center gap-3">
                   <motion.button
-                    whileHover={{ backgroundColor: "#1f2937", scale: 1.02 }} // Darken on hover
+                    whileHover={{ backgroundColor: "#1f2937", scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => {
                       const token = localStorage.getItem("token");
@@ -212,14 +236,14 @@ const Home = () => {
                         navigate(`product-details/${product._id}`);
                       }
                     }}
-                    className="flex-1 p-3 cursor-pointer bg-gray-900 text-white rounded-lg transition-colors duration-200 text-center font-medium text-base shadow-sm" // Simpler button style
+                    className="flex-1 p-3 cursor-pointer bg-gray-900 text-white rounded-lg transition-colors duration-200 text-center font-medium text-base shadow-sm"
                   >
                     Buy Now
                   </motion.button>
 
                   <div className="relative">
                     <motion.button
-                      whileHover={{ scale: 1.05, rotate: 5 }} // More subtle rotation
+                      whileHover={{ scale: 1.05, rotate: 5 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => {
                         const token = localStorage.getItem("token");
@@ -229,12 +253,10 @@ const Home = () => {
                           navigate(`product-cart/${product._id}`);
                         }
                       }}
-                      className="flex justify-center items-center p-3 w-12 h-12 cursor-pointer bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200 shadow-sm" // Simpler cart button
+                      className="flex justify-center items-center p-3 w-12 h-12 cursor-pointer bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200 shadow-sm"
                     >
                       <ShoppingCart size={20} />
                     </motion.button>
-
-                    {/* Tooltip */}
                     <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-gray-800 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none shadow-sm transform translate-y-1 group-hover:translate-y-0">
                       Add to cart
                     </span>
@@ -246,7 +268,9 @@ const Home = () => {
         </motion.div>
       ) : (
         <div className="flex justify-center items-center h-64">
-          <p className="text-xl text-gray-500">No products found. Please try again later.</p>
+          <p className="text-xl text-gray-500">
+            No products found. Please try again later.
+          </p>
         </div>
       )}
     </div>
