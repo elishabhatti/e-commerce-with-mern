@@ -1,7 +1,13 @@
 import argon2 from "argon2";
 import { userModel } from "../models/user.models.js";
 import jwt from "jsonwebtoken";
+import {
+  ACCESS_TOKEN_EXPIRY,
+  MILLISECONDS_PER_SECOND,
+  REFRESH_TOKEN_EXPIRY,
+} from "../config/CONSTANTS.js";
 import dotenv from "dotenv";
+import sessionModel from "../models/session.model.js";
 dotenv.config();
 
 export const hashPassword = (password) => {
@@ -27,26 +33,53 @@ export const comparePassword = async (password, hash) => {
   return await argon2.verify(hash, password);
 };
 
+export const createSession = async (userId, { ip, userAgent }) => {
+  const session = await sessionModel.create({ userId, ip, userAgent });
+  return session;
+};
+
 export const createAccessToken = async ({ id, email, name, avatar }) => {
   return jwt.sign({ id, email, name, avatar }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "30d",
+    expiresIn: ACCESS_TOKEN_EXPIRY / MILLISECONDS_PER_SECOND,
+  });
+};
+
+export const createRefreshToken = (sessionId) => {
+  return jwt.sign({ sessionId }, process.env.JWT_SECRET_KEY, {
+    expiresIn: REFRESH_TOKEN_EXPIRY / MILLISECONDS_PER_SECOND,
   });
 };
 
 export const authenticateUser = async ({ req, res, user }) => {
+  const session = await createSession(user._id, {
+    ip:
+      req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress,
+    userAgent: req.headers["user-agent"] || "unknown",
+  });
+
   const accessToken = await createAccessToken({
     id: user._id,
-    email: user.email,
     name: user.name,
-    avatar: user.avatar,
+    email: user.email,
+    isEmailValid: user.isEmailValid || false,
+    sessionId: session._id,
   });
 
-  res.cookie("accessToken", accessToken, {
+  const refreshToken = createRefreshToken(session._id);
+
+  const cookieOptions = {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
     secure: process.env.NODE_ENV === "production",
     sameSite: "Lax",
+  };
+
+  res.cookie("access_token", accessToken, {
+    ...cookieOptions,
+    maxAge: ACCESS_TOKEN_EXPIRY, // e.g., 15 * 60 * 1000 (15 min)
   });
 
-  return accessToken; 
+  res.cookie("refresh_token", refreshToken, {
+    ...cookieOptions,
+    maxAge: REFRESH_TOKEN_EXPIRY, // e.g., 30 * 24 * 60 * 60 * 1000 (30 days)
+  });
 };
