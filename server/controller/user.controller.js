@@ -228,23 +228,31 @@ export const resetPassword = async (req, res) => {
 };
 
 export const changePassword = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, currentPassword, newPassword } = req.body;
+
+  if (!email || !currentPassword || !newPassword) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
 
   try {
     const user = await userModel.findOne({ email });
-    if (!user) return res.status(500).json({ message: "User Not Found" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-    const isMatch = await comparePassword(password, user.password);
-    if (!isMatch)
-      return res.status(500).json({ message: "Please Enter Valid Password" });
+    const isMatch = await comparePassword(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid current password" });
+    }
 
-    const hashedNewPassword = await hashPassword(password);
-    user.password = hashedNewPassword;
+    user.password = await hashPassword(newPassword);
     await user.save();
 
-    return res.status(200).json({ message: "Password Changed Successfully" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Password changed successfully" });
   } catch (error) {
-    console.error(error);
-    return res.status(200).json({ message: error });
+    console.error("Change Password Error:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,12 +15,12 @@ const ChangePassword = () => {
   const handleChangePassword = async (e) => {
     e.preventDefault();
 
-    if (!password || !confirmPassword) {
+    if (!email || !oldPassword || !newPassword) {
       return setError("All fields are required");
     }
 
-    if (password !== confirmPassword) {
-      return setError("Passwords do not match");
+    if (oldPassword === newPassword) {
+      return setError("New password must be different from old password");
     }
 
     try {
@@ -32,18 +32,19 @@ const ChangePassword = () => {
         "http://localhost:3000/api/users/change-password",
         {
           email,
-          password,
+          currentPassword: oldPassword,
+          newPassword,
         }
       );
 
       if (res.data.success) {
-        setMessage("Password reset successfully! Redirecting to login...");
+        setMessage("Password changed successfully! Redirecting to login...");
         setTimeout(() => navigate("/login"), 3000);
       } else {
-        setError(res.data.error || "Something went wrong");
+        setError(res.data.message || "Something went wrong");
       }
     } catch (err) {
-      setError(err.response?.data?.error || "Failed to reset password");
+      setError(err.response?.data?.message || "Failed to change password");
     } finally {
       setLoading(false);
     }
@@ -68,18 +69,18 @@ const ChangePassword = () => {
         />
         <input
           type="password"
-          placeholder="New Password"
+          placeholder="Old Password"
           className="border border-gray-400 py-2 px-3 rounded-md"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={oldPassword}
+          onChange={(e) => setOldPassword(e.target.value)}
         />
 
         <input
           type="password"
-          placeholder="Confirm Password"
+          placeholder="New Password"
           className="border border-gray-400 py-2 px-3 rounded-md"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
         />
 
         {message && <p className="text-green-600 text-sm">{message}</p>}
@@ -90,7 +91,7 @@ const ChangePassword = () => {
           className="bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
           disabled={loading}
         >
-          {loading ? "Resetting..." : "Reset Password"}
+          {loading ? "Changing..." : "Change Password"}
         </button>
       </form>
     </div>
