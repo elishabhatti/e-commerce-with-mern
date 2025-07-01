@@ -7,6 +7,7 @@ import {
   updateProfile,
   forgotPassword,
   resetPassword,
+  changePassword,
 } from "../controller/user.controller.js";
 import { verifyAuthentication } from "../middlewares/verifyAuthentication.js";
 
@@ -17,6 +18,7 @@ router.get("/profile", verifyAuthentication, getProfileData);
 router.post("/login", loginUser);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
+router.post("/change-password", changePassword);
 router.post("/logout", logoutUserFromServer);
 router.put("/update-profile", verifyAuthentication, updateProfile);
 
