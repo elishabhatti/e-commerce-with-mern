@@ -50,12 +50,13 @@ const ResetPassword = () => {
   };
 
   return (
+    
     <div className="flex justify-center items-center pt-30">
       <form
         onSubmit={handleReset}
         className="flex flex-col gap-4 border border-gray-500 rounded-md p-10 w-96"
-      >
-        <h2 className="text-xl font-semibold text-center">Reset Password</h2>
+        >
+        <h2 className="text-xl font-semibold text-center">Reset Your Password</h2>
 
         <input
           type="password"
