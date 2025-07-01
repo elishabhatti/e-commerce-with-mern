@@ -85,10 +85,7 @@ export const findByUserId = async (userId) => {
 export const refreshTokens = async (refreshToken) => {
   try {
     const decodedToken = verifyJwtToken(refreshToken);
-    console.log("decoded token", decodedToken);
-
     const currentSession = await findSessionById(decodedToken.sessionId);
-    console.log("current session", currentSession);
     if (!currentSession || !currentSession.valid) {
       throw new Error("Invalid Session");
     }
@@ -105,7 +102,7 @@ export const refreshTokens = async (refreshToken) => {
       sessionId: currentSession.id,
     };
 
-    const newAccessToken = await createAccessToken(userInfo); // ✅ Fix here
+    const newAccessToken = await createAccessToken(userInfo);
     const newRefreshToken = createRefreshToken(currentSession.id);
 
     return {
@@ -144,11 +141,11 @@ export const authenticateUser = async ({ req, res, user }) => {
 
   res.cookie("access_token", accessToken, {
     ...cookieOptions,
-    maxAge: ACCESS_TOKEN_EXPIRY, // e.g., 15 * 60 * 1000 (15 min)
+    maxAge: ACCESS_TOKEN_EXPIRY, 
   });
 
   res.cookie("refresh_token", refreshToken, {
     ...cookieOptions,
-    maxAge: REFRESH_TOKEN_EXPIRY, // e.g., 30 * 24 * 60 * 60 * 1000 (30 days)
+    maxAge: REFRESH_TOKEN_EXPIRY, 
   });
 };
