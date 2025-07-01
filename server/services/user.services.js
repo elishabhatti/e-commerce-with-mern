@@ -46,10 +46,28 @@ export const findSessionById = async (sessionId) => {
   return await sessionModel.findById(sessionId).lean();
 };
 
-export const createAccessToken = async ({ id, email, name, avatar }) => {
-  return jwt.sign({ id, email, name, avatar }, process.env.JWT_SECRET_KEY, {
-    expiresIn: ACCESS_TOKEN_EXPIRY / MILLISECONDS_PER_SECOND,
-  });
+export const createAccessToken = async ({
+  id,
+  email,
+  name,
+  avatar,
+  sessionId,
+  isEmailValid,
+}) => {
+  return jwt.sign(
+    {
+      id,
+      email,
+      name,
+      avatar,
+      sessionId,
+      isEmailValid,
+    },
+    process.env.JWT_SECRET_KEY,
+    {
+      expiresIn: ACCESS_TOKEN_EXPIRY / MILLISECONDS_PER_SECOND,
+    }
+  );
 };
 
 export const createRefreshToken = (sessionId) => {
@@ -78,11 +96,12 @@ export const refreshTokens = async (refreshToken) => {
       id: user.id,
       name: user.name,
       email: user.email,
+      avatar: user.avatar,
       isEmailValid: user.isEmailValid,
       sessionId: currentSession.id,
     };
 
-    const newAccessToken = createAccessToken(userInfo);
+    const newAccessToken = await createAccessToken(userInfo); // ✅ Fix here
     const newRefreshToken = createRefreshToken(currentSession.id);
 
     return {

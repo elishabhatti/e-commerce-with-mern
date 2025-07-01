@@ -1,9 +1,5 @@
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-import { refreshTokens } from "../services/user.services";
-dotenv.config();
-
-const JWT_SECRET = process.env.JWT_SECRET_KEY;
+import { ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_EXPIRY } from "../config/CONSTANTS.js";
+import { refreshTokens, verifyJwtToken } from "../services/user.services.js";
 
 export const verifyAuthentication = async (req, res, next) => {
   const accessToken = req.cookies.access_token;
@@ -15,25 +11,16 @@ export const verifyAuthentication = async (req, res, next) => {
     return next();
   }
 
-  if (!accessToken) {
-    return res.status(401).json({ message: "Token missing from cookies" });
-  }
   if (accessToken) {
     try {
-      jwt.verify(accessToken, JWT_SECRET, (err, user) => {
-        if (err) {
-          return res
-            .status(403)
-            .json({ message: "Invalid or expired token", err });
-        }
-
-        req.user = user;
-        next();
-      });
+      const decodedToken = verifyJwtToken(accessToken);
+      req.user = decodedToken;
+      return next();
     } catch (error) {
       console.error("Access token invalid:", error);
     }
   }
+
   if (refreshToken) {
     try {
       const { newAccessToken, newRefreshToken, user } =
@@ -57,5 +44,6 @@ export const verifyAuthentication = async (req, res, next) => {
       console.error("Refresh token invalid:", error);
     }
   }
+
   return next();
 };

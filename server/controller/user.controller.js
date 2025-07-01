@@ -67,19 +67,7 @@ export const loginUser = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-    const accessToken = await createAccessToken({
-      id: user._id,
-      email,
-      name: user.name,
-      avatar: user.avatar,
-    });
-
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 30,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax",
-    });
+    const accessToken = await authenticateUser({ req, res, user });
 
     res.status(201).json({
       id: user._id,
