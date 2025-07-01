@@ -19,6 +19,7 @@ import UpdateCartProduct from "./pages/UpdateCartProduct";
 import UpdatePurchaseProduct from "./pages/UpdatePurchaseProduct";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import ChangePassword from "./pages/ChangePassword";
 
 const App = () => {
   return (
@@ -48,6 +49,7 @@ const App = () => {
             />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/edit-profile/:id" element={<EditProfile />} />
+            <Route path="/change-password/:id" element={<ChangePassword />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Page404 />} />
