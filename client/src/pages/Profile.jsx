@@ -189,7 +189,10 @@ const Profile = () => {
   }
 
   return (
-    <div ref={profileRef} className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div
+      ref={profileRef}
+      className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8"
+    >
       <div className="max-w-8xl mx-auto">
         {/* Header */}
         <motion.div
@@ -198,7 +201,9 @@ const Profile = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h1 className="text-4xl font-extrabold text-gray-900 leading-tight">My Profile</h1>
+          <h1 className="text-4xl font-extrabold text-gray-900 leading-tight">
+            My Profile
+          </h1>
           <p className="mt-3 text-lg text-gray-600">
             Manage your account details, purchases, and cart items.
           </p>
@@ -230,12 +235,18 @@ const Profile = () => {
                     <p className="text-sm opacity-90">{user?.email || "N/A"}</p>
                   </div>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 flex justify-between items-center">
                   <button
                     onClick={() => navigate(`/edit-profile/${user._id}`)}
                     className="text-sm font-medium underline hover:text-blue-200 transition-colors duration-200"
                   >
                     Edit Profile
+                  </button>
+                  <button
+                    onClick={() => navigate(`/change-password/${user._id}`)}
+                    className="text-sm font-medium underline hover:text-blue-200 transition-colors duration-200"
+                  >
+                    Change Password
                   </button>
                 </div>
               </div>
@@ -429,7 +440,10 @@ const Profile = () => {
                               className="hover:bg-gray-50 transition-colors duration-150"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.3, delay: index * 0.05 }}
+                              transition={{
+                                duration: 0.3,
+                                delay: index * 0.05,
+                              }}
                             >
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
@@ -447,7 +461,9 @@ const Profile = () => {
                                     <div className="text-sm font-medium text-gray-900">
                                       {p.product.title}
                                     </div>
-                                    <div className="text-xs text-gray-500">ID: {p.product._id.slice(0, 6)}...</div>
+                                    <div className="text-xs text-gray-500">
+                                      ID: {p.product._id.slice(0, 6)}...
+                                    </div>
                                   </div>
                                 </div>
                               </td>
@@ -574,7 +590,10 @@ const Profile = () => {
                               className="hover:bg-gray-50 transition-colors duration-150"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.3, delay: index * 0.05 }}
+                              transition={{
+                                duration: 0.3,
+                                delay: index * 0.05,
+                              }}
                             >
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
@@ -592,7 +611,9 @@ const Profile = () => {
                                     <div className="text-sm font-medium text-gray-900">
                                       {c.product.title}
                                     </div>
-                                    <div className="text-xs text-gray-500">ID: {c.product._id.slice(0, 6)}...</div>
+                                    <div className="text-xs text-gray-500">
+                                      ID: {c.product._id.slice(0, 6)}...
+                                    </div>
                                   </div>
                                 </div>
                               </td>
@@ -701,7 +722,10 @@ const Profile = () => {
                               className="hover:bg-gray-50 transition-colors duration-150"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.3, delay: index * 0.05 }}
+                              transition={{
+                                duration: 0.3,
+                                delay: index * 0.05,
+                              }}
                             >
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {c.name}
