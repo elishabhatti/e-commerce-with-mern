@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion"; // Import motion and AnimatePresence
 import { gsap } from "gsap"; // Import gsap
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -177,14 +178,7 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-gray-50">
-        <motion.div
-          className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
-        ></motion.div>
-      </div>
+      <LoadingSpinner/>
     );
   }
 
