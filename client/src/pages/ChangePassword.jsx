@@ -51,44 +51,74 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="flex justify-center items-center pt-30">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <form
         onSubmit={handleChangePassword}
-        className="flex flex-col gap-4 border border-gray-500 rounded-md p-10 w-96"
+        className="bg-white p-8 rounded-lg w-full max-w-md border border-gray-200"
       >
-        <h2 className="text-xl font-semibold text-center">
+        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-6">
           Change Your Password
         </h2>
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="border border-gray-400 py-2 px-3 rounded-md"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Old Password"
-          className="border border-gray-400 py-2 px-3 rounded-md"
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-        />
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            Email Address
+          </label>
+          <input
+            type="email"
+            id="email"
+            placeholder="your@example.com"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
 
-        <input
-          type="password"
-          placeholder="New Password"
-          className="border border-gray-400 py-2 px-3 rounded-md"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-        />
+        <div className="mb-4">
+          <label htmlFor="oldPassword" className="block text-sm font-medium text-gray-700 mb-1">
+            Old Password
+          </label>
+          <input
+            type="password"
+            id="oldPassword"
+            placeholder="Enter your old password"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+            required
+          />
+        </div>
 
-        {message && <p className="text-green-600 text-sm">{message}</p>}
-        {error && <p className="text-red-600 text-sm">{error}</p>}
+        <div className="mb-6">
+          <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
+            New Password
+          </label>
+          <input
+            type="password"
+            id="newPassword"
+            placeholder="Enter your new password"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        {message && (
+          <p className="text-green-600 text-center text-sm mb-4 bg-green-50 p-2 rounded-md">
+            {message}
+          </p>
+        )}
+        {error && (
+          <p className="text-red-600 text-center text-sm mb-4 bg-red-50 p-2 rounded-md">
+            {error}
+          </p>
+        )}
 
         <button
           type="submit"
-          className="bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
+          className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed text-lg font-semibold"
           disabled={loading}
         >
           {loading ? "Changing..." : "Change Password"}
