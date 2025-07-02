@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -10,6 +11,7 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState("M");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -23,6 +25,8 @@ const ProductDetails = () => {
         setProduct(res.data.message);
       } catch (error) {
         console.error("Error fetching product details:", error);
+      }finally {
+        setLoading(false)
       }
     };
 
@@ -31,7 +35,9 @@ const ProductDetails = () => {
     }
   }, [id]);
 
-  if (!product) return <div className="p-10">Loading...</div>;
+  if (loading) return <div className="p-10">
+    <LoadingSpinner/>
+  </div>;
 
   const handleSubmit = async () => {
     try {
