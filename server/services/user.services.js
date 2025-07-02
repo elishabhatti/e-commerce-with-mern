@@ -148,4 +148,6 @@ export const authenticateUser = async ({ req, res, user }) => {
     ...cookieOptions,
     maxAge: REFRESH_TOKEN_EXPIRY, 
   });
+
+  return accessToken;
 };
