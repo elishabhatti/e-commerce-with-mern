@@ -159,7 +159,7 @@ const AboutUs = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.5 }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-24 p-10 bg-white rounded-3xl shadow-2xl border border-gray-100"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-24 p-10 bg-white rounded-3xl border border-gray-100"
         >
           {/* Left Content Column */}
           <div>
@@ -171,22 +171,22 @@ const AboutUs = () => {
 
           {/* Right Metrics Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="p-6 bg-gray-50 rounded-lg shadow-md border border-gray-100 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+            <div className="p-6 bg-gray-50 rounded-lg border border-gray-100 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
               <p className="text-sm text-gray-500 font-semibold mb-1 uppercase">Founded</p>
               <p className="text-4xl font-extrabold text-blue-600">2010</p>
               <p className="text-sm text-gray-600 mt-1">Bringing comfort to homes for over a decade.</p>
             </div>
-            <div className="p-6 bg-gray-50 rounded-lg shadow-md border border-gray-100 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+            <div className="p-6 bg-gray-50 rounded-lg border border-gray-100 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
               <p className="text-sm text-gray-500 font-semibold mb-1 uppercase">Customers</p>
               <p className="text-4xl font-extrabold text-purple-600">500K+</p>
               <p className="text-sm text-gray-600 mt-1">Happy homes furnished worldwide.</p>
             </div>
-            <div className="p-6 bg-gray-50 rounded-lg shadow-md border border-gray-100 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+            <div className="p-6 bg-gray-50 rounded-lg border border-gray-100 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
               <p className="text-sm text-gray-500 font-semibold mb-1 uppercase">Products</p>
               <p className="text-4xl font-extrabold text-teal-600">1000+</p>
               <p className="text-sm text-gray-600 mt-1">Unique designs across all categories.</p>
             </div>
-            <div className="p-6 bg-gray-50 rounded-lg shadow-md border border-gray-100 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+            <div className="p-6 bg-gray-50 rounded-lg border border-gray-100 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
               <p className="text-sm text-gray-500 font-semibold mb-1 uppercase">Sustainability</p>
               <p className="text-4xl font-extrabold text-red-600">80%</p>
               <p className="text-sm text-gray-600 mt-1">Materials sourced sustainably.</p>
@@ -204,7 +204,7 @@ const AboutUs = () => {
           className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-24"
         >
           {/* Left Content */}
-          <div className="p-10 bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-3xl shadow-2xl h-full flex flex-col justify-center">
+          <div className="p-10 bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-3xl h-full flex flex-col justify-center">
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">Meet Our Design Visionaries</h2>
             <p className="text-lg leading-relaxed mb-6">
               Our leadership team comprises renowned designers and business strategists who bring passion and expertise to every aspect of FurnishCo, driving our commitment to innovative and enduring furniture.
@@ -214,7 +214,7 @@ const AboutUs = () => {
 
           {/* Right Team Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            <div className="text-center bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="text-center bg-white p-8 rounded-2xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <img
                 className="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-blue-200 shadow-md"
                 src="https://randomuser.me/api/portraits/women/66.jpg"
@@ -223,7 +223,7 @@ const AboutUs = () => {
               <h3 className="text-xl font-semibold text-gray-900">Sarah Chen</h3>
               <p className="text-blue-600 text-md">Lead Product Designer</p>
             </div>
-            <div className="text-center bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="text-center bg-white p-8 rounded-2xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <img
                 className="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-purple-200 shadow-md"
                 src="https://randomuser.me/api/portraits/men/71.jpg"
@@ -242,7 +242,7 @@ const AboutUs = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.5 }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-24 p-10 bg-white rounded-3xl shadow-2xl border border-gray-100"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-24 p-10 bg-white rounded-3xl border border-gray-100"
         >
           {/* Left Content */}
           <div>
@@ -275,7 +275,7 @@ const AboutUs = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Modern Living Collection */}
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="bg-white p-8 rounded-2xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Modern Living</h3>
               <p className="text-gray-600 mb-6">Sleek designs and contemporary comfort for the modern home. Perfect for urban living.</p>
               <img src="https://img.freepik.com/free-photo/armchair-living-room-with-copy-space_23-2149484837.jpg?w=740" alt="Modern Sofa" className="w-full h-40 object-cover rounded-md mb-6" />
@@ -290,7 +290,7 @@ const AboutUs = () => {
             </div>
 
             {/* Classic Elegance Collection */}
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="bg-white p-8 rounded-2xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Classic Elegance</h3>
               <p className="text-gray-600 mb-6">Timeless pieces that bring sophistication and enduring style to any interior.</p>
               <img src="https://img.freepik.com/free-photo/classic-home-interior-design_23-2148769396.jpg?w=740" alt="Classic Dining Room" className="w-full h-40 object-cover rounded-md mb-6" />
@@ -305,7 +305,7 @@ const AboutUs = () => {
             </div>
 
             {/* Sustainable Living Collection */}
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="bg-white p-8 rounded-2xl border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Sustainable Living</h3>
               <p className="text-gray-600 mb-6">Eco-friendly furniture crafted from recycled and responsibly sourced materials.</p>
               <img src="https://img.freepik.com/free-photo/minimalist-scandinavian-interior-design_23-2150917267.jpg?w=740" alt="Sustainable Wooden Furniture" className="w-full h-40 object-cover rounded-md mb-6" />
