@@ -83,7 +83,12 @@ export const loginUser = async (req, res) => {
 };
 
 export const logoutUserFromServer = (req, res) => {
-  res.clearCookie("accessToken", {
+  res.clearCookie("access_token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+  res.clearCookie("refresh_token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
