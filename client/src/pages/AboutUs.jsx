@@ -76,7 +76,7 @@ const AboutUs = () => {
 
   return (
     <motion.div
-      className="relative w-full min-h-screen font-sans bg-gray-50 text-gray-800"
+      className="relative w-full min-h-screen font-sans text-gray-800"
       variants={pageVariants}
       initial="hidden"
       animate="visible"
@@ -108,7 +108,7 @@ const AboutUs = () => {
           {/* Right Image (Placeholder for furniture related image) */}
           <div className="flex justify-center items-center">
             <img
-              className="w-full max-w-lg h-auto rounded-xl shadow-2xl"
+              className="w-full max-w-lg h-auto rounded-xl"
               src="
               https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg?cs=srgb&dl=pexels-eric-mufasa-578798-1350789.jpg&fm=jpg
               "
@@ -128,21 +128,21 @@ const AboutUs = () => {
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-12">Our Crafting Process: Quality from Concept to Comfort</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-8 bg-white rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="p-8 bg-white rounded-2xl border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <MdOutlineDesignServices className="text-purple-600 text-5xl mb-4" />
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Expert Design & Innovation</h3>
               <p className="text-gray-600">
                 Our team of seasoned designers blends aesthetic appeal with functional excellence, creating pieces that elevate any space.
               </p>
             </div>
-            <div className="p-8 bg-white rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="p-8 bg-white rounded-2xl border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <FaBoxOpen className="text-blue-600 text-5xl mb-4" />
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Premium Materials Sourcing</h3>
               <p className="text-gray-600">
                 We meticulously select the finest sustainable woods, durable fabrics, and high-grade metals for lasting quality.
               </p>
             </div>
-            <div className="p-8 bg-white rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="p-8 bg-white rounded-2xl  border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <FaHandshake className="text-green-600 text-5xl mb-4" />
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Skilled Craftsmanship</h3>
               <p className="text-gray-600">
