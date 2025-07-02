@@ -120,9 +120,7 @@ const Cart = () => {
   };
 
   if (loading) {
-    return (
-        <LoadingSpinner/>
-    );
+    return <LoadingSpinner />;
   }
 
   if (products.length === 0) {
@@ -207,7 +205,9 @@ const Cart = () => {
                               <Trash size={18} />
                             </button>
                             <button
-                              onClick={() => navigate(`/update-cart-product/${purchase._id}`)}
+                              onClick={() =>
+                                navigate(`/update-cart-product/${purchase._id}`)
+                              }
                               className="text-gray-400 cursor-pointer hover:text-blue-500 transition-colors h-6"
                               aria-label="Update item"
                             >

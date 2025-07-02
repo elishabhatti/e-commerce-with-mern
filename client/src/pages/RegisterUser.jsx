@@ -38,17 +38,29 @@ const RegisterUser = () => {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
   };
 
   const logoVariants = {
     hidden: { opacity: 0, y: -50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut", delay: 0.1 } },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.7, ease: "easeOut", delay: 0.1 },
+    },
   };
 
   const imageSideVariants = {
     hidden: { opacity: 0, x: 50 }, // Adjusted for right-side entrance
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.3 } },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.8, ease: "easeOut", delay: 0.3 },
+    },
   };
 
   const handleChange = (e) => {
@@ -115,7 +127,8 @@ const RegisterUser = () => {
       });
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Registration failed. Please try again.";
+        error.response?.data?.message ||
+        "Registration failed. Please try again.";
       toast.error(errorMessage);
       console.error("Registration error:", error);
     } finally {
@@ -133,8 +146,10 @@ const RegisterUser = () => {
         animate="visible"
       >
         <Link to="/" className="flex items-center space-x-2">
-            <span className="text-4xl font-bold text-blue-600">Devias</span>
-            <span className="text-4xl font-bold text-gray-900">Register Page</span>
+          <span className="text-4xl font-bold text-blue-600">Devias</span>
+          <span className="text-4xl font-bold text-gray-900">
+            Register Page
+          </span>
         </Link>
       </motion.div>
 
@@ -151,7 +166,7 @@ const RegisterUser = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-br from-blue-700/10 to-indigo-700/10 z-0"></div>
           <img
-            src="" 
+            src=""
             alt="Register Illustration"
             className="relative z-10 w-full max-w-xs md:max-w-sm lg:max-w-md object-contain drop-shadow-lg"
             loading="lazy"
@@ -179,7 +194,11 @@ const RegisterUser = () => {
             Fill in your details to get started.
           </motion.p>
 
-          <motion.form onSubmit={handleSubmit} className="space-y-5" variants={containerVariants}>
+          <motion.form
+            onSubmit={handleSubmit}
+            className="space-y-5"
+            variants={containerVariants}
+          >
             <motion.div variants={itemVariants}>
               <Input
                 label="Full Name"
@@ -252,7 +271,10 @@ const RegisterUser = () => {
             </motion.div>
 
             {/* Terms and Conditions Checkbox */}
-            <motion.div className="flex items-start text-sm" variants={itemVariants}>
+            <motion.div
+              className="flex items-start text-sm"
+              variants={itemVariants}
+            >
               <input
                 id="terms-checkbox"
                 type="checkbox"
@@ -261,7 +283,10 @@ const RegisterUser = () => {
               />
               <label htmlFor="terms-checkbox" className="text-gray-600">
                 I have read and agree to the{" "}
-                <a href="#" className="text-blue-600 hover:underline font-medium hover:text-blue-700 transition-colors duration-200">
+                <a
+                  href="#"
+                  className="text-blue-600 hover:underline font-medium hover:text-blue-700 transition-colors duration-200"
+                >
                   Terms and Conditions
                 </a>
               </label>
@@ -284,8 +309,19 @@ const RegisterUser = () => {
                     fill="none"
                     viewBox="0 0 24 24"
                   >
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   Registering...
                 </>
@@ -301,7 +337,10 @@ const RegisterUser = () => {
             variants={itemVariants}
           >
             Already have an account?{" "}
-            <Link to="/login" className="font-semibold text-blue-600 hover:text-blue-700 transition-colors duration-200">
+            <Link
+              to="/login"
+              className="font-semibold text-blue-600 hover:text-blue-700 transition-colors duration-200"
+            >
               Login here
             </Link>
           </motion.p>

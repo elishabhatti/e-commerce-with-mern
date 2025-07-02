@@ -65,10 +65,7 @@ const PurchaseProducts = () => {
     }
   };
 
-  if (loading)
-    return (
-      <LoadingSpinner/>
-    );
+  if (loading) return <LoadingSpinner />;
 
   if (products.length === 0)
     return (

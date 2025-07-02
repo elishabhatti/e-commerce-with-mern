@@ -102,7 +102,10 @@ const EditProfile = () => {
         {/* Avatar Preview */}
         <div className="mb-6 flex justify-center">
           <img
-            src={userData.avatar || "https://via.placeholder.com/100?text=No+Avatar"}
+            src={
+              userData.avatar ||
+              "https://via.placeholder.com/100?text=No+Avatar"
+            }
             alt="Avatar Preview"
             className="w-24 h-24 rounded-full object-cover border-2 border-blue-500 shadow-md"
           />
@@ -111,7 +114,10 @@ const EditProfile = () => {
         {/* Input Fields Container: Two Columns on md screens and up, single column on small screens */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Name
             </label>
             <input
@@ -119,13 +125,18 @@ const EditProfile = () => {
               id="name"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
               value={userData.name}
-              onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, name: e.target.value })
+              }
               placeholder="Your full name"
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Email
             </label>
             <input
@@ -139,7 +150,10 @@ const EditProfile = () => {
           </div>
 
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Phone
             </label>
             <input
@@ -147,13 +161,18 @@ const EditProfile = () => {
               id="phone"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
               value={userData.phone}
-              onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, phone: e.target.value })
+              }
               placeholder="Your phone number"
             />
           </div>
 
           <div>
-            <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="address"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Address
             </label>
             <input
@@ -161,14 +180,21 @@ const EditProfile = () => {
               id="address"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
               value={userData.address}
-              onChange={(e) => setUserData({ ...userData, address: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, address: e.target.value })
+              }
               placeholder="Your delivery address"
             />
           </div>
 
           {/* Avatar URL takes full width at the bottom */}
-          <div className="md:col-span-2"> {/* This makes it span both columns */}
-            <label htmlFor="avatar" className="block text-sm font-medium text-gray-700 mb-1">
+          <div className="md:col-span-2">
+            {" "}
+            {/* This makes it span both columns */}
+            <label
+              htmlFor="avatar"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Avatar URL
             </label>
             <input
@@ -176,7 +202,9 @@ const EditProfile = () => {
               id="avatar"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
               value={userData.avatar}
-              onChange={(e) => setUserData({ ...userData, avatar: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, avatar: e.target.value })
+              }
               placeholder="Link to your avatar image"
             />
           </div>

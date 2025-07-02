@@ -177,16 +177,11 @@ const Profile = () => {
   };
 
   if (loading) {
-    return (
-      <LoadingSpinner/>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
-    <div
-      ref={profileRef}
-      className="min-h-screen py-8 px-4 sm:px-6 lg:px-8"
-    >
+    <div ref={profileRef} className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-8xl mx-auto">
         {/* Header */}
         <motion.div
