@@ -2,13 +2,14 @@ import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { FaChair, FaBoxOpen, FaHandshake, FaGlobe, FaStar, FaCheck } from "react-icons/fa"; // Updated icons for furniture business context
+import { MdOutlineDesignServices, MdVerifiedUser, MdRecycling } from "react-icons/md"; // More relevant icons
 
 gsap.registerPlugin(ScrollTrigger);
 
 const AboutUs = () => {
   const heroHeadingRef = useRef(null);
-  const mainHeadingRef = useRef(null);
-  const sectionRefs = useRef([]); // Use an array for multiple section references
+  const sectionRefs = useRef([]);
   sectionRefs.current = []; // Initialize or clear on each render
 
   // Function to add refs dynamically
@@ -20,29 +21,21 @@ const AboutUs = () => {
 
   useEffect(() => {
     // GSAP Animation for Hero Heading
+    const tlHero = gsap.timeline();
     if (heroHeadingRef.current) {
-      gsap.fromTo(heroHeadingRef.current,
+      tlHero.fromTo(heroHeadingRef.current,
         { opacity: 0, y: -20 },
         { opacity: 1, y: 0, duration: 1, ease: "power2.out", delay: 0.3 }
       );
     }
 
-    // GSAP Animation for Main "About Us" Heading
-    if (mainHeadingRef.current) {
-      gsap.fromTo(mainHeadingRef.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1, y: 0, duration: 1, ease: "power2.out",
-          scrollTrigger: {
-            trigger: mainHeadingRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          }
-        }
-      );
-    }
-
     // GSAP Animations for sections with ScrollTrigger
+    ScrollTrigger.getAll().forEach(trigger => {
+        if (sectionRefs.current.includes(trigger.trigger)) {
+            trigger.kill();
+        }
+    });
+
     sectionRefs.current.forEach((el) => {
       gsap.fromTo(el,
         { opacity: 0, y: 50 },
@@ -57,6 +50,10 @@ const AboutUs = () => {
       );
     });
 
+    return () => {
+      tlHero.kill();
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   // Framer Motion variants for page entrance
@@ -72,144 +69,259 @@ const AboutUs = () => {
     }
   };
 
+  const sectionReveal = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  };
+
   return (
     <motion.div
-      className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-16 lg:py-20 text-gray-800 font-sans bg-gray-50"
+      className="relative w-full min-h-screen font-sans bg-gray-50 text-gray-800"
       variants={pageVariants}
       initial="hidden"
       animate="visible"
     >
-      {/* Hero Image */}
-      <div className="mb-12 md:mb-20 relative rounded-xl overflow-hidden shadow-lg"> {/* Added rounded and shadow */}
-        <div ref={heroHeadingRef} className="absolute top-8 left-8 sm:top-12 sm:left-12 text-white text-3xl sm:text-4xl md:text-5xl font-extrabold drop-shadow-md">
-          <h1>About Us</h1>
-        </div>
-        <img
-          className="w-full h-[300px] md:h-[450px] lg:h-[550px] object-cover rounded-xl brightness-[0.8]" // Slightly darker for text
-          src="https://img.freepik.com/premium-vector/diverse-creative-team-looking-happy-flat-vector-illustration-white-background_674398-1414.jpg?semt=ais_items_boosted&w=740"
-          alt="Diverse team collaborating"
-        />
-      </div>
+        {/* Subtle Background shapes */}
 
-      <h1 ref={mainHeadingRef} className="text-4xl sm:text-5xl font-extrabold mb-16 md:mb-24 text-center text-gray-900 leading-tight">
-        Our Journey: Crafting Spaces, Building Trust
-      </h1>
 
-      {/* Section 1: Our Story */}
-      <div ref={addToRefs} className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-start mb-20 md:mb-32">
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Origin Story</h2>
-          <p className="mb-4 text-lg leading-relaxed text-gray-700">
-            At **Devias**, our journey began with a simple yet profound vision: to transform houses into homes by providing thoughtfully designed and exceptionally crafted furniture. We believe that your living space should be a reflection of your personality and a sanctuary for your well-being.
-          </p>
-          <p className="mb-4 text-lg leading-relaxed text-gray-700">
-            Founded in **2025** by a small team of passionate designers and artisans, Devias emerged from a desire to bridge the gap between high-quality, sustainable furniture and accessibility. We started as a humble workshop, meticulously hand-picking materials and perfecting our techniques, driven by the belief that everyone deserves beautiful, durable pieces that last a lifetime.
-          </p>
-          <p className="mb-4 text-lg leading-relaxed text-gray-700">
-            Today, that small studio has grown into a trusted brand, serving thousands of customers across the nation. Each piece we create carries the essence of our commitment to **purposeful design, ethical craftsmanship, and environmental responsibility.** We are proud to be a part of your home-building journey.
-          </p>
-          <p className="font-semibold text-xl mt-8 text-gray-900">– The Devias Team</p>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20">
+        {/* Hero Section - Furniture Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-24">
+          {/* Left Content */}
+          <div>
+            <h1 ref={heroHeadingRef} className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
+              Furnishing Your Life, <br className="hidden sm:block"/> One Piece at a Time.
+            </h1>
+            <p className="text-lg leading-relaxed text-gray-700 mb-8">
+              At FurnishCo, we believe your home should be a reflection of your unique style and a sanctuary of comfort. We offer expertly crafted furniture designed to enhance every living space, combining timeless elegance with modern functionality. Explore our collections and find pieces that tell your story.
+            </p>
+            <div className="flex space-x-4">
+              <button className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors">
+                Shop Our Collections
+              </button>
+              <button className="bg-transparent text-blue-600 border border-blue-600 font-semibold py-3 px-6 rounded-lg hover:bg-blue-50 transition-colors">
+                Design Your Space
+              </button>
+            </div>
+          </div>
+
+          {/* Right Image (Placeholder for furniture related image) */}
+          <div className="flex justify-center items-center">
+            <img
+              className="w-full max-w-lg h-auto rounded-xl shadow-2xl"
+              src="
+              https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg?cs=srgb&dl=pexels-eric-mufasa-578798-1350789.jpg&fm=jpg
+              "
+              alt="Modern living room with FurnishCo furniture"
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 rounded-xl overflow-hidden shadow-md">
-          <motion.img
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-48 object-cover rounded-md"
-            src="https://img.freepik.com/premium-vector/back-school-college-students-with-book-laptop_316839-6091.jpg?semt=ais_items_boosted&w=740"
-            alt="Students collaborating"
-          />
-          <motion.img
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-48 object-cover rounded-md"
-            src="https://static.vecteezy.com/system/resources/thumbnails/002/723/694/small/helping-hand-concept-illustration-worker-helping-each-other-for-business-group-free-vector.jpg"
-            alt="Helping hand concept"
-          />
-          <motion.img
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-48 object-cover rounded-md"
-            src="https://img.freepik.com/free-vector/employees-giving-hands-helping-colleagues-walk-upstairs_74855-5236.jpg"
-            alt="Team helping upstairs"
-          />
-          <motion.img
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-48 object-cover rounded-md"
-            src="https://img.freepik.com/premium-vector/goal-focused-help-overcoming-obstacles-flat-modern-design-illustration_566886-16.jpg"
-            alt="Goal-focused illustration"
-          />
-        </div>
-      </div>
+        {/* Section: Our Crafting Process (Features) - Adapted for Furniture */}
+        <motion.div
+          ref={addToRefs}
+          variants={sectionReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          className="mb-24 text-center"
+        >
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-12">Our Crafting Process: Quality from Concept to Comfort</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-8 bg-white rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <MdOutlineDesignServices className="text-purple-600 text-5xl mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Expert Design & Innovation</h3>
+              <p className="text-gray-600">
+                Our team of seasoned designers blends aesthetic appeal with functional excellence, creating pieces that elevate any space.
+              </p>
+            </div>
+            <div className="p-8 bg-white rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <FaBoxOpen className="text-blue-600 text-5xl mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Premium Materials Sourcing</h3>
+              <p className="text-gray-600">
+                We meticulously select the finest sustainable woods, durable fabrics, and high-grade metals for lasting quality.
+              </p>
+            </div>
+            <div className="p-8 bg-white rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <FaHandshake className="text-green-600 text-5xl mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Skilled Craftsmanship</h3>
+              <p className="text-gray-600">
+                Each piece is handcrafted by artisans with years of experience, ensuring attention to detail and superior finish.
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
-      {/* Section 2: Our Core Values */}
-      <div ref={addToRefs} className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center mb-20 md:mb-32">
-        <div className="order-2 md:order-1">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Core Values: Guiding Principles</h2>
-          <p className="text-lg leading-relaxed text-gray-700 mb-6">
-            At Devias, everything we do is anchored by a set of unwavering values that define who we are and how we operate:
-          </p>
-          <ul className="list-disc ml-6 text-lg leading-relaxed space-y-4 text-gray-700">
-            <li>
-              <strong className="text-purple-600">Uncompromising Quality:</strong> We handpick the finest materials and employ meticulous craftsmanship to ensure every piece is not just beautiful, but built to last for generations, offering exceptional comfort and durability.
-            </li>
-            <li>
-              <strong className="text-purple-600">Pioneering Sustainability:</strong> Our commitment to the planet is paramount. We prioritize ethically sourced, eco-conscious materials and embrace manufacturing practices that minimize environmental impact, striving for a greener future.
-            </li>
-            <li>
-              <strong className="text-purple-600">Customer-Centric Innovation:</strong> You are at the heart of our design process. We actively listen to your needs and desires, adapting our collections to offer solutions that truly enhance your daily life and elevate your spaces.
-            </li>
-            <li>
-              <strong className="text-purple-600">Timeless Design for Life:</strong> We craft furniture that transcends fleeting trends, designed to seamlessly integrate with and complement the evolving lifestyles of our diverse customers, growing with you through every phase of life.
-            </li>
-          </ul>
-        </div>
-        <div className="order-1 md:order-2 rounded-xl overflow-hidden shadow-md">
-          <motion.img
-            whileHover={{ scale: 1.03 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-[400px] lg:h-[500px] object-cover rounded-xl"
-            src="https://media.istockphoto.com/id/1306949457/vector/people-searching-for-creative-solutions-teamwork-business-concept-modern-vector-illustration.jpg?s=612x612&w=0&k=20&c=sn3zEkT0ft7FsKk2Rp6PdsJqT5ZPOCqrQSgzoGeTp64="
-            alt="Creative solutions teamwork"
-          />
-        </div>
-      </div>
+        {/* Section: FurnishCo at a Glance (Metrics) - Adapted for Furniture */}
+        <motion.div
+          ref={addToRefs}
+          variants={sectionReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-24 p-10 bg-white rounded-3xl shadow-2xl border border-gray-100"
+        >
+          {/* Left Content Column */}
+          <div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">FurnishCo at a Glance: Our Impact & Growth</h2>
+            <p className="text-lg leading-relaxed text-gray-700">
+              Since our founding, FurnishCo has been dedicated to enriching homes with beautiful, durable furniture. Discover the key figures that highlight our commitment to quality, customer satisfaction, and expanding our reach in the furniture industry.
+            </p>
+          </div>
 
-      {/* Section 3: Why Choose Us */}
-      <div ref={addToRefs} className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
-        <div className="rounded-xl overflow-hidden shadow-md">
-          <motion.img
-            whileHover={{ scale: 1.03 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-[400px] lg:h-[500px] object-cover rounded-xl"
-            src="https://img.freepik.com/premium-vector/two-men-running-up-hill-reach-target-two-mans-goal-focused-increase-motivation-way-achieve-goal-support-teamwork-simple-minimalist-flat-vector-illustration_538213-119386.jpg"
-            alt="Achieving goals illustration"
-          />
-        </div>
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">The Devias Difference: Why Choose Us?</h2>
-          <p className="mb-6 text-lg leading-relaxed text-gray-700">
-            Choosing Devias means investing in more than just furniture; it means partnering with a brand that genuinely cares about your home and your experience. We are dedicated to providing an unparalleled level of service and products that exceed expectations.
-          </p>
-          <ul className="list-disc ml-6 text-lg leading-relaxed space-y-4 text-gray-700">
-            <li>
-              <strong className="text-purple-600">Seamless Shopping Experience:</strong> From intuitive Browse to secure checkout, we've designed our platform for your convenience.
-            </li>
-            <li>
-              <strong className="text-purple-600">Reliable & Eco-Conscious Delivery:</strong> We ensure your furniture arrives safely and efficiently, minimizing our environmental footprint through sustainable logistics.
-            </li>
-            <li>
-              <strong className="text-purple-600">Personalized Support:</strong> Our team is here to offer expert advice, custom recommendations, and responsive customer support, guiding you every step of the way.
-            </li>
-            <li>
-              <strong className="text-purple-600">Trusted Community:</strong> Join thousands of happy customers who have transformed their homes with Devias, a testament to our commitment to satisfaction.
-            </li>
-            <li>
-              <strong className="text-purple-600">Innovation & Adaptation:</strong> We constantly evolve our designs and practices to meet the changing needs of modern living, ensuring we always offer relevant and beautiful solutions.
-            </li>
-          </ul>
-        </div>
+          {/* Right Metrics Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="p-6 bg-gray-50 rounded-lg shadow-md border border-gray-100 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+              <p className="text-sm text-gray-500 font-semibold mb-1 uppercase">Founded</p>
+              <p className="text-4xl font-extrabold text-blue-600">2010</p>
+              <p className="text-sm text-gray-600 mt-1">Bringing comfort to homes for over a decade.</p>
+            </div>
+            <div className="p-6 bg-gray-50 rounded-lg shadow-md border border-gray-100 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+              <p className="text-sm text-gray-500 font-semibold mb-1 uppercase">Customers</p>
+              <p className="text-4xl font-extrabold text-purple-600">500K+</p>
+              <p className="text-sm text-gray-600 mt-1">Happy homes furnished worldwide.</p>
+            </div>
+            <div className="p-6 bg-gray-50 rounded-lg shadow-md border border-gray-100 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+              <p className="text-sm text-gray-500 font-semibold mb-1 uppercase">Products</p>
+              <p className="text-4xl font-extrabold text-teal-600">1000+</p>
+              <p className="text-sm text-gray-600 mt-1">Unique designs across all categories.</p>
+            </div>
+            <div className="p-6 bg-gray-50 rounded-lg shadow-md border border-gray-100 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+              <p className="text-sm text-gray-500 font-semibold mb-1 uppercase">Sustainability</p>
+              <p className="text-4xl font-extrabold text-red-600">80%</p>
+              <p className="text-sm text-gray-600 mt-1">Materials sourced sustainably.</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Section: Meet Our Design Visionaries (Leadership) - Adapted for Furniture */}
+        <motion.div
+          ref={addToRefs}
+          variants={sectionReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-24"
+        >
+          {/* Left Content */}
+          <div className="p-10 bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-3xl shadow-2xl h-full flex flex-col justify-center">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Meet Our Design Visionaries</h2>
+            <p className="text-lg leading-relaxed mb-6">
+              Our leadership team comprises renowned designers and business strategists who bring passion and expertise to every aspect of FurnishCo, driving our commitment to innovative and enduring furniture.
+            </p>
+            <p className="text-md font-semibold opacity-80">Design your dream space with us!</p>
+          </div>
+
+          {/* Right Team Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div className="text-center bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <img
+                className="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-blue-200 shadow-md"
+                src="https://randomuser.me/api/portraits/women/66.jpg"
+                alt="Sarah Chen"
+              />
+              <h3 className="text-xl font-semibold text-gray-900">Sarah Chen</h3>
+              <p className="text-blue-600 text-md">Lead Product Designer</p>
+            </div>
+            <div className="text-center bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <img
+                className="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-purple-200 shadow-md"
+                src="https://randomuser.me/api/portraits/men/71.jpg"
+                alt="Michael Wong"
+              />
+              <h3 className="text-xl font-semibold text-gray-900">Michael Wong</h3>
+              <p className="text-purple-600 text-md">Head of Manufacturing</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Section: What Our Customers Say (Testimonials) - Adapted for Furniture */}
+        <motion.div
+          ref={addToRefs}
+          variants={sectionReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-24 p-10 bg-white rounded-3xl shadow-2xl border border-gray-100"
+        >
+          {/* Left Content */}
+          <div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">What Our Customers Say About FurnishCo?</h2>
+            <p className="text-lg leading-relaxed text-gray-700">
+              Hear directly from our satisfied customers who have transformed their living spaces with FurnishCo. Their experiences speak volumes about our commitment to quality, design, and exceptional service.
+            </p>
+          </div>
+          {/* Right Image Placeholder (Testimonial focused image) */}
+          <div className="flex justify-center items-center">
+            <img
+              className="w-full max-w-lg h-auto rounded-xl shadow-lg"
+              src="https://img.freepik.com/free-photo/side-view-customer-service-representatives-office_23-2150654067.jpg?w=1060"
+              alt="Customer Service Representative"
+            />
+          </div>
+        </motion.div>
+
+        {/* Section: Exclusive Collections (Pricing/Service Plans) - Adapted for Furniture */}
+        <motion.div
+          ref={addToRefs}
+          variants={sectionReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          className="mb-16 text-center"
+        >
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-12">
+            Explore Our Exclusive Furniture Collections
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Modern Living Collection */}
+            <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Modern Living</h3>
+              <p className="text-gray-600 mb-6">Sleek designs and contemporary comfort for the modern home. Perfect for urban living.</p>
+              <img src="https://img.freepik.com/free-photo/armchair-living-room-with-copy-space_23-2149484837.jpg?w=740" alt="Modern Sofa" className="w-full h-40 object-cover rounded-md mb-6" />
+              <ul className="text-left text-gray-700 space-y-3 mb-8">
+                <li className="flex items-center"><FaCheck className="text-green-500 mr-2" /> Minimalist Aesthetics</li>
+                <li className="flex items-center"><FaCheck className="text-green-500 mr-2" /> Space-Saving Solutions</li>
+                <li className="flex items-center"><FaCheck className="text-green-500 mr-2" /> Premium Upholstery Options</li>
+              </ul>
+              <button className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                View Collection
+              </button>
+            </div>
+
+            {/* Classic Elegance Collection */}
+            <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Classic Elegance</h3>
+              <p className="text-gray-600 mb-6">Timeless pieces that bring sophistication and enduring style to any interior.</p>
+              <img src="https://img.freepik.com/free-photo/classic-home-interior-design_23-2148769396.jpg?w=740" alt="Classic Dining Room" className="w-full h-40 object-cover rounded-md mb-6" />
+              <ul className="text-left text-gray-700 space-y-3 mb-8">
+                <li className="flex items-center"><FaCheck className="text-green-500 mr-2" /> Hand-Carved Details</li>
+                <li className="flex items-center"><FaCheck className="text-green-500 mr-2" /> Rich Wood Finishes</li>
+                <li className="flex items-center"><FaCheck className="text-green-500 mr-2" /> Ornate Craftsmanship</li>
+              </ul>
+              <button className="w-full bg-purple-600 text-white font-semibold py-3 rounded-lg hover:bg-purple-700 transition-colors">
+                View Collection
+              </button>
+            </div>
+
+            {/* Sustainable Living Collection */}
+            <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Sustainable Living</h3>
+              <p className="text-gray-600 mb-6">Eco-friendly furniture crafted from recycled and responsibly sourced materials.</p>
+              <img src="https://img.freepik.com/free-photo/minimalist-scandinavian-interior-design_23-2150917267.jpg?w=740" alt="Sustainable Wooden Furniture" className="w-full h-40 object-cover rounded-md mb-6" />
+              <ul className="text-left text-gray-700 space-y-3 mb-8">
+                <li className="flex items-center"><FaCheck className="text-green-500 mr-2" /> Recycled & Upcycled Materials</li>
+                <li className="flex items-center"><FaCheck className="text-green-500 mr-2" /> Non-Toxic Finishes</li>
+                <li className="flex items-center"><FaCheck className="text-green-500 mr-2" /> Low Environmental Impact</li>
+              </ul>
+              <button className="w-full bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition-colors">
+                View Collection
+              </button>
+            </div>
+          </div>
+        </motion.div>
+
+
       </div>
     </motion.div>
   );
