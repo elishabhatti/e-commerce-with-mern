@@ -20,6 +20,7 @@ import UpdatePurchaseProduct from "./pages/UpdatePurchaseProduct";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ChangePassword from "./pages/ChangePassword";
+import Register from "./admin/Register";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Navbar />
         <main className="flex-grow">
           <Routes>
+            <Route path="/admin-register" element={<Register />} />
             <Route path="/register" element={<RegisterUser />} />
             <Route path="/login" element={<LoginUser />} />
             <Route path="/contact" element={<ContactUs />} />
