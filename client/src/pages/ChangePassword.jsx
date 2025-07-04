@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Input from "../components/Input";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -61,7 +62,10 @@ const ChangePassword = () => {
         </h2>
 
         <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Email Address
           </label>
           <input
@@ -76,32 +80,40 @@ const ChangePassword = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="oldPassword" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="oldPassword"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Old Password
           </label>
-          <input
+          <Input
+            label="Password"
+            name="password"
             type="password"
-            id="oldPassword"
-            placeholder="Enter your old password"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
             value={oldPassword}
             onChange={(e) => setOldPassword(e.target.value)}
+            placeholder="••••••••"
             required
+            hint="Password must be at least 6 characters long."
           />
         </div>
 
         <div className="mb-6">
-          <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="newPassword"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             New Password
           </label>
-          <input
+          <Input
+            label="Password"
+            name="password"
             type="password"
-            id="newPassword"
-            placeholder="Enter your new password"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
+            placeholder="••••••••"
             required
+            hint="Password must be at least 6 characters long."
           />
         </div>
 
