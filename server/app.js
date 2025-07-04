@@ -4,6 +4,7 @@ import userRouter from "./routes/user.routes.js";
 import contactRouter from "./routes/contact.routes.js";
 import productRouter from "./routes/products.routes.js";
 import purchaseRouter from "./routes/purchase.route.js";
+import adminRouter from "./routes/admin.routes.js";
 import cartRouter from "./routes/cart.routes.js";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -35,6 +36,7 @@ app.use(cookieParser());
 app.use("/api/users", userRouter);
 app.use("/api/contact", verifyAuthentication, contactRouter);
 app.use("/api/products", productRouter);
+app.use("/api/admin", adminRouter);
 app.use("/api/purchase", verifyAuthentication, purchaseRouter);
 app.use("/api/cart", verifyAuthentication, cartRouter);
 
