@@ -114,7 +114,7 @@ const Register = () => {
       delete payload.adminSecret;
 
       const response = await axios.post(
-        "http://localhost:3000/api/admin/register",
+        "http://localhost:3000/api/admin/register-admin",
         payload,
         {
           withCredentials: true,
