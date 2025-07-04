@@ -21,6 +21,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ChangePassword from "./pages/ChangePassword";
 import Register from "./admin/Register";
+import VerifyEmail from "./pages/VerifyEmail";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Routes>
             <Route path="/admin-register" element={<Register />} />
             <Route path="/register" element={<RegisterUser />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/login" element={<LoginUser />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/about" element={<AboutUs />} />
