@@ -107,7 +107,7 @@ const RegisterUser = () => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/users/register",
-        formData, // Axios automatically stringifies, no need for JSON.stringify
+        formData, 
         {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
