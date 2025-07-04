@@ -74,57 +74,20 @@ const Register = () => {
     }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.name) newErrors.name = "Full name is required.";
-    if (!formData.email) newErrors.email = "Email is required.";
-    else if (!/\S+@\S+\.\S+/.test(formData.email))
-      newErrors.email = "Email address is invalid.";
-    if (!formData.password) newErrors.password = "Password is required.";
-    else if (formData.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters long.";
-    if (!formData.address) newErrors.address = "Address is required.";
-    if (!formData.phone) newErrors.phone = "Phone number is required.";
-    else if (!/^\d{10,}$/.test(formData.phone))
-      newErrors.phone = "Please enter a valid phone number.";
-    if (!formData.adminSecret || formData.adminSecret !== "superadmin123") {
-      newErrors.adminSecret = "Invalid admin secret key.";
-    }
-    return newErrors;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrors({});
-
-    const formValidationErrors = validateForm();
-    if (Object.keys(formValidationErrors).length > 0) {
-      setErrors(formValidationErrors);
-      toast.error("Please correct the form errors.");
-      setLoading(false);
-      return;
-    }
-
+    
     try {
-      const payload = {
-        ...formData,
-        role: "admin",
-      };
-      delete payload.adminSecret;
-
       const response = await axios.post(
         "http://localhost:3000/api/admin/register-admin",
-        payload,
+        formData,
         {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
         }
       );
-
-      storeTokenIns(response.data.token);
-      toast.success("Admin registration successful!");
-      navigate("/admin/dashboard");
+      console.log(response);
 
       setFormData({
         name: "",
@@ -155,7 +118,9 @@ const Register = () => {
       >
         <Link to="/" className="flex items-center space-x-2">
           <span className="text-4xl font-bold text-red-600">Admin</span>
-          <span className="text-4xl font-bold text-gray-900">Panel Sign Up</span>
+          <span className="text-4xl font-bold text-gray-900">
+            Panel Sign Up
+          </span>
         </Link>
       </motion.div>
 
@@ -165,9 +130,7 @@ const Register = () => {
         initial="hidden"
         animate="visible"
       >
-        <motion.div
-          className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white"
-        >
+        <motion.div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white">
           <motion.h2
             className="text-4xl font-extrabold mb-2 text-center text-gray-900 leading-tight"
             variants={itemVariants}
