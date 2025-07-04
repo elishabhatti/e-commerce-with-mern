@@ -242,5 +242,7 @@ export const changePassword = async (req, res) => {
 };
 
 export const verifyEmail = async (req, res) => {
+  const email = req.user.email;
+  console.log(email);
   
 }

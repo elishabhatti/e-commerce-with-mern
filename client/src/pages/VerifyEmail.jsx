@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Input from "../components/Input";
 import { motion } from "framer-motion";
 import { Mail, Lock } from "lucide-react";
+import axios from "axios";
 
 const VerifyEmail = () => {
   const [code, setCode] = useState("");
@@ -31,11 +32,23 @@ const VerifyEmail = () => {
     },
   };
 
-  const handleVerifyCode = async (e) => {
-  };
+  const handleVerifyCode = async (e) => {};
 
   const handleResendLink = async () => {
-
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/users/verify-email",
+        {},
+        {
+          withCredentials: true,    
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log(res);
+      
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
