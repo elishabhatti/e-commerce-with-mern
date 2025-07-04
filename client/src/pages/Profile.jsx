@@ -196,14 +196,17 @@ const Profile = () => {
           <p className="mt-3 text-lg text-gray-600">
             Manage your account details, purchases, and cart items.
           </p>
-          <div className="flex justify-center gap-4">
-            <div className=" py-2">
-              <b>Email:</b>
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex items-center gap-2 text-gray-700 text-sm">
+              <span className="font-semibold">Email:</span>
+              <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-medium">
+                Not Verified
+              </span>
             </div>
-            <div className="bg-red-400 px-4 py-2 rounded-4xl text-red-100">
-              Not Verified
-            </div>
-            <button onClick={() => navigate("/verify-email")} className="bg-blue-500 text-white px-4 py-2 rounded-4xl">
+            <button
+              onClick={() => navigate("/verify-email")}
+              className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-full shadow transition duration-200"
+            >
               Verify Now
             </button>
           </div>
