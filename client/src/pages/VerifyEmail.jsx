@@ -8,6 +8,7 @@ const VerifyEmail = () => {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [resending, setResending] = useState(false); // New state for resend loader
 
   const formVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -31,10 +32,11 @@ const VerifyEmail = () => {
       transition: { duration: 0.4, ease: "easeOut" },
     },
   };
+
   const handleVerifyCode = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
+    setMessage(""); // Clear previous messages
 
     try {
       const res = await axios.post(
@@ -46,14 +48,13 @@ const VerifyEmail = () => {
         }
       );
 
-      setMessage(res.data.message);
-      setCode("");
+      setMessage(res.data.message || "Email verified successfully!"); // Set success message
+      setCode(""); // Clear the code input on successful verification
     } catch (error) {
-      console.error(error);
-
+      console.error("Verification error:", error);
       setMessage(
         error.response?.data?.message ||
-          "An error occurred during verification."
+          "An error occurred during verification. Please try again."
       );
     } finally {
       setLoading(false);
@@ -61,6 +62,9 @@ const VerifyEmail = () => {
   };
 
   const handleResendLink = async () => {
+    setResending(true); // Start resend loader
+    setMessage(""); // Clear previous messages
+
     try {
       const res = await axios.post(
         "http://localhost:3000/api/users/verify-email",
@@ -70,14 +74,21 @@ const VerifyEmail = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(res);
+      console.log(res); // For debugging
+      setMessage(res.data.message || "Verification link sent successfully!"); // Set success message for resend
     } catch (error) {
-      console.error(error);
+      console.error("Resend link error:", error);
+      setMessage(
+        error.response?.data?.message ||
+          "Failed to resend verification link. Please try again later."
+      );
+    } finally {
+      setResending(false); // Stop resend loader
     }
   };
 
   return (
-    <div className="flex mt-10 items-center justify-center  p-4 font-sans text-gray-900">
+    <div className="flex mt-10 items-center justify-center p-4 font-sans text-gray-900">
       <motion.div
         className="p-8 rounded-lg w-full max-w-sm border border-gray-300"
         variants={formVariants}
@@ -94,11 +105,11 @@ const VerifyEmail = () => {
           <motion.button
             onClick={handleResendLink}
             className="w-full cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={loading}
+            disabled={resending} {/* Use resending state here */}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            {loading ? (
+            {resending ? ( // Use resending state for this loader
               <motion.svg
                 className="animate-spin h-5 w-5 text-gray-800 mx-auto"
                 xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +201,9 @@ const VerifyEmail = () => {
         {message && (
           <motion.p
             className={`mt-4 text-center text-sm ${
-              message.includes("success") ? "text-green-600" : "text-red-500"
+              message.includes("success") || message.includes("sent")
+                ? "text-green-600"
+                : "text-red-500"
             }`}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
