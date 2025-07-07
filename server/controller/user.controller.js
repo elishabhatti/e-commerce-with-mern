@@ -272,9 +272,31 @@ export const verifyEmail = async (req, res) => {
     html: htmlOutput,
   });
 
-  console.log(email);
 };
 
 export const verifyEmailWithCode = async (req, res) => {
-  
-}
+  const { code } = req.body; 
+  const email = req.user.email;
+
+  if (!code) {
+    return res.status(400).json({ message: "Verification code is required." });
+  }
+  try {
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+    const storedTokenDoc = await getVerifyEmailToken(user._id); 
+    if (!storedTokenDoc || storedTokenDoc.token !== code) {
+      return res.status(400).json({ message: "Invalid or expired verification code." });
+    }
+
+    user.isEmailVerified = true; 
+    await user.save();
+    await deleteVerifyEmailToken(user._id); 
+    res.status(200).json({ message: "Email verified successfully!" });
+  } catch (error) {
+    console.error("Error verifying email code:", error);
+    res.status(500).json({ message: "Server error during email verification." });
+  }
+};
