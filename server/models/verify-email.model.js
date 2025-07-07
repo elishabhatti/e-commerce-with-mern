@@ -19,4 +19,5 @@ const verifyEmailTokenSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now, required: true },
 });
 
-export default mongoose.model("VerifyEmailToken", verifyEmailTokenSchema);
+const verifyEmailModel = mongoose.model("VerifyEmailToken", verifyEmailTokenSchema);
+export default verifyEmailModel;

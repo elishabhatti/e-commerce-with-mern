@@ -6,9 +6,10 @@ import {
   MILLISECONDS_PER_SECOND,
   REFRESH_TOKEN_EXPIRY,
 } from "../config/CONSTANTS.js";
-import crypto from "crypto"
+import crypto from "crypto";
 import dotenv from "dotenv";
 import sessionModel from "../models/session.model.js";
+import verifyEmailModel from "../models/verify-email.model.js"
 dotenv.config();
 
 export const hashPassword = (password) => {
@@ -161,4 +162,8 @@ export const generateRandomToken = async (digit = 8) => {
     .randomInt(min, max + 1)
     .toString()
     .padStart(digit, "0");
+};
+
+export const insertVerifyEmailToken = async ({ userId, token }) => {
+  return await verifyEmail.create({ userId, token });
 };

@@ -8,6 +8,7 @@ import {
   hashPassword,
   getUserByEmail,
   comparePassword,
+  insertVerifyEmailToken,
   createAccessToken,
   authenticateUser,
   generateRandomToken,
@@ -245,6 +246,8 @@ export const changePassword = async (req, res) => {
 export const verifyEmail = async (req, res) => {
   const email = req.user.email;
   const token = await generateRandomToken()
+
+  await insertVerifyEmailToken({userId: req.user.id, token})
   console.log(token);
 
   console.log(email);
