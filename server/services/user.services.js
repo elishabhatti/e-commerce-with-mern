@@ -9,7 +9,7 @@ import {
 import crypto from "crypto";
 import dotenv from "dotenv";
 import sessionModel from "../models/session.model.js";
-import verifyEmailModel from "../models/verify-email.model.js"
+import verifyEmailModel from "../models/verify-email.model.js";
 dotenv.config();
 
 export const hashPassword = (password) => {
@@ -165,5 +165,7 @@ export const generateRandomToken = async (digit = 8) => {
 };
 
 export const insertVerifyEmailToken = async ({ userId, token }) => {
-  return await verifyEmail.create({ userId, token });
+  await verifyEmailModel.deleteMany({ expiresAt: { $lt: new Date() } });
+  await verifyEmailModel.deleteMany({ userId });
+  return await verifyEmailModel.create({ userId, token });
 };
