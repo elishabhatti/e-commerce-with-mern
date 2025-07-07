@@ -18,7 +18,7 @@ const router = Router();
 router.post("/register", registerUser);
 router.get("/profile", verifyAuthentication, getProfileData);
 router.post("/verify-email", verifyAuthentication, verifyEmail);
-router.post("verify-email-code", verifyAuthentication, verifyEmailWithCode);
+router.post("/verify-email-code", verifyAuthentication, verifyEmailWithCode);
 router.post("/login", loginUser);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);

@@ -273,11 +273,10 @@ export const verifyEmail = async (req, res) => {
     subject: "Verify Email",
     html: htmlOutput,
   });
-
 };
 
 export const verifyEmailWithCode = async (req, res) => {
-  const { code } = req.body; 
+  const { code } = req.body;
   const email = req.user.email;
 
   if (!code) {
@@ -288,17 +287,24 @@ export const verifyEmailWithCode = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
-    const storedTokenDoc = await getVerifyEmailToken(user._id); 
+    const storedTokenDoc = await getVerifyEmailToken(user._id);
+    console.log(storedTokenDoc);
+
     if (!storedTokenDoc || storedTokenDoc.token !== code) {
-      return res.status(400).json({ message: "Invalid or expired verification code." });
+      return res
+        .status(400)
+        .json({ message: "Invalid or expired verification code." });
     }
 
-    user.isEmailVerified = true; 
+    user.isEmailVerified = true;
     await user.save();
-    await deleteVerifyEmailToken(user._id); 
+    const deleteToken = await deleteVerifyEmailToken(user._id);
+    console.log(deleteToken);
     res.status(200).json({ message: "Email verified successfully!" });
   } catch (error) {
     console.error("Error verifying email code:", error);
-    res.status(500).json({ message: "Server error during email verification." });
+    res
+      .status(500)
+      .json({ message: "Server error during email verification." });
   }
 };

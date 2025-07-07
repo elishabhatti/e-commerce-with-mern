@@ -31,35 +31,36 @@ const VerifyEmail = () => {
       transition: { duration: 0.4, ease: "easeOut" },
     },
   };
-
   const handleVerifyCode = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     setLoading(true);
-    setMessage(""); // Clear previous messages
+    setMessage("");
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/users/verify-email-code", // New endpoint for code verification
+        "http://localhost:3000/api/users/verify-email-code",
         { code },
         {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
         }
       );
-      setMessage(res.data.message || "Email verified successfully!");
-      // Optionally redirect user or update UI to reflect verification
+
+      setMessage(res.data.message);
+      setCode("");
     } catch (error) {
-      console.error("Verification error:", error);
-      setMessage(error.response?.data?.message || "Verification failed. Please try again.");
+      console.error(error);
+
+      setMessage(
+        error.response?.data?.message ||
+          "An error occurred during verification."
+      );
     } finally {
       setLoading(false);
     }
   };
 
   const handleResendLink = async () => {
-    setLoading(true);
-    setMessage(""); // Clear previous messages
-
     try {
       const res = await axios.post(
         "http://localhost:3000/api/users/verify-email",
@@ -69,17 +70,14 @@ const VerifyEmail = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      setMessage(res.data.message || "Verification link resent successfully!");
+      console.log(res);
     } catch (error) {
-      console.error("Resend link error:", error);
-      setMessage(error.response?.data?.message || "Failed to resend link. Please try again.");
-    } finally {
-      setLoading(false);
+      console.error(error);
     }
   };
 
   return (
-    <div className="flex mt-10 items-center justify-center p-4 font-sans text-gray-900">
+    <div className="flex mt-10 items-center justify-center  p-4 font-sans text-gray-900">
       <motion.div
         className="p-8 rounded-lg w-full max-w-sm border border-gray-300"
         variants={formVariants}

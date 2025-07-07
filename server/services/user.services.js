@@ -171,7 +171,7 @@ export const insertVerifyEmailToken = async ({ userId, token }) => {
 };
 
 export const getVerifyEmailToken = async (userId) => {
-  return await verifyEmailModel.find({ userId });
+  return await verifyEmailModel.findOne({ userId }).sort({ createdAt: -1 });
 };
 
 export const deleteVerifyEmailToken = async (userId) => {
