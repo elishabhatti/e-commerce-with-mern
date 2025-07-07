@@ -18,6 +18,7 @@ import fs from "fs/promises";
 import path from "path";
 import mjml2html from "mjml";
 import ejs from "ejs";
+import { sendVerifyEmail } from "../lib/sendEmailVerifyEmail.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -247,9 +248,11 @@ export const verifyEmail = async (req, res) => {
   const email = req.user.email;
   const token = await generateRandomToken();
   const [user] = await userModel.find({ email });
-  
+
   await insertVerifyEmailToken({ userId: user.id, token });
   console.log(token);
+
+  sendVerifyEmail()
 
   console.log(email);
 };
