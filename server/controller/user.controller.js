@@ -12,6 +12,7 @@ import {
   createAccessToken,
   authenticateUser,
   generateRandomToken,
+  getVerifyEmailToken,
 } from "../services/user.services.js";
 import { fileURLToPath } from "url";
 import fs from "fs/promises";
