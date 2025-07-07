@@ -3,12 +3,14 @@ import Input from "../components/Input";
 import { motion } from "framer-motion";
 import { Mail, Lock } from "lucide-react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const VerifyEmail = () => {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [resending, setResending] = useState(false); // New state for resend loader
+  const navigate = useNavigate()
 
   const formVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -49,7 +51,8 @@ const VerifyEmail = () => {
       );
 
       setMessage(res.data.message || "Email verified successfully!"); // Set success message
-      setCode(""); // Clear the code input on successful verification
+      setCode(""); 
+      navigate("/profile")
     } catch (error) {
       console.error("Verification error:", error);
       setMessage(

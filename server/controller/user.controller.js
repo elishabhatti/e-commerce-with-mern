@@ -247,7 +247,7 @@ export const changePassword = async (req, res) => {
 };
 
 export const verifyEmail = async (req, res) => {
-  try { // Add a try-catch block for robust error handling on the backend
+  try { 
     const email = req.user.email;
     const token = await generateRandomToken();
     const [user] = await userModel.find({ email });
@@ -273,18 +273,16 @@ export const verifyEmail = async (req, res) => {
 
     const htmlOutput = mjml2html(filledTemplate).html;
 
-    await sendVerifyEmail({ // Await the sendEmail function if it's asynchronous
+    await sendVerifyEmail({
       to: user.email,
       subject: "Verify Email",
       html: htmlOutput,
     });
 
-    // Send a success response back to the client
     res.status(200).json({ message: "Verification email sent successfully Please Check the Mail Box!" });
 
   } catch (error) {
     console.error("Error in verifyEmail:", error);
-    // Send an error response back to the client
     res.status(500).json({ message: "Failed to send verification email. Please try again." });
   }
 };
