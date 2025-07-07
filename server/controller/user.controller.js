@@ -244,7 +244,7 @@ export const changePassword = async (req, res) => {
 
 export const verifyEmail = async (req, res) => {
   const email = req.user.email;
-  const token = generateRandomToken()
+  const token = await generateRandomToken()
   console.log(token);
 
   console.log(email);
