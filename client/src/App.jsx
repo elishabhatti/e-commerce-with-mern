@@ -22,7 +22,6 @@ import ResetPassword from "./pages/ResetPassword";
 import ChangePassword from "./pages/ChangePassword";
 import Register from "./admin/Register";
 import VerifyEmail from "./pages/VerifyEmail";
-import VerifyEmailWithToken from "./pages/VerifyEmailWithToken";
 
 const App = () => {
   return (
@@ -56,7 +55,6 @@ const App = () => {
             <Route path="/edit-profile/:id" element={<EditProfile />} />
             <Route path="/change-password/:id" element={<ChangePassword />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
-            <Route path="/verify-email/:token" element={<VerifyEmailWithToken />} />
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Page404 />} />
           </Routes>
