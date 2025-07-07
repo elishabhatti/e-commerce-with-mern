@@ -252,7 +252,7 @@ export const verifyEmail = async (req, res) => {
   await insertVerifyEmailToken({ userId: user.id, token });
   console.log(token);
 
-  const verifyEmail = `http://localhost:5173/verify-email/${token}`;
+  const verifyEmail = `${token}`;
 
   const mjmlTemplate = await fs.readFile(
     path.join(__dirname, "..", "emails", "verify-email.mjml"),
@@ -261,7 +261,7 @@ export const verifyEmail = async (req, res) => {
 
   const filledTemplate = ejs.render(mjmlTemplate, {
     name: user.name,
-    link: verifyEmail,
+    token: verifyEmail,
   });
 
   const htmlOutput = mjml2html(filledTemplate).html;
