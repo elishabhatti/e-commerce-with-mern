@@ -105,7 +105,7 @@ const VerifyEmail = () => {
           <motion.button
             onClick={handleResendLink}
             className="w-full cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={resending} {/* Use resending state here */}
+            disabled={resending}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
