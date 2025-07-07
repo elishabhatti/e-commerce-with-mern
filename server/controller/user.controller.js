@@ -245,9 +245,10 @@ export const changePassword = async (req, res) => {
 
 export const verifyEmail = async (req, res) => {
   const email = req.user.email;
-  const token = await generateRandomToken()
-
-  await insertVerifyEmailToken({userId: req.user.id, token})
+  const token = await generateRandomToken();
+  const [user] = await userModel.find({ email });
+  
+  await insertVerifyEmailToken({ userId: user.id, token });
   console.log(token);
 
   console.log(email);
