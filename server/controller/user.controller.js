@@ -252,7 +252,25 @@ export const verifyEmail = async (req, res) => {
   await insertVerifyEmailToken({ userId: user.id, token });
   console.log(token);
 
-  sendVerifyEmail()
+  const verifyEmail = `http://localhost:5173/verify-email/${token}`;
+
+  const mjmlTemplate = await fs.readFile(
+    path.join(__dirname, "..", "emails", "verify-email.mjml"),
+    "utf-8"
+  );
+
+  const filledTemplate = ejs.render(mjmlTemplate, {
+    name: user.name,
+    link: verifyEmail,
+  });
+
+  const htmlOutput = mjml2html(filledTemplate).html;
+
+  sendVerifyEmail({
+    to: user.email,
+    subject: "Verify Email",
+    html: htmlOutput,
+  });
 
   console.log(email);
 };
