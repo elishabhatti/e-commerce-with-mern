@@ -257,8 +257,6 @@ export const verifyEmail = async (req, res) => {
     }
 
     await insertVerifyEmailToken({ userId: user.id, token });
-    console.log(token);
-
     const verifyEmail = `${token}`;
 
     const mjmlTemplate = await fs.readFile(
@@ -300,7 +298,6 @@ export const verifyEmailWithCode = async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
     const storedTokenDoc = await getVerifyEmailToken(user._id);
-    console.log(storedTokenDoc);
 
     if (!storedTokenDoc || storedTokenDoc.token !== code) {
       return res
@@ -311,7 +308,6 @@ export const verifyEmailWithCode = async (req, res) => {
     user.isEmailVerified = true;
     await user.save();
     const deleteToken = await deleteVerifyEmailToken(user._id);
-    console.log(deleteToken);
     res.status(200).json({ message: "Email verified successfully!" });
   } catch (error) {
     console.error("Error verifying email code:", error);

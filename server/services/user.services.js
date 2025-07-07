@@ -45,7 +45,6 @@ export const verifyJwtToken = (token) => {
 };
 
 export const findSessionById = async (sessionId) => {
-  console.log("Looking for session:", sessionId);
   return await sessionModel.findById(sessionId);
 };
 
