@@ -10,6 +10,7 @@ import {
   comparePassword,
   createAccessToken,
   authenticateUser,
+  generateRandomToken,
 } from "../services/user.services.js";
 import { fileURLToPath } from "url";
 import fs from "fs/promises";
@@ -243,6 +244,8 @@ export const changePassword = async (req, res) => {
 
 export const verifyEmail = async (req, res) => {
   const email = req.user.email;
+  const token = generateRandomToken()
+  console.log(token);
+
   console.log(email);
-  
-}
+};

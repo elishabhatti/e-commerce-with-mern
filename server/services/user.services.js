@@ -44,7 +44,7 @@ export const verifyJwtToken = (token) => {
 
 export const findSessionById = async (sessionId) => {
   console.log("Looking for session:", sessionId);
-  return await sessionModel.findById(sessionId)
+  return await sessionModel.findById(sessionId);
 };
 
 export const createAccessToken = async ({
@@ -141,13 +141,23 @@ export const authenticateUser = async ({ req, res, user }) => {
 
   res.cookie("access_token", accessToken, {
     ...cookieOptions,
-    maxAge: ACCESS_TOKEN_EXPIRY, 
+    maxAge: ACCESS_TOKEN_EXPIRY,
   });
 
   res.cookie("refresh_token", refreshToken, {
     ...cookieOptions,
-    maxAge: REFRESH_TOKEN_EXPIRY, 
+    maxAge: REFRESH_TOKEN_EXPIRY,
   });
 
   return accessToken;
+};
+
+export const generateRandomToken = async (digit = 8) => {
+  const min = 10 ** (digit - 1);
+  const max = 10 ** digit - 1;
+
+  return crypto
+    .randomInt(min, max + 1)
+    .toString()
+    .padStart(digit, "0");
 };
