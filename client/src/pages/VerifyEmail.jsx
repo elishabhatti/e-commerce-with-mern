@@ -32,27 +32,54 @@ const VerifyEmail = () => {
     },
   };
 
-  const handleVerifyCode = async (e) => {};
+  const handleVerifyCode = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    setLoading(true);
+    setMessage(""); // Clear previous messages
+
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/users/verify-email-code", // New endpoint for code verification
+        { code },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      setMessage(res.data.message || "Email verified successfully!");
+      // Optionally redirect user or update UI to reflect verification
+    } catch (error) {
+      console.error("Verification error:", error);
+      setMessage(error.response?.data?.message || "Verification failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleResendLink = async () => {
+    setLoading(true);
+    setMessage(""); // Clear previous messages
+
     try {
       const res = await axios.post(
         "http://localhost:3000/api/users/verify-email",
         {},
         {
-          withCredentials: true,    
+          withCredentials: true,
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(res);
-      
+      setMessage(res.data.message || "Verification link resent successfully!");
     } catch (error) {
-      console.error(error);
+      console.error("Resend link error:", error);
+      setMessage(error.response?.data?.message || "Failed to resend link. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex mt-10 items-center justify-center  p-4 font-sans text-gray-900">
+    <div className="flex mt-10 items-center justify-center p-4 font-sans text-gray-900">
       <motion.div
         className="p-8 rounded-lg w-full max-w-sm border border-gray-300"
         variants={formVariants}
