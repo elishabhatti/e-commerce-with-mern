@@ -247,32 +247,46 @@ export const changePassword = async (req, res) => {
 };
 
 export const verifyEmail = async (req, res) => {
-  const email = req.user.email;
-  const token = await generateRandomToken();
-  const [user] = await userModel.find({ email });
+  try { // Add a try-catch block for robust error handling on the backend
+    const email = req.user.email;
+    const token = await generateRandomToken();
+    const [user] = await userModel.find({ email });
 
-  await insertVerifyEmailToken({ userId: user.id, token });
-  console.log(token);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
 
-  const verifyEmail = `${token}`;
+    await insertVerifyEmailToken({ userId: user.id, token });
+    console.log(token);
 
-  const mjmlTemplate = await fs.readFile(
-    path.join(__dirname, "..", "emails", "verify-email.mjml"),
-    "utf-8"
-  );
+    const verifyEmail = `${token}`;
 
-  const filledTemplate = ejs.render(mjmlTemplate, {
-    name: user.name,
-    token: verifyEmail,
-  });
+    const mjmlTemplate = await fs.readFile(
+      path.join(__dirname, "..", "emails", "verify-email.mjml"),
+      "utf-8"
+    );
 
-  const htmlOutput = mjml2html(filledTemplate).html;
+    const filledTemplate = ejs.render(mjmlTemplate, {
+      name: user.name,
+      token: verifyEmail,
+    });
 
-  sendVerifyEmail({
-    to: user.email,
-    subject: "Verify Email",
-    html: htmlOutput,
-  });
+    const htmlOutput = mjml2html(filledTemplate).html;
+
+    await sendVerifyEmail({ // Await the sendEmail function if it's asynchronous
+      to: user.email,
+      subject: "Verify Email",
+      html: htmlOutput,
+    });
+
+    // Send a success response back to the client
+    res.status(200).json({ message: "Verification email sent successfully Please Check the Mail Box!" });
+
+  } catch (error) {
+    console.error("Error in verifyEmail:", error);
+    // Send an error response back to the client
+    res.status(500).json({ message: "Failed to send verification email. Please try again." });
+  }
 };
 
 export const verifyEmailWithCode = async (req, res) => {
