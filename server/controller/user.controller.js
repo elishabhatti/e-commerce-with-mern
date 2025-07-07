@@ -274,3 +274,7 @@ export const verifyEmail = async (req, res) => {
 
   console.log(email);
 };
+
+export const verifyEmailWithCode = async (req, res) => {
+  
+}
