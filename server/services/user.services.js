@@ -6,6 +6,7 @@ import {
   MILLISECONDS_PER_SECOND,
   REFRESH_TOKEN_EXPIRY,
 } from "../config/CONSTANTS.js";
+import crypto from "crypto"
 import dotenv from "dotenv";
 import sessionModel from "../models/session.model.js";
 dotenv.config();
