@@ -13,6 +13,7 @@ import {
   authenticateUser,
   generateRandomToken,
   getVerifyEmailToken,
+  deleteVerifyEmailToken,
 } from "../services/user.services.js";
 import { fileURLToPath } from "url";
 import fs from "fs/promises";

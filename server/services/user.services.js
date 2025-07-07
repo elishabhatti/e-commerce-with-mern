@@ -170,7 +170,10 @@ export const insertVerifyEmailToken = async ({ userId, token }) => {
   return await verifyEmailModel.create({ userId, token });
 };
 
-
 export const getVerifyEmailToken = async (userId) => {
-  return await verifyEmailModel.find({userId})
-}
+  return await verifyEmailModel.find({ userId });
+};
+
+export const deleteVerifyEmailToken = async (userId) => {
+  return await verifyEmailModel.deleteMany({ userId });
+};
