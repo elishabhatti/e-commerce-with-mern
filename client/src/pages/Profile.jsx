@@ -208,6 +208,18 @@ const Profile = () => {
                 >
                   {user?.isEmailVerified ? "Verified" : "Not Verified"}
                 </span>
+                {!user?.isEmailVerified && (
+                  <>
+                    {" "}
+                    -{" "}
+                    <button
+                      onClick={() => navigate("/verify-email")}
+                      className="text-blue-600 cursor-pointer underline hover:text-blue-800 ml-1 text-sm"
+                    >
+                      Verify Now
+                    </button>
+                  </>
+                )}
               </span>
             </div>
           </div>
