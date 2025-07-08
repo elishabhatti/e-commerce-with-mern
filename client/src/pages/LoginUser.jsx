@@ -160,6 +160,12 @@ const LoginUser = () => {
             className="absolute inset-0 w-full h-full object-cover z-0"
             loading="lazy"
           />
+           <div className="relative z-10 text-center mt-125 md:mb-0">
+            <h3 className="text-3xl text-black font-bold">Welcome aboard!</h3>
+            <p className="text-black text-lg">
+              Sign in to manage your account.
+            </p>
+          </div>
         </motion.div>
 
         {/* Right Side: Login Form */}
