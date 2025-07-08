@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../store/auth";
+import { FaGoogle } from "react-icons/fa";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
@@ -189,10 +190,7 @@ const LoginUser = () => {
             whileTap={{ scale: 0.99 }}
             onClick={() => toast.info("Google Sign-In integration needed!")}
           >
-            {/* Replace with a proper Google SVG icon */}
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12.24 10.29v2.19h5.11c-.18 1.11-.84 1.83-1.89 2.51-.55.35-1.2.6-1.89.72-.69.13-1.4.19-2.11.19-3.7 0-6.73-3.03-6.73-6.73s3.03-6.73 6.73-6.73c1.78 0 3.32.72 4.49 1.76l1.5-1.5c-1.4-1.31-3.23-2.06-5.49-2.06-4.99 0-9.05 4.06-9.05 9.05s4.06 9.05 9.05 9.05c4.85 0 8.35-3.37 8.35-8.73 0-.58-.06-1.12-.17-1.63H12.24z" />
-            </svg>
+            <FaGoogle />
             Continue with Google
           </motion.button>
 
