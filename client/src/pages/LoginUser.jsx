@@ -147,23 +147,19 @@ const LoginUser = () => {
       >
         {/* Left Side: Illustration */}
         <motion.div
-          className="relative w-full md:w-1/2 min-h-[300px] md:min-h-[500px] flex flex-col items-center justify-center p-8 bg-[#20202F] text-white" // Solid background color
+          className="relative w-full md:w-1/2 min-h-[300px] md:min-h-[500px] flex items-center justify-center overflow-hidden bg-[#20202F] text-white"
           variants={imageSideVariants}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-700/10 to-indigo-700/10 z-0"></div>{" "}
-          {/* Subtle overlay */}
+          {/* Overlay on top of the image */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-700/10 to-indigo-700/10 z-10" />
+
+          {/* Full background image */}
           <img
-            src=""
+            src="/images/login-user-image.jpg"
             alt="Secure Login Illustration"
-            className="relative z-10 w-full max-w-xs md:max-w-sm lg:max-w-md object-contain drop-shadow-lg animate-fade-in-up" // Adjusted sizing and animation
+            className="absolute inset-0 w-full h-full object-cover z-0"
             loading="lazy"
           />
-          <div className="relative z-10 text-center mt-6 md:mt-10">
-            <h3 className="text-3xl font-bold mb-2">Welcome aboard!</h3>
-            <p className="text-gray-300 text-lg">
-              Sign in to manage your account.
-            </p>
-          </div>
         </motion.div>
 
         {/* Right Side: Login Form */}
