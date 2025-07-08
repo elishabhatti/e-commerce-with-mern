@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../store/auth";
-import { FaGoogle } from "react-icons/fa";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
@@ -192,7 +191,8 @@ const LoginUser = () => {
             whileTap={{ scale: 0.99 }}
             onClick={() => toast.info("Google Sign-In integration needed!")}
           >
-            <FaGoogle />
+            <img className="w-5" src="/images/google-logo.png"
+             alt="Google Logo" />
             Continue with Google
           </motion.button>
 
