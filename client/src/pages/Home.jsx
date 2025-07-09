@@ -15,6 +15,17 @@ gsap.registerPlugin(ScrollTrigger);
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // ✅ Loading state
+  const [selectedCountry, setSelectedCountry] = useState("pk");
+
+  const currencyRates = {
+    pk: { symbol: "₨", rate: 280 }, // 1 USD = 280 PKR
+    in: { symbol: "₹", rate: 83 }, // 1 USD = 83 INR
+    usa: { symbol: "$", rate: 1 }, // USD base
+  };
+
+  const { symbol, rate } = currencyRates[selectedCountry];
+  const convertedPrice = (products.price * rate).toFixed(0);
+
   const navigate = useNavigate();
 
   const heroRef = useRef(null);
@@ -154,6 +165,16 @@ const Home = () => {
         Explore Our <span className="text-purple-600">Curated</span> Products
       </h1>
 
+      <select
+        value={selectedCountry}
+        onChange={(e) => setSelectedCountry(e.target.value)}
+        className="mb-6 border rounded px-3 py-2"
+      >
+        <option value="pk">Pakistan</option>
+        <option value="in">India</option>
+        <option value="usa">USA</option>
+      </select>
+
       {/* Loading State */}
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
@@ -216,8 +237,10 @@ const Home = () => {
 
                 <div className="flex justify-between items-center mt-auto pt-4 border-t border-gray-100">
                   <span className="text-gray-900 font-bold text-xl">
-                    ${product.price}
+                    {symbol}
+                    {(product.price * rate).toFixed(0)}
                   </span>
+
                   <span className="text-yellow-500 text-sm font-semibold flex items-center">
                     <span className="mr-1">⭐</span> {product.rating} (
                     {product.reviews})
