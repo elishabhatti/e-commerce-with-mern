@@ -270,7 +270,7 @@ const Home = () => {
                         if (!token) {
                           toast.error("Please login first to continue");
                         } else {
-                          navigate("/wishlist")
+                          navigate(`/wishlist/${product._id}`)
                           console.log(
                             `Product ${product._id} added to wishlist`
                           );
