@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react"; // Import Heart icon
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
@@ -257,9 +257,29 @@ const Home = () => {
                     >
                       <ShoppingCart size={20} />
                     </motion.button>
-                    <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-gray-800 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none shadow-sm transform translate-y-1 group-hover:translate-y-0">
-                      Add to cart
-                    </span>
+
+                  </div>
+
+                  {/* Wishlist Button */}
+                  <div className="relative">
+                    <motion.button
+                      whileHover={{ scale: 1.05, rotate: 5 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => {
+                        const token = localStorage.getItem("token");
+                        if (!token) {
+                          toast.error("Please login first to continue");
+                        } else {
+                          navigate("/wishlist")
+                          console.log(
+                            `Product ${product._id} added to wishlist`
+                          );
+                        }
+                      }}
+                      className="flex justify-center items-center p-3 w-12 h-12 cursor-pointer bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 shadow-sm"
+                    >
+                      <Heart size={20} />
+                    </motion.button>
                   </div>
                 </div>
               </div>
