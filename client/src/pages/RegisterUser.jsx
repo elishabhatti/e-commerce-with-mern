@@ -253,18 +253,6 @@ const RegisterUser = () => {
                 error={errors.phone}
               />
             </motion.div>
-            <motion.div variants={itemVariants}>
-              <Input
-                label="Avatar URL (Optional)"
-                name="avatar"
-                type="url"
-                value={formData.avatar}
-                onChange={handleChange}
-                placeholder="https://example.com/your-avatar.jpg"
-                hint="Provide a direct link to your profile picture."
-              />
-            </motion.div>
-
             <motion.div
               className="flex items-start text-sm"
               variants={itemVariants}
