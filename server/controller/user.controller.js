@@ -247,7 +247,7 @@ export const changePassword = async (req, res) => {
 };
 
 export const verifyEmail = async (req, res) => {
-  try { 
+  try {
     const email = req.user.email;
     const token = await generateRandomToken();
     const [user] = await userModel.find({ email });
@@ -277,11 +277,19 @@ export const verifyEmail = async (req, res) => {
       html: htmlOutput,
     });
 
-    res.status(200).json({ message: "Verification email sent successfully Please Check the Mail Box!" });
-
+    res
+      .status(200)
+      .json({
+        message:
+          "Verification email sent successfully Please Check the Mail Box!",
+      });
   } catch (error) {
     console.error("Error in verifyEmail:", error);
-    res.status(500).json({ message: "Failed to send verification email. Please try again." });
+    res
+      .status(500)
+      .json({
+        message: "Failed to send verification email. Please try again.",
+      });
   }
 };
 

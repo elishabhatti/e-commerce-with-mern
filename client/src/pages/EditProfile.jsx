@@ -12,6 +12,7 @@ const EditProfile = () => {
     address: "",
     avatar: "",
   });
+  const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(true); // Added loading state for fetching initial data
   const [isSaving, setIsSaving] = useState(false); // Added state for save button loading
 
@@ -51,14 +52,36 @@ const EditProfile = () => {
     }
   };
   const handlePhotoUpload = async (e) => {
-    const formData = new FormData();
-    formData.append("photo", e.target.files[0]);
+    const file = e.target.files[0];
+    if (!file) return;
 
-    await fetch("/api/profile/upload-photo", {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    });
+    const formData = new FormData();
+    formData.append("photo", file);
+
+    try {
+      const res = await fetch(
+        "http://localhost:3000/api/users/profile/upload-photo",
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        }
+      );
+
+      if (!res.ok) {
+        const errorText = await res.text(); // Read raw text response
+        console.error("Server returned:", errorText);
+        toast.error("Upload failed. Check server log or route.");
+        return;
+      }
+
+      const data = await res.json(); // Now safe to parse
+      toast.success("Avatar uploaded!");
+      setUserData((prev) => ({ ...prev, avatar: data.photo }));
+    } catch (err) {
+      console.error("Upload failed:", err);
+      toast.error("Unexpected error during photo upload");
+    }
   };
 
   const handleUpdate = async (e) => {
@@ -211,9 +234,8 @@ const EditProfile = () => {
               type="file"
               id="avatar"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
-              value={userData.avatar}
+              accept="image/*" // Optional: restrict to images
               onChange={handlePhotoUpload}
-              placeholder="Link to your avatar image"
             />
           </div>
         </div>
