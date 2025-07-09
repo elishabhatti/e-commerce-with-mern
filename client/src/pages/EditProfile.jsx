@@ -50,6 +50,16 @@ const EditProfile = () => {
       setLoading(false); // Set loading to false when fetching ends
     }
   };
+  const handlePhotoUpload = async (e) => {
+    const formData = new FormData();
+    formData.append("photo", e.target.files[0]);
+
+    await fetch("/api/profile/upload-photo", {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    });
+  };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -195,16 +205,14 @@ const EditProfile = () => {
               htmlFor="avatar"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Avatar URL
+              Upload Avatar
             </label>
             <input
-              type="text"
+              type="file"
               id="avatar"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
               value={userData.avatar}
-              onChange={(e) =>
-                setUserData({ ...userData, avatar: e.target.value })
-              }
+              onChange={handlePhotoUpload}
               placeholder="Link to your avatar image"
             />
           </div>

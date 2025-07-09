@@ -10,6 +10,7 @@ import {
   changePassword,
   verifyEmail,
   verifyEmailWithCode,
+  updateProfilePhoto,
 } from "../controller/user.controller.js";
 import { verifyAuthentication } from "../middlewares/verifyAuthentication.js";
 import { upload } from "../middlewares/upload.js";
