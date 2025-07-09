@@ -1,27 +1,26 @@
 import React, { useState } from "react";
-import Input from "../components/Input"; // Ensure this path is correct
+import Input from "../components/Input";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
 import { toast } from "react-toastify";
-import { motion } from "framer-motion"; // Import Framer Motion
+import { motion } from "framer-motion";
 
 const RegisterUser = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    avatar: "", // This will be a URL string
+    avatar: "",
     address: "",
     phone: "",
   });
+
   const { storeTokenIns } = useAuth();
   const navigate = useNavigate();
-
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({}); // State for client-side validation errors
+  const [errors, setErrors] = useState({});
 
-  // Framer Motion Variants
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -55,7 +54,7 @@ const RegisterUser = () => {
   };
 
   const imageSideVariants = {
-    hidden: { opacity: 0, x: 50 }, // Adjusted for right-side entrance
+    hidden: { opacity: 0, x: 50 },
     visible: {
       opacity: 1,
       x: 0,
@@ -68,7 +67,6 @@ const RegisterUser = () => {
       ...prev,
       [e.target.name]: e.target.value,
     }));
-    // Clear error for the specific field when user types
     if (errors[e.target.name]) {
       setErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
     }
@@ -82,19 +80,18 @@ const RegisterUser = () => {
       newErrors.email = "Email address is invalid.";
     if (!formData.password) newErrors.password = "Password is required.";
     else if (formData.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters long."; // Adjusted minimum length for security
+      newErrors.password = "Password must be at least 6 characters long.";
     if (!formData.address) newErrors.address = "Address is required.";
     if (!formData.phone) newErrors.phone = "Phone number is required.";
     else if (!/^\d{10,}$/.test(formData.phone))
       newErrors.phone = "Please enter a valid phone number.";
-    // Avatar is optional in your current form, no validation added for it unless needed.
     return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrors({}); // Clear previous errors
+    setErrors({});
 
     const formValidationErrors = validateForm();
     if (Object.keys(formValidationErrors).length > 0) {
@@ -107,7 +104,7 @@ const RegisterUser = () => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/users/register",
-        formData, 
+        formData,
         {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
@@ -116,7 +113,6 @@ const RegisterUser = () => {
       storeTokenIns(response.data.token);
       toast.success("Registration successful! Welcome.");
       navigate("/");
-      // Reset form data
       setFormData({
         name: "",
         email: "",
@@ -138,7 +134,6 @@ const RegisterUser = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4 font-sans text-gray-800">
-      {/* Top Logo Section (consistent with LoginUser) */}
       <motion.div
         className="mb-8 md:mb-12"
         variants={logoVariants}
@@ -154,32 +149,32 @@ const RegisterUser = () => {
       </motion.div>
 
       <motion.div
-        className="flex flex-col md:flex-row-reverse w-full max-w-5xl lg:max-w-6xl xl:max-w-7xl bg-white shadow-xl rounded-2xl overflow-hidden" // md:flex-row-reverse to put image on right
+        className="flex flex-col md:flex-row-reverse items-stretch w-full max-w-5xl lg:max-w-6xl xl:max-w-7xl bg-white shadow-xl rounded-2xl overflow-hidden"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Right Side: Illustration */}
         <motion.div
-          className="relative w-full md:w-1/2 min-h-[300px] md:min-h-[500px] flex flex-col items-center justify-center p-8 bg-[#20202F] text-white text-center"
+          className="relative w-full md:w-1/2 min-h-[500px] flex flex-col items-center justify-center p-8 text-white text-center overflow-hidden"
           variants={imageSideVariants}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-700/10 to-indigo-700/10 z-0"></div>
           <img
-            src=""
+            src="https://www.bizzabo.com/wp-content/uploads/2018/10/12-Registration-Pages-for-Events-That-Convert_16x9.png"
             alt="Register Illustration"
-            className="relative z-10 w-full max-w-xs md:max-w-sm lg:max-w-md object-contain drop-shadow-lg"
+            className="absolute w-full h-full object-cover z-0"
             loading="lazy"
           />
-          <div className="relative z-10 mt-6 md:mt-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-700/30 to-indigo-700/30 z-10"></div>
+          <div className="relative z-20 mt-6 md:mt-10">
             <h3 className="text-3xl font-bold mb-2">Join Us Today!</h3>
-            <p className="text-gray-300 text-lg">
+            <p className="text-gray-200 text-lg">
               Unlock a world of possibilities by creating your free account.
             </p>
           </div>
         </motion.div>
 
-        {/* Left Side: Registration Form */}
+        {/* Left Side: Form */}
         <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white">
           <motion.h2
             className="text-4xl font-extrabold mb-2 text-center text-gray-900 leading-tight"
@@ -250,7 +245,7 @@ const RegisterUser = () => {
               <Input
                 label="Phone"
                 name="phone"
-                type="tel"
+                type="number"
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="e.g., +1 (555) 123-4567"
@@ -270,7 +265,6 @@ const RegisterUser = () => {
               />
             </motion.div>
 
-            {/* Terms and Conditions Checkbox */}
             <motion.div
               className="flex items-start text-sm"
               variants={itemVariants}
@@ -279,7 +273,7 @@ const RegisterUser = () => {
                 id="terms-checkbox"
                 type="checkbox"
                 required
-                className="mt-1 mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" // Adjusted styling for consistency
+                className="mt-1 mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
               <label htmlFor="terms-checkbox" className="text-gray-600">
                 I have read and agree to the{" "}
@@ -292,7 +286,6 @@ const RegisterUser = () => {
               </label>
             </motion.div>
 
-            {/* Submit Button */}
             <motion.button
               type="submit"
               className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out font-semibold text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.005] active:scale-[0.995] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -331,7 +324,6 @@ const RegisterUser = () => {
             </motion.button>
           </motion.form>
 
-          {/* Already have an account? */}
           <motion.p
             className="text-center text-sm text-gray-500 mt-6"
             variants={itemVariants}
