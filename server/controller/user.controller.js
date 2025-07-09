@@ -330,9 +330,8 @@ export const updateProfilePhoto = async (req, res) => {
     const userId = req.user.id;
     const photoPath = `/uploads/profile-photos/${req.file.filename}`;
 
-    await userModel.update({
-      where: { id: userId },
-      data: { avatar: photoPath },
+    await userModel.findByIdAndUpdate(userId, {
+      avatar: photoPath,
     });
 
     res.status(200).json({ message: "Photo updated", photo: photoPath });
