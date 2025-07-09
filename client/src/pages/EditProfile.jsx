@@ -136,8 +136,9 @@ const EditProfile = () => {
         <div className="mb-6 flex justify-center">
           <img
             src={
-              userData.avatar ||
-              "https://via.placeholder.com/100?text=No+Avatar"
+              userData?.avatar
+                ? `http://localhost:3000${userData.avatar}`
+                : "https://via.placeholder.com/100?text=No+Avatar"
             }
             alt="Avatar Preview"
             className="w-24 h-24 rounded-full object-cover border-2 border-blue-500 shadow-md"
