@@ -22,6 +22,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ChangePassword from "./pages/ChangePassword";
 import Register from "./admin/Register";
 import VerifyEmail from "./pages/VerifyEmail";
+import Wishlist from "./pages/Wishlist";
 
 const App = () => {
   return (
@@ -43,6 +44,7 @@ const App = () => {
             <Route path="/logout" element={<LogoutPage />} />
             <Route path="/product-details/:id" element={<ProductDetails />} />
             <Route path="/product-cart/:id" element={<CartDetails />} />
+            <Route path="/wishlist/:id" element={<Wishlist />} />
             <Route
               path="/update-cart-product/:id"
               element={<UpdateCartProduct />}
