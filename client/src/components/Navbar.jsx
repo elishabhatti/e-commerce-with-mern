@@ -125,7 +125,11 @@ const Navbar = () => {
                 >
                   {user?.avatar && (
                     <img
-                      src={user.avatar}
+                      src={
+                        user?.avatar
+                          ? `http://localhost:3000${user.avatar}`
+                          : "https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
+                      }
                       alt="Profile"
                       className="w-10 h-10 cursor-pointer rounded-full object-cover"
                     />
