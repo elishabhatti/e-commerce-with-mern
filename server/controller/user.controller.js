@@ -316,3 +316,24 @@ export const verifyEmailWithCode = async (req, res) => {
       .json({ message: "Server error during email verification." });
   }
 };
+
+export const updateProfilePhoto = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded." });
+    }
+
+    const userId = req.user.id;
+    const photoPath = `/uploads/profile-photos/${req.file.filename}`;
+
+    await db.user.update({
+      where: { id: userId },
+      data: { avatar: photoPath },
+    });
+
+    res.status(200).json({ message: "Photo updated", photo: photoPath });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to upload profile photo" });
+  }
+};
