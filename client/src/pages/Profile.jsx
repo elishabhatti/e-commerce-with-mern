@@ -242,7 +242,7 @@ const Profile = () => {
                       "https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
                     }
                     alt="User Avatar"
-                    className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md"
+                    className="w-25 h-20 rounded-full object-cover border-4 border-white "
                   />
                   <div>
                     <h2 className="text-2xl font-bold">
