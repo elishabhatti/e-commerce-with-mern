@@ -34,6 +34,7 @@ app.use((req, res, next) => {
 app.use(cookieParser());
 
 app.use("/api/users", userRouter);
+app.use("/uploads", express.static("uploads"));
 app.use("/api/contact", verifyAuthentication, contactRouter);
 app.use("/api/products", productRouter);
 app.use("/api/admin", adminRouter);
