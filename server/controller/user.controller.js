@@ -377,7 +377,20 @@ export const getWishListProducts = async (req, res) => {
   }
 };
 
-
 export const deleteWishListProducts = async (req, res) => {
-  
-}
+  try {
+    const { id } = req.body;
+    if (!id) return res.status(500).json({ message: "Product Not Found" });
+
+    const removeFromWishList = await wishListModel.findByIdAndDelete({ id });
+    if (!removeFromWishList)
+      return res
+        .status(500)
+        .json({ message: "Cannot Remove From WishList Server Error" });
+
+    res.status(200).json({ message: removeFromWishList });
+  } catch (error) {
+    res.status(500).json({ message: error });
+    console.error(error);
+  }
+};
