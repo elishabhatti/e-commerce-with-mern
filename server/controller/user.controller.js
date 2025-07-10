@@ -376,3 +376,8 @@ export const getWishListProducts = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+
+export const deleteWishListProducts = async (req, res) => {
+  
+}

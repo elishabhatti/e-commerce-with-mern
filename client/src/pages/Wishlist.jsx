@@ -34,7 +34,6 @@ const Wishlist = () => {
 
   const removeFromWishList = async (id) => {
     console.log(id);
-    
   }
 
   const containerVariants = {
