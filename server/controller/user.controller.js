@@ -362,14 +362,16 @@ export const addToWishList = async (req, res) => {
 export const getWishListProducts = async (req, res) => {
   try {
     const userId = req.user.id;
-    const wishList = await wishListModel.find();
-    if (!wishList)
-      return res.status(500).json({ message: "Products Not Found" });
-    console.log(wishList);
+    const wishList = await wishListModel
+      .findOne({ user: userId })
+      .populate("product");
 
-    res.status(200).json({ message: wishList });
+    if (!wishList || !wishList.product.length) {
+      return res.status(404).json({ message: "No products found in wishlist" });
+    }
+    res.status(200).json({ product: wishList.product });
   } catch (error) {
-    res.status(500).json({ message: error });
-    console.error(error);
+    console.error("Error getting wishlist:", error);
+    res.status(500).json({ message: "Server Error" });
   }
 };
