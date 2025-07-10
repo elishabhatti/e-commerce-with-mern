@@ -87,7 +87,7 @@ const Home = () => {
         { id },
         { withCredentials: true }
       );
-
+      navigate("/wishlist");
       console.log("Added to wishlist:", res.data);
       toast.success("Product added to wishlist!");
     } catch (error) {
