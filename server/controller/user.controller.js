@@ -340,3 +340,7 @@ export const updateProfilePhoto = async (req, res) => {
     res.status(500).json({ error: "Failed to upload profile photo" });
   }
 };
+
+export const addToWishList = async (req, res) => {
+  
+} 

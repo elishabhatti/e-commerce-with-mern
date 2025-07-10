@@ -83,8 +83,7 @@ const Home = () => {
 
   const addProductToWishList = async (id) => {
     console.log(id);
-    
-  }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -262,7 +261,6 @@ const Home = () => {
                     >
                       <ShoppingCart size={20} />
                     </motion.button>
-
                   </div>
 
                   {/* Wishlist Button */}
@@ -275,7 +273,7 @@ const Home = () => {
                         if (!token) {
                           toast.error("Please login first to continue");
                         } else {
-                          addProductToWishList(product._id)
+                          addProductToWishList(product._id);
                         }
                       }}
                       className="flex justify-center items-center p-3 w-12 h-12 cursor-pointer bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 shadow-sm"
