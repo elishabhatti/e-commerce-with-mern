@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart, HeartOff, ShoppingCart } from "lucide-react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -30,6 +30,11 @@ const Wishlist = () => {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  const removeFromWishList = async (id) => {
+    console.log(id);
+    
   }
 
   const containerVariants = {
@@ -167,10 +172,10 @@ const Wishlist = () => {
                   <motion.button
                     whileHover={{ scale: 1.05, rotate: 5 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => toast.info("Remove from wishlist (not implemented)")}
+                    onClick={() => removeFromWishList(product._id)}
                     className="flex justify-center items-center p-3 w-12 h-12 cursor-pointer bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 shadow-sm"
                   >
-                    <Heart size={20} />
+                    <HeartOff size={20} />
                   </motion.button>
                 </div>
               </div>
