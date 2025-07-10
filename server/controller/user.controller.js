@@ -21,6 +21,7 @@ import path from "path";
 import mjml2html from "mjml";
 import ejs from "ejs";
 import { sendVerifyEmail } from "../lib/sendEmailVerifyEmail.js";
+import { wishListModel } from "../models/wishlist.model.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -342,5 +343,16 @@ export const updateProfilePhoto = async (req, res) => {
 };
 
 export const addToWishList = async (req, res) => {
-  
-} 
+  try {
+    const { productId } = req.body;
+    const userId = req.user.id;
+
+    const wishList = wishListModel.create({ userId, productId });
+    console.log(wishList);
+
+    res.status(200).json({ message: wishList });
+  } catch (error) {
+    res.status(500).json({ message: error });
+    console.error(error);
+  }
+};
