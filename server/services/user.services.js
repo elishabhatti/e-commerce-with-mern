@@ -22,9 +22,8 @@ export const createUser = ({
   password,
   phone,
   address,
-  avatar,
 }) => {
-  return userModel.create({ name, email, password, phone, address, avatar });
+  return userModel.create({ name, email, password, phone, address });
 };
 
 export const getUserByEmail = (email) => {

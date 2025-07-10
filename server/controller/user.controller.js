@@ -27,9 +27,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const registerUser = async (req, res) => {
-  const { name, email, password, phone, address, avatar } = req.body;
+  const { name, email, password, phone, address } = req.body;
 
-  if (!name || !email || !password || !phone || !address || !avatar) {
+  if (!name || !email || !password || !phone || !address) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -42,7 +42,6 @@ export const registerUser = async (req, res) => {
       password: hashedPassword,
       phone,
       address,
-      avatar,
     });
 
     const accessToken = await authenticateUser({ req, res, user });
