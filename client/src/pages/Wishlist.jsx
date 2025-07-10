@@ -33,8 +33,20 @@ const Wishlist = () => {
   }
 
   const removeFromWishList = async (id) => {
-    console.log(id);
-  }
+    try {
+      const res = await axios.delete(
+        "http://localhost:3000/api/users/delete-wishlist-product",
+        { id },
+        { withCredentials: true }
+      );
+
+      console.log(res);
+      toast.success("Removed Wishlist Product.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to load wishlist.");
+    }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
