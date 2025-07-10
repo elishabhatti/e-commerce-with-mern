@@ -379,18 +379,25 @@ export const getWishListProducts = async (req, res) => {
 
 export const deleteWishListProducts = async (req, res) => {
   try {
-    const { id } = req.body;
-    if (!id) return res.status(500).json({ message: "Product Not Found" });
+    const userId = req.user.id; // from verifyAuthentication
+    const productId = req.body.id;
 
-    const removeFromWishList = await wishListModel.findByIdAndDelete({ id });
-    if (!removeFromWishList)
-      return res
-        .status(500)
-        .json({ message: "Cannot Remove From WishList Server Error" });
+    if (!productId) {
+      return res.status(400).json({ message: "Product ID is required" });
+    }
 
-    res.status(200).json({ message: removeFromWishList });
+    const removed = await wishListModel.findOneAndDelete({
+      user: userId,
+      product: productId,
+    });
+
+    if (!removed) {
+      return res.status(404).json({ message: "Item not found in wishlist" });
+    }
+
+    res.status(200).json({ message: "Product removed from wishlist" });
   } catch (error) {
-    res.status(500).json({ message: error });
-    console.error(error);
+    console.error("Error:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

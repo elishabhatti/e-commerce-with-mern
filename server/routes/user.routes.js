@@ -32,7 +32,7 @@ router.post("/change-password", changePassword);
 router.post("/logout", logoutUserFromServer);
 router.post("/add-wishList", verifyAuthentication, addToWishList);
 router.get("/get-wishlist-product", verifyAuthentication, getWishListProducts);
-router.delete("/delete-wishlist-product", verifyAuthentication, deleteWishListProducts);
+router.post("/delete-wishlist-product", verifyAuthentication, deleteWishListProducts);
 router.put("/update-profile", verifyAuthentication, updateProfile);
 
 export default router;
