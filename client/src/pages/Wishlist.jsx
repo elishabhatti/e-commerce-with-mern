@@ -26,7 +26,6 @@ const Wishlist = () => {
       setProducts(res.data.products);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to load wishlist.");
     } finally {
       setIsLoading(false);
     }

@@ -346,10 +346,12 @@ export const addToWishList = async (req, res) => {
     const { id } = req.body;
     const userId = req.user.id;
 
-    console.log("Product Id", id, "UserId", userId);
+    const existing = await wishListModel.findOne({ user: userId, product: id });
+    if (existing) {
+      return res.status(400).json({ message: "Product Already in Wishlist" });
+    }
 
     const wishList = await wishListModel.create({ user: userId, product: id });
-    console.log(wishList);
 
     res.status(200).json({ message: wishList });
   } catch (error) {
