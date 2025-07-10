@@ -14,6 +14,7 @@ import {
   ShoppingCart,
   PackageCheck,
   LogOut,
+  Heart,
 } from "lucide-react";
 import { useAuth } from "../store/auth";
 import axios from "axios";
@@ -166,6 +167,14 @@ const Navbar = () => {
                       </NavLink>
                     </li>
                     <li>
+                      <NavLink
+                        to="/wishlist"
+                        className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"
+                      >
+                        <Heart size={16} /> Wishlist
+                      </NavLink>
+                    </li>
+                    <li>
                       <button
                         onClick={handleLogout}
                         className="w-full flex items-center gap-2 text-left px-4 py-2 hover:bg-gray-100 text-red-500"
@@ -272,6 +281,15 @@ const Navbar = () => {
                     className="flex items-center gap-2"
                   >
                     <PackageCheck size={18} /> Purchase
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/wishlist"
+                    onClick={toggleMenu}
+                    className="flex items-center gap-2"
+                  >
+                    <Heart size={18} /> Wishlist
                   </NavLink>
                 </li>
                 <li>
