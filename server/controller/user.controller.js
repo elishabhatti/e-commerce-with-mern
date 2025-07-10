@@ -344,10 +344,12 @@ export const updateProfilePhoto = async (req, res) => {
 
 export const addToWishList = async (req, res) => {
   try {
-    const { productId } = req.body;
+    const { id } = req.body;
     const userId = req.user.id;
 
-    const wishList = wishListModel.create({ userId, productId });
+    console.log("Product Id", id, "UserId", userId);
+
+    const wishList = await wishListModel.create({ user: userId, product: id });
     console.log(wishList);
 
     res.status(200).json({ message: wishList });

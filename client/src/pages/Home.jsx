@@ -80,7 +80,6 @@ const Home = () => {
       setIsLoading(false); // ✅ Stop loading regardless of success/failure
     }
   }
-
   const addProductToWishList = async (id) => {
     try {
       const res = await axios.post(
@@ -88,9 +87,12 @@ const Home = () => {
         { id },
         { withCredentials: true }
       );
-      console.log(res);
+
+      console.log("Added to wishlist:", res.data);
+      toast.success("Product added to wishlist!");
     } catch (error) {
-      console.error(error);
+      console.error("Error adding to wishlist:", error);
+      toast.error("Failed to add product to wishlist.");
     }
   };
 
