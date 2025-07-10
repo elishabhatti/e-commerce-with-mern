@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Heart, HeartOff, ShoppingCart } from "lucide-react";
+import { Heart, HeartOff, PackageOpen, ShoppingCart } from "lucide-react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import LoadingSpinner from "../components/LoadingSpinner";
 
@@ -35,7 +35,7 @@ const Wishlist = () => {
     try {
       const res = await axios.post(
         "http://localhost:3000/api/users/delete-wishlist-product",
-        { id }, // product._id
+        { id },
         { withCredentials: true }
       );
       toast.success("Removed from Wishlist.");
@@ -193,8 +193,12 @@ const Wishlist = () => {
           ))}
         </motion.div>
       ) : (
-        <div className="flex justify-center items-center h-64">
+        <div className="flex justify-center flex-col items-center pt-34">
           <p className="text-xl text-gray-500">Your wishlist is empty.</p>
+          <NavLink className="text-blue-500 underline" to="/">
+            Add To WishList
+          </NavLink>
+          <PackageOpen size={50} />
         </div>
       )}
     </div>
