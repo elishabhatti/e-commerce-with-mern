@@ -16,6 +16,7 @@ const Wishlist = () => {
           withCredentials: true,
         }
       );
+      console.log(res);
     } catch (error) {
       console.error(error);
       toast.error("Failed to load products.");
