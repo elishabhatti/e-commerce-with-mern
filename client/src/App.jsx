@@ -44,7 +44,7 @@ const App = () => {
             <Route path="/logout" element={<LogoutPage />} />
             <Route path="/product-details/:id" element={<ProductDetails />} />
             <Route path="/product-cart/:id" element={<CartDetails />} />
-            <Route path="/wishlist/:id" element={<Wishlist />} />
+            <Route path="/wishlist" element={<Wishlist />} />
             <Route
               path="/update-cart-product/:id"
               element={<UpdateCartProduct />}
