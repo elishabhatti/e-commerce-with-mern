@@ -1,10 +1,13 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const Wishlist = () => {
   const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    getAllWishListProducts()
+  },[])
   async function getAllWishListProducts() {
     try {
       const res = await axios.get(
