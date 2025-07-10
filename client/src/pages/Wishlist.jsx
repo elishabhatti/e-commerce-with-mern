@@ -17,7 +17,7 @@ const Wishlist = () => {
       console.error(error);
       toast.error("Failed to load products.");
     } finally {
-      setIsLoading(false); // ✅ Stop loading regardless of success/failure
+      setIsLoading(false); 
     }
   }
   if (isLoading) return <LoadingSpinner />;

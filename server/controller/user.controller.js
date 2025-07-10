@@ -360,5 +360,17 @@ export const addToWishList = async (req, res) => {
 };
 
 export const getWishListProducts = async (req, res) => {
-  
-}
+  try {
+    const userId = req.user.id;
+
+    const wishList = await wishListModel.find();
+    if (wishList)
+      return res.status(500).json({ message: "Products Not Found" });
+    console.log(wishList);
+
+    res.status(200).json({ message: wishList });
+  } catch (error) {
+    res.status(500).json({ message: error });
+    console.error(error);
+  }
+};
