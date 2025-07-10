@@ -82,7 +82,16 @@ const Home = () => {
   }
 
   const addProductToWishList = async (id) => {
-    console.log(id);
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/users/add-wishList",
+        { id },
+        { withCredentials: true }
+      );
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const containerVariants = {
