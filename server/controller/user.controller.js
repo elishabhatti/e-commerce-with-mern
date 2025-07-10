@@ -358,3 +358,7 @@ export const addToWishList = async (req, res) => {
     console.error(error);
   }
 };
+
+export const getWishListProducts = async (req, res) => {
+  
+}

@@ -12,6 +12,7 @@ import {
   verifyEmailWithCode,
   updateProfilePhoto,
   addToWishList,
+  getWishListProducts,
 } from "../controller/user.controller.js";
 import { verifyAuthentication } from "../middlewares/verifyAuthentication.js";
 import { upload } from "../middlewares/upload.js";
@@ -29,6 +30,7 @@ router.post("/reset-password", resetPassword);
 router.post("/change-password", changePassword);
 router.post("/logout", logoutUserFromServer);
 router.post("/add-wishList", verifyAuthentication, addToWishList);
+router.get("/get-wishlist-product", verifyAuthentication, getWishListProducts);
 router.put("/update-profile", verifyAuthentication, updateProfile);
 
 export default router;
