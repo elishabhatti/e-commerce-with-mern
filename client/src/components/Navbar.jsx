@@ -70,8 +70,10 @@ const Navbar = () => {
     <header className="border-b border-gray-300 px-6 md:px-10 py-3">
       <div className="flex justify-between items-center">
         <div className="text-2xl font-black flex gap-2 items-center">
-          <img className="w-7 h-7 rounded-xl"
-           src="/images/Black and White Modern Digital Marketing Logo.png" alt="" />
+          <div className="bg-black p-2 rounded-full">
+          <img className="w-7 h-7"
+           src="/images/logo.png" alt="DEVIAS Logo" />
+           </div>
           <NavLink to="/">DEVIAS STORE</NavLink>
         </div>
 
