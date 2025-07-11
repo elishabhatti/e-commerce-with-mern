@@ -143,7 +143,7 @@ const Navbar = () => {
                 </button>
 
                 {showDropdown && (
-                  <ul className="absolute right-0 mt-2 w-44 bg-white shadow-md rounded-lg py-2 z-10">
+                  <ul className="absolute right-0 mt-2 w-44 bg-white shadow-md rounded-lg py-2 z-50">
                     <li>
                       <NavLink
                         to="/profile"
