@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaChair, FaBoxOpen, FaHandshake, FaGlobe, FaStar, FaCheck } from "react-icons/fa"; // Updated icons for furniture business context
 import { MdOutlineDesignServices, MdVerifiedUser, MdRecycling } from "react-icons/md"; // More relevant icons
+import TestimonialSection from "../components/TestimonialSection";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -85,6 +86,7 @@ const AboutUs = () => {
 
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20">
+        <TestimonialSection/>
         {/* Hero Section - Furniture Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-24">
           {/* Left Content */}
