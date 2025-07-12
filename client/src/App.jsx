@@ -23,6 +23,7 @@ import ChangePassword from "./pages/ChangePassword";
 import Register from "./admin/Register";
 import VerifyEmail from "./pages/VerifyEmail";
 import Wishlist from "./pages/Wishlist";
+import Dasboard from "./admin/Dasboard";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <main className="flex-grow">
           <Routes>
             <Route path="/admin-register" element={<Register />} />
+            <Route path="/admin-dashboard" element={<Dasboard />} />
             <Route path="/register" element={<RegisterUser />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/login" element={<LoginUser />} />
