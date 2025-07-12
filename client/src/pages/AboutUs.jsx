@@ -145,13 +145,48 @@ const AboutUs = () => {
           </div>
         </div>
 
-        <div className="grid justify-center items-center gap-3 grid-cols-3 w-full">
-          <TestimonialSection />
-          <TestimonialSection />
-          <TestimonialSection />
-          <TestimonialSection />
-          <TestimonialSection />
-          <TestimonialSection />
+        <div>
+          <h1 className="text-3xl uppercase font-bold text-center my-3">
+            Clients Review
+          </h1>
+        </div>
+        <div className="grid justify-center items-center gap-3 grid-cols-3 w-full py10">
+          <TestimonialSection
+            img="https://cdn.britannica.com/74/177874-131-62098C6C/Jules-Verne.jpg"
+            name="John Doe"
+            email="john@example.com"
+            review="Amazing service! Highly recommend."
+          />
+          <TestimonialSection
+            img="https://media.istockphoto.com/id/1399565382/photo/young-happy-mixed-race-businessman-standing-with-his-arms-crossed-working-alone-in-an-office.jpg?s=612x612&w=0&k=20&c=buXwOYjA_tjt2O3-kcSKqkTp2lxKWJJ_Ttx2PhYe3VM="
+            name="Jane Smith"
+            email="jane@example.com"
+            review="Very professional and fast delivery."
+          />
+          <TestimonialSection
+            img="https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid&w=740"
+            name="Ali Khan"
+            email="ali@example.com"
+            review="Loved the design and communication."
+          />
+          <TestimonialSection
+            img="https://img.freepik.com/free-photo/smiling-man-with-tablet_23-2147800049.jpg?semt=ais_hybrid&w=740"
+            name="Sara Williams"
+            email="sara@example.com"
+            review="Great team, exceeded expectations!"
+          />
+          <TestimonialSection
+            img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7Hqz3pj3UhZ-sCJ2zhB1tT6wI0ujEaX9o3lLPNiKfL7DD2il1dpfGQCRhUDywIrvFF3o&usqp=CAU"
+            name="Mark Lee"
+            email="mark@example.com"
+            review="They truly care about their clients."
+          />
+          <TestimonialSection
+            img="https://plus.unsplash.com/premium_photo-1671656349322-41de944d259b?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            name="Mark Lee"
+            email="mark@example.com"
+            review="Working with this team has been one of the best decisions for our business. From the very beginning, they took the time to understand our goals and vision. Their communication throughout the entire process was clear, consistent, and incredibly helpful. What impressed me the most was their ability to blend creativity with functionality — they delivered a website that not only looks stunning but also performs beautifully. We’ve seen a noticeable increase in customer engagement since launch. I highly recommend them to anyone who values quality, dedication, and exceptional results."
+          />
         </div>
 
         {/* Section: Our Crafting Process (Features) - Adapted for Furniture */}
@@ -161,7 +196,7 @@ const AboutUs = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.5 }}
-          className="mb-24 text-center"
+          className="my-7 text-center"
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-12">
             Our Crafting Process: Quality from Concept to Comfort
