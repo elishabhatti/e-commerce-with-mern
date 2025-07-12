@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { userModel } from "../models/user.models.js";
 import { hashPassword } from "../services/user.services.js";
+import { productModel } from "../models/product.models.js";
 dotenv.config();
 
 export const registerAdmin = async (req, res) => {
@@ -53,6 +54,17 @@ export const getAllUsers = async (req, res) => {
     const users = await userModel.find();
     if (!users) return res.status(500).json({ message: "Users Not Found" });
     res.status(200).json({ message: users });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error });
+  }
+};
+
+export const getAllProducts = async (req, res) => {
+  try {
+    const products = await productModel.find();
+    if (!products) return res.status(500).json({ message: "Users Not Found" });
+    res.status(200).json({ message: products });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error });
