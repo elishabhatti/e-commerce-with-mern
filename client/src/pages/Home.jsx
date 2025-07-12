@@ -92,7 +92,7 @@ const Home = () => {
       toast.success("Product added to wishlist!");
     } catch (error) {
       console.error("Error adding to wishlist:", error);
-      toast.error("Failed to add product to wishlist.");
+      toast.warning("Product Already in Wishlist.");
     }
   };
 
