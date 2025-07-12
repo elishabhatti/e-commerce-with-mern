@@ -150,7 +150,12 @@ const AboutUs = () => {
             Clients Review
           </h1>
         </div>
-        <div className="grid justify-center items-center gap-3 grid-cols-3 w-full py10">
+        <motion.div
+          variants={pageVariants}
+          initial="hidden"
+          animate="visible"
+          className="grid justify-center items-center gap-3 grid-cols-3 w-full py10"
+        >
           <TestimonialSection
             img="https://cdn.britannica.com/74/177874-131-62098C6C/Jules-Verne.jpg"
             name="John Doe"
@@ -187,7 +192,7 @@ const AboutUs = () => {
             email="mark@example.com"
             review="A pleasure to work with from day one. Friendly, skilled, and always willing to accommodate my ideas and feedback."
           />
-        </div>
+        </motion.div>
 
         {/* Section: Our Crafting Process (Features) - Adapted for Furniture */}
         <motion.div
