@@ -38,6 +38,7 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview"); // Default active tab
   const [users, setUsers] = useState([]); // State to store fetched user data
   const [products, setProducts] = useState([]); // State to store fetched product data
+  const [orders, setOrders] = useState([]); // State to store fetched product data
   const dashboardRef = useRef(null);
 
   useEffect(() => {
@@ -47,29 +48,43 @@ const Dashboard = () => {
       { opacity: 0, y: 20 },
       { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
     );
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const [usersRes, productsRes, purchaseProductsRes] = await Promise.all([
+        axios.get("http://localhost:3000/api/admin/users", {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }),
+        axios.get("http://localhost:3000/api/admin/products", {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }),
+        axios.get("http://localhost:3000/api/admin/purchase", {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }),
+      ]);
 
-    // Fetch all necessary data concurrently
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const [usersRes, productsRes] = await Promise.all([
-          axios.get("http://localhost:3000/api/admin/users", { withCredentials: true, headers: { "Content-Type": "Application/json" } }),
-          axios.get("http://localhost:3000/api/admin/products", { withCredentials: true, headers: { "Content-Type": "Application/json" } }),
-        ]);
+      setUsers(usersRes.data.message || []);
+      setProducts(productsRes.data.message || []);
+      setOrders(purchaseProductsRes.data.message || []);
 
-        setUsers(usersRes.data.message || []);
-        setProducts(productsRes.data.message || []); // Assuming products data is also in .message
-      } catch (error) {
-        console.error("Error fetching dashboard data:", error);
-        setUsers([]); // Ensure states are reset on error
-        setProducts([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+      // ⚠️ This will log stale state value here
+      console.log(purchaseProductsRes.data.message); // Log raw data instead of `orders`
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+      setUsers([]);
+      setProducts([]);
+      setOrders([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchData();
-  }, []);
+  fetchData();
+}, []);
+
 
   if (loading) {
     return <LoadingSpinner />;
@@ -538,14 +553,14 @@ const Dashboard = () => {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {mockOrders.length === 0 ? (
+                        {orders.length === 0 ? (
                           <tr>
                             <td colSpan="6" className="px-6 py-8 text-center text-gray-500 text-lg">
                               No orders found.
                             </td>
                           </tr>
                         ) : (
-                          mockOrders.map((order, index) => (
+                          orders.map((order, index) => (
                             <motion.tr
                               key={order.id}
                               className="hover:bg-gray-50 transition-colors duration-150"
@@ -560,7 +575,7 @@ const Dashboard = () => {
                                 {order.customer}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-indigo-700">
-                                ${order.total.toFixed(2)}
+                                ${order.total}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <span

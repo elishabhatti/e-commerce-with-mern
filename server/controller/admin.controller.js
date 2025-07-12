@@ -64,7 +64,8 @@ export const getAllUsers = async (req, res) => {
 export const getAllProducts = async (req, res) => {
   try {
     const products = await productModel.find();
-    if (!products) return res.status(500).json({ message: "Products Not Found" });
+    if (!products)
+      return res.status(500).json({ message: "Products Not Found" });
     res.status(200).json({ message: products });
   } catch (error) {
     console.error(error);
@@ -74,9 +75,12 @@ export const getAllProducts = async (req, res) => {
 
 export const getAllPurchaseProducts = async (req, res) => {
   try {
-    const purchaseProducts = await purchaseModel.find();
-    if (!purchaseProducts) return res.status(500).json({ message: "Purchase Products Not Found" });
-    res.status(200).json({ message: purchaseProducts});
+    const purchaseProducts = await purchaseModel.find().populate();
+    if (!purchaseProducts)
+      return res.status(500).json({ message: "Purchase Products Not Found" });
+    console.log(purchaseProducts);
+
+    res.status(200).json({ message: purchaseProducts });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error });
