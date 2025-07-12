@@ -75,7 +75,9 @@ export const getAllProducts = async (req, res) => {
 
 export const getAllPurchaseProducts = async (req, res) => {
   try {
-    const purchaseProducts = await purchaseModel.find().populate("product");
+    const purchaseProducts = await purchaseModel
+      .find()
+      .populate(["product", "user"]);
     if (!purchaseProducts)
       return res.status(500).json({ message: "Purchase Products Not Found" });
     console.log(purchaseProducts);

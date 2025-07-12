@@ -21,16 +21,58 @@ import LoadingSpinner from "../components/LoadingSpinner";
 
 // Mock Data for other sections (Orders, Contacts) - these are not fetched from API in this update
 const mockOrders = [
-  { id: "order_001", customer: "Alice Smith", total: 159.98, status: "Completed", date: "2024-07-01" },
-  { id: "order_002", customer: "Charlie Brown", total: 349.99, status: "Pending", date: "2024-07-05" },
-  { id: "order_003", customer: "Bob Johnson", total: 79.99, status: "Shipped", date: "2024-07-08" },
-  { id: "order_004", customer: "Diana Prince", total: 240.00, status: "Completed", date: "2024-07-10" },
+  {
+    id: "order_001",
+    customer: "Alice Smith",
+    total: 159.98,
+    status: "Completed",
+    date: "2024-07-01",
+  },
+  {
+    id: "order_002",
+    customer: "Charlie Brown",
+    total: 349.99,
+    status: "Pending",
+    date: "2024-07-05",
+  },
+  {
+    id: "order_003",
+    customer: "Bob Johnson",
+    total: 79.99,
+    status: "Shipped",
+    date: "2024-07-08",
+  },
+  {
+    id: "order_004",
+    customer: "Diana Prince",
+    total: 240.0,
+    status: "Completed",
+    date: "2024-07-10",
+  },
 ];
 
 const mockContacts = [
-  { id: "cont_001", name: "John Doe", email: "john.doe@example.com", message: "Inquiry about bulk orders.", date: "2024-06-20" },
-  { id: "cont_002", name: "Jane Smith", email: "jane.smith@example.com", message: "Question about product warranty.", date: "2024-07-03" },
-  { id: "cont_003", name: "Peter Jones", email: "peter.j@example.com", message: "Feedback on website usability.", date: "2024-07-11" },
+  {
+    id: "cont_001",
+    name: "John Doe",
+    email: "john.doe@example.com",
+    message: "Inquiry about bulk orders.",
+    date: "2024-06-20",
+  },
+  {
+    id: "cont_002",
+    name: "Jane Smith",
+    email: "jane.smith@example.com",
+    message: "Question about product warranty.",
+    date: "2024-07-03",
+  },
+  {
+    id: "cont_003",
+    name: "Peter Jones",
+    email: "peter.j@example.com",
+    message: "Feedback on website usability.",
+    date: "2024-07-11",
+  },
 ];
 
 const Dashboard = () => {
@@ -48,43 +90,42 @@ const Dashboard = () => {
       { opacity: 0, y: 20 },
       { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
     );
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const [usersRes, productsRes, purchaseProductsRes] = await Promise.all([
-        axios.get("http://localhost:3000/api/admin/users", {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }),
-        axios.get("http://localhost:3000/api/admin/products", {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }),
-        axios.get("http://localhost:3000/api/admin/purchase", {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }),
-      ]);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [usersRes, productsRes, purchaseProductsRes] = await Promise.all([
+          axios.get("http://localhost:3000/api/admin/users", {
+            withCredentials: true,
+            headers: { "Content-Type": "application/json" },
+          }),
+          axios.get("http://localhost:3000/api/admin/products", {
+            withCredentials: true,
+            headers: { "Content-Type": "application/json" },
+          }),
+          axios.get("http://localhost:3000/api/admin/purchase", {
+            withCredentials: true,
+            headers: { "Content-Type": "application/json" },
+          }),
+        ]);
 
-      setUsers(usersRes.data.message || []);
-      setProducts(productsRes.data.message || []);
-      setOrders(purchaseProductsRes.data.message || []);
+        setUsers(usersRes.data.message || []);
+        setProducts(productsRes.data.message || []);
+        setOrders(purchaseProductsRes.data.message || []);
 
-      // ⚠️ This will log stale state value here
-      console.log(purchaseProductsRes.data.message); // Log raw data instead of `orders`
-    } catch (error) {
-      console.error("Error fetching dashboard data:", error);
-      setUsers([]);
-      setProducts([]);
-      setOrders([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+        // ⚠️ This will log stale state value here
+        console.log(purchaseProductsRes.data.message); // Log raw data instead of `orders`
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+        setUsers([]);
+        setProducts([]);
+        setOrders([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchData();
-}, []);
-
+    fetchData();
+  }, []);
 
   if (loading) {
     return <LoadingSpinner />;
@@ -92,11 +133,13 @@ const Dashboard = () => {
 
   // Calculate summary statistics for overview based on fetched data
   const totalUsers = users.length;
-  const verifiedUsers = users.filter(user => user.isEmailVerified).length; // Using 'isEmailVerified' for verified users
+  const verifiedUsers = users.filter((user) => user.isEmailVerified).length; // Using 'isEmailVerified' for verified users
   const totalProducts = products.length; // Now using fetched products
   const totalOrders = mockOrders.length;
   const totalRevenue = mockOrders.reduce((sum, order) => sum + order.total, 0);
-  const pendingOrders = mockOrders.filter(order => order.status === "Pending").length;
+  const pendingOrders = mockOrders.filter(
+    (order) => order.status === "Pending"
+  ).length;
   const newContacts = mockContacts.length;
 
   return (
@@ -150,7 +193,11 @@ const Dashboard = () => {
                     Navigation
                   </h3>
                   {[
-                    { name: "Overview", icon: LayoutDashboard, tab: "overview" },
+                    {
+                      name: "Overview",
+                      icon: LayoutDashboard,
+                      tab: "overview",
+                    },
                     { name: "Users", icon: Users, tab: "users" },
                     { name: "Products", icon: Package, tab: "products" },
                     { name: "Orders", icon: ShoppingCart, tab: "orders" },
@@ -203,7 +250,9 @@ const Dashboard = () => {
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Total Users</p>
-                        <p className="text-2xl font-bold text-gray-900">{totalUsers}</p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {totalUsers}
+                        </p>
                       </div>
                     </div>
                     {/* Stat Card: Verified Users */}
@@ -213,7 +262,9 @@ const Dashboard = () => {
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Verified Users</p>
-                        <p className="text-2xl font-bold text-gray-900">{verifiedUsers}</p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {verifiedUsers}
+                        </p>
                       </div>
                     </div>
                     {/* Stat Card: Total Products */}
@@ -223,7 +274,9 @@ const Dashboard = () => {
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Total Products</p>
-                        <p className="text-2xl font-bold text-gray-900">{totalProducts}</p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {totalProducts}
+                        </p>
                       </div>
                     </div>
                     {/* Stat Card: Total Orders */}
@@ -233,7 +286,9 @@ const Dashboard = () => {
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Total Orders</p>
-                        <p className="text-2xl font-bold text-gray-900">{totalOrders}</p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {totalOrders}
+                        </p>
                       </div>
                     </div>
                     {/* Stat Card: Total Revenue */}
@@ -243,7 +298,9 @@ const Dashboard = () => {
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Total Revenue</p>
-                        <p className="text-2xl font-bold text-gray-900">${totalRevenue.toFixed(2)}</p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          ${totalRevenue.toFixed(2)}
+                        </p>
                       </div>
                     </div>
                     {/* Stat Card: Pending Orders */}
@@ -253,7 +310,9 @@ const Dashboard = () => {
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Pending Orders</p>
-                        <p className="text-2xl font-bold text-gray-900">{pendingOrders}</p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {pendingOrders}
+                        </p>
                       </div>
                     </div>
                     {/* Stat Card: New Contacts */}
@@ -263,7 +322,9 @@ const Dashboard = () => {
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">New Contacts</p>
-                        <p className="text-2xl font-bold text-gray-900">{newContacts}</p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {newContacts}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -295,25 +356,46 @@ const Dashboard = () => {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-100">
                         <tr>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             User ID
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Name
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Email
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Verified
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Role
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Joined Date
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Actions
                           </th>
                         </tr>
@@ -321,7 +403,10 @@ const Dashboard = () => {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {users.length === 0 ? (
                           <tr>
-                            <td colSpan="7" className="px-6 py-8 text-center text-gray-500 text-lg">
+                            <td
+                              colSpan="7"
+                              className="px-6 py-8 text-center text-gray-500 text-lg"
+                            >
                               No users found.
                             </td>
                           </tr>
@@ -332,7 +417,10 @@ const Dashboard = () => {
                               className="hover:bg-gray-50 transition-colors duration-150"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.3, delay: index * 0.05 }}
+                              transition={{
+                                duration: 0.3,
+                                delay: index * 0.05,
+                              }}
                             >
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600">
                                 {user._id.slice(0, 8)}...
@@ -359,7 +447,14 @@ const Dashboard = () => {
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                 {user.createdAt
-                                  ? new Date(user.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
+                                  ? new Date(user.createdAt).toLocaleDateString(
+                                      "en-US",
+                                      {
+                                        year: "numeric",
+                                        month: "short",
+                                        day: "numeric",
+                                      }
+                                    )
                                   : "N/A"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2 items-center">
@@ -416,25 +511,46 @@ const Dashboard = () => {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-100">
                         <tr>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Product ID
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Image
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Name
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Category
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Price
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Stock
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Actions
                           </th>
                         </tr>
@@ -442,7 +558,10 @@ const Dashboard = () => {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {products.length === 0 ? (
                           <tr>
-                            <td colSpan="7" className="px-6 py-8 text-center text-gray-500 text-lg">
+                            <td
+                              colSpan="7"
+                              className="px-6 py-8 text-center text-gray-500 text-lg"
+                            >
                               No products found.
                             </td>
                           </tr>
@@ -453,7 +572,10 @@ const Dashboard = () => {
                               className="hover:bg-gray-50 transition-colors duration-150"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.3, delay: index * 0.05 }}
+                              transition={{
+                                duration: 0.3,
+                                delay: index * 0.05,
+                              }}
                             >
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600">
                                 {product._id.slice(0, 8)}...
@@ -461,9 +583,16 @@ const Dashboard = () => {
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <img
                                   className="h-12 w-12 rounded-md object-cover shadow-sm border border-gray-100"
-                                  src={product.image || "https://placehold.co/150x150/E0E0E0/666666?text=No+Image"}
+                                  src={
+                                    product.image ||
+                                    "https://placehold.co/150x150/E0E0E0/666666?text=No+Image"
+                                  }
                                   alt={product.productName || "Product Image"}
-                                  onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/150x150/E0E0E0/666666?text=No+Image"; }}
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src =
+                                      "https://placehold.co/150x150/E0E0E0/666666?text=No+Image";
+                                  }}
                                 />
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -473,7 +602,10 @@ const Dashboard = () => {
                                 {product.category || "N/A"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-700">
-                                ${product.price ? product.price.toFixed(2) : "0.00"}
+                                $
+                                {product.price
+                                  ? product.price
+                                  : "0.00"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                 {product.stock || 0}{" "}
@@ -532,22 +664,40 @@ const Dashboard = () => {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-100">
                         <tr>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Order ID
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Customer
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Total
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Status
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Order Date
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Actions
                           </th>
                         </tr>
@@ -555,7 +705,10 @@ const Dashboard = () => {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {orders.length === 0 ? (
                           <tr>
-                            <td colSpan="6" className="px-6 py-8 text-center text-gray-500 text-lg">
+                            <td
+                              colSpan="7"
+                              className="px-6 py-8 text-center text-gray-500 text-lg"
+                            >
                               No orders found.
                             </td>
                           </tr>
@@ -566,18 +719,33 @@ const Dashboard = () => {
                               className="hover:bg-gray-50 transition-colors duration-150"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.3, delay: index * 0.05 }}
+                              transition={{
+                                duration: 0.3,
+                                delay: index * 0.05,
+                              }}
                             >
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600">
-                                {order.id}
+                              <td className="px-6 py-4 text-sm font-mono text-gray-600">
+                                {order._id}
                               </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                              <td className="px-6 py-4 text-sm font-medium text-gray-900">
                                 {order.customer}
                               </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-indigo-700">
+                              <td className="px-6 py-4 text-sm text-gray-800">
+                                <div className="flex items-center space-x-2">
+                                  <img
+                                    src={order.productImage}
+                                    alt="product"
+                                    className="w-10 h-10 rounded object-cover"
+                                  />
+                                  <span className="font-medium">
+                                    {order.productTitle}
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 text-sm font-semibold text-indigo-700">
                                 ${order.total}
                               </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
+                              <td className="px-6 py-4">
                                 <span
                                   className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                                     order.status === "Completed"
@@ -590,12 +758,19 @@ const Dashboard = () => {
                                   {order.status}
                                 </span>
                               </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                {new Date(order.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+                              <td className="px-6 py-4 text-sm text-gray-700">
+                                {new Date(order.date).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  }
+                                )}
                               </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2 items-center">
+                              <td className="px-6 py-4 text-sm font-medium flex space-x-2 items-center">
                                 <motion.button
-                                  className="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-50 transition-colors duration-150"
+                                  className="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-50"
                                   title="View Order Details"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
@@ -603,7 +778,7 @@ const Dashboard = () => {
                                   <Info className="h-5 w-5" />
                                 </motion.button>
                                 <motion.button
-                                  className="text-red-600 hover:text-red-800 p-2 rounded-full hover:bg-red-50 transition-colors duration-150"
+                                  className="text-red-600 hover:text-red-800 p-2 rounded-full hover:bg-red-50"
                                   title="Cancel Order"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
@@ -639,19 +814,34 @@ const Dashboard = () => {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-100">
                         <tr>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Name
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Email
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Message
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Date
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Actions
                           </th>
                         </tr>
@@ -659,7 +849,10 @@ const Dashboard = () => {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {mockContacts.length === 0 ? (
                           <tr>
-                            <td colSpan="5" className="px-6 py-8 text-center text-gray-500 text-lg">
+                            <td
+                              colSpan="5"
+                              className="px-6 py-8 text-center text-gray-500 text-lg"
+                            >
                               No contact submissions found.
                             </td>
                           </tr>
@@ -670,7 +863,10 @@ const Dashboard = () => {
                               className="hover:bg-gray-50 transition-colors duration-150"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.3, delay: index * 0.05 }}
+                              transition={{
+                                duration: 0.3,
+                                delay: index * 0.05,
+                              }}
                             >
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {contact.name}
@@ -682,7 +878,14 @@ const Dashboard = () => {
                                 {contact.message}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                {new Date(contact.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+                                {new Date(contact.date).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  }
+                                )}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2 items-center">
                                 <motion.button
