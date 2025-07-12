@@ -93,7 +93,7 @@ const Dashboard = () => {
   const newContacts = mockContacts.length; // Assuming all mock contacts are "new" for simplicity
 
   return (
-    <div ref={dashboardRef} className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8 font-sans">
+    <div ref={dashboardRef} className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-8xl mx-auto">
         {/* Header */}
         <motion.div

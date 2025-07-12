@@ -47,3 +47,7 @@ export const registerAdmin = async (req, res) => {
     res.status(500).json({ message: "Server error. Please try again later." });
   }
 };
+
+export const getAllUsers = async (req, res) => {
+
+};
