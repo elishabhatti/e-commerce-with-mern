@@ -17,26 +17,9 @@ import {
   MessageSquare,
 } from "lucide-react";
 import axios from "axios"; // Ensure axios is imported
+import LoadingSpinner from "../components/LoadingSpinner";
 
-// Mock LoadingSpinner component for demonstration
-const LoadingSpinner = () => (
-  <div className="flex items-center justify-center min-h-screen bg-gray-100">
-    <div className="flex flex-col items-center">
-      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
-      <p className="mt-4 text-lg text-gray-700">Loading dashboard data...</p>
-    </div>
-  </div>
-);
-
-// Mock Data for other sections (Products, Orders, Contacts)
-const mockProducts = [
-  { id: "prod_001", name: "Wireless Earbuds", category: "Electronics", price: 79.99, stock: 150 },
-  { id: "prod_002", name: "Smart Watch", category: "Wearables", price: 199.99, stock: 80 },
-  { id: "prod_003", name: "Ergonomic Chair", category: "Office", price: 349.99, stock: 30 },
-  { id: "prod_004", name: "Mechanical Keyboard", category: "Peripherals", price: 120.00, stock: 100 },
-  { id: "prod_005", name: "Portable SSD 1TB", category: "Storage", price: 89.99, stock: 200 },
-];
-
+// Mock Data for other sections (Orders, Contacts) - these are not fetched from API in this update
 const mockOrders = [
   { id: "order_001", customer: "Alice Smith", total: 159.98, status: "Completed", date: "2024-07-01" },
   { id: "order_002", customer: "Charlie Brown", total: 349.99, status: "Pending", date: "2024-07-05" },
@@ -54,6 +37,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview"); // Default active tab
   const [users, setUsers] = useState([]); // State to store fetched user data
+  const [products, setProducts] = useState([]); // State to store fetched product data
   const dashboardRef = useRef(null);
 
   useEffect(() => {
@@ -64,43 +48,41 @@ const Dashboard = () => {
       { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
     );
 
-    // Fetch user data
-    getAllUsers();
-  }, []);
+    // Fetch all necessary data concurrently
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [usersRes, productsRes] = await Promise.all([
+          axios.get("http://localhost:3000/api/admin/users", { withCredentials: true, headers: { "Content-Type": "Application/json" } }),
+          axios.get("http://localhost:3000/api/admin/products", { withCredentials: true, headers: { "Content-Type": "Application/json" } }),
+        ]);
 
-  async function getAllUsers() {
-    try {
-      const res = await axios.get("http://localhost:3000/api/admin/users", {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "Application/json",
-        },
-      });
-      // Assuming res.data.message contains the array of users
-      setUsers(res.data.message);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-      // Fallback to empty array or handle error state appropriately
-      setUsers([]);
-    } finally {
-      setLoading(false); // Set loading to false after fetch attempt
-    }
-  }
+        setUsers(usersRes.data.message || []);
+        setProducts(productsRes.data.message || []); // Assuming products data is also in .message
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+        setUsers([]); // Ensure states are reset on error
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   if (loading) {
     return <LoadingSpinner />;
   }
 
-  // Calculate summary statistics for overview based on fetched users
+  // Calculate summary statistics for overview based on fetched data
   const totalUsers = users.length;
-  // Assuming 'isEmailVerified' can act as a proxy for 'active' or you might have a 'status' field.
-  // Using 'isEmailVerified' as per the provided data structure.
-  const activeUsers = users.filter(user => user.isEmailVerified).length;
-  const totalProducts = mockProducts.length;
+  const verifiedUsers = users.filter(user => user.isEmailVerified).length; // Using 'isEmailVerified' for verified users
+  const totalProducts = products.length; // Now using fetched products
   const totalOrders = mockOrders.length;
   const totalRevenue = mockOrders.reduce((sum, order) => sum + order.total, 0);
   const pendingOrders = mockOrders.filter(order => order.status === "Pending").length;
-  const newContacts = mockContacts.length; // Assuming all mock contacts are "new" for simplicity
+  const newContacts = mockContacts.length;
 
   return (
     <div
@@ -181,7 +163,7 @@ const Dashboard = () => {
           <motion.div
             className="lg:col-span-3 space-y-6"
             initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
             <AnimatePresence mode="wait">
@@ -209,14 +191,14 @@ const Dashboard = () => {
                         <p className="text-2xl font-bold text-gray-900">{totalUsers}</p>
                       </div>
                     </div>
-                    {/* Stat Card: Active Users (based on isEmailVerified) */}
+                    {/* Stat Card: Verified Users */}
                     <div className="bg-green-50 p-5 rounded-lg shadow-sm border border-green-100 flex items-center space-x-4">
                       <div className="p-3 bg-green-200 rounded-full text-green-700">
                         <Users className="h-6 w-6" />
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Verified Users</p>
-                        <p className="text-2xl font-bold text-gray-900">{activeUsers}</p>
+                        <p className="text-2xl font-bold text-gray-900">{verifiedUsers}</p>
                       </div>
                     </div>
                     {/* Stat Card: Total Products */}
@@ -408,7 +390,10 @@ const Dashboard = () => {
                       <Package className="h-6 w-6 mr-3 text-purple-600" />
                       Product Catalog
                     </h2>
-                    <button className="px-5 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200">
+                    <button
+                      className="px-5 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200"
+                      // onClick={() => navigate("/add-product")} // Placeholder for add product functionality
+                    >
                       + Add New Product
                     </button>
                   </div>
@@ -418,6 +403,9 @@ const Dashboard = () => {
                         <tr>
                           <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Product ID
+                          </th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Image
                           </th>
                           <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Name
@@ -437,35 +425,43 @@ const Dashboard = () => {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {mockProducts.length === 0 ? (
+                        {products.length === 0 ? (
                           <tr>
-                            <td colSpan="6" className="px-6 py-8 text-center text-gray-500 text-lg">
+                            <td colSpan="7" className="px-6 py-8 text-center text-gray-500 text-lg">
                               No products found.
                             </td>
                           </tr>
                         ) : (
-                          mockProducts.map((product, index) => (
+                          products.map((product, index) => (
                             <motion.tr
-                              key={product.id}
+                              key={product._id}
                               className="hover:bg-gray-50 transition-colors duration-150"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ duration: 0.3, delay: index * 0.05 }}
                             >
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600">
-                                {product.id}
+                                {product._id.slice(0, 8)}...
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <img
+                                  className="h-12 w-12 rounded-md object-cover shadow-sm border border-gray-100"
+                                  src={product.image || "https://placehold.co/150x150/E0E0E0/666666?text=No+Image"}
+                                  alt={product.productName || "Product Image"}
+                                  onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/150x150/E0E0E0/666666?text=No+Image"; }}
+                                />
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {product.name}
+                                {product.productName || "N/A"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                {product.category}
+                                {product.category || "N/A"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-700">
-                                ${product.price.toFixed(2)}
+                                ${product.price ? product.price.toFixed(2) : "0.00"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                {product.stock}{" "}
+                                {product.stock || 0}{" "}
                                 <span className="text-xs text-gray-500">
                                   units
                                 </span>
@@ -476,6 +472,7 @@ const Dashboard = () => {
                                   title="Edit Product"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
+                                  // onClick={() => console.log('Edit product', product._id)} // Placeholder for edit functionality
                                 >
                                   <SquarePen className="h-5 w-5" />
                                 </motion.button>
@@ -484,6 +481,7 @@ const Dashboard = () => {
                                   title="Delete Product"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
+                                  // onClick={() => console.log('Delete product', product._id)} // Placeholder for delete functionality
                                 >
                                   <X className="h-5 w-5" />
                                 </motion.button>
