@@ -95,6 +95,7 @@ const AboutUs = () => {
     },
   };
 
+
   return (
     <motion.div
       className="relative w-full min-h-screen font-sans text-gray-800"
@@ -151,10 +152,9 @@ const AboutUs = () => {
           </h1>
         </div>
         <motion.div
-          variants={pageVariants}
           initial="hidden"
           animate="visible"
-          className="grid justify-center items-center gap-3 grid-cols-3 w-full py10"
+          className="grid justify-center items-center gap-3 grid-cols-3 w-full py-10"
         >
           <TestimonialSection
             img="https://cdn.britannica.com/74/177874-131-62098C6C/Jules-Verne.jpg"
