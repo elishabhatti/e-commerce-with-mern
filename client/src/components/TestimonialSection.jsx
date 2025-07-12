@@ -3,7 +3,7 @@ import React from "react";
 
 const TestimonialSection = () => {
   return (
-    <div className="w-124 gap-5 border border-gray-300 rounded-sm p-5">
+    <div className="gap-5 border border-gray-300 rounded-sm p-5">
       <div className="flex justify-between items-center">
         <div className="flex gap-3 items-center justify-center">
           <img
