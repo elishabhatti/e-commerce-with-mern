@@ -16,6 +16,7 @@ import {
   Box,
   MessageSquare,
 } from "lucide-react";
+import axios from "axios"; // Ensure axios is imported
 
 // Mock LoadingSpinner component for demonstration
 const LoadingSpinner = () => (
@@ -27,15 +28,7 @@ const LoadingSpinner = () => (
   </div>
 );
 
-// Mock Data - In a real application, this would come from API calls
-const mockUsers = [
-  { id: "user_001", name: "Alice Smith", email: "alice@example.com", status: "Active", joined: "2023-01-15" },
-  { id: "user_002", name: "Bob Johnson", email: "bob@example.com", status: "Inactive", joined: "2023-03-20" },
-  { id: "user_003", name: "Charlie Brown", email: "charlie@example.com", status: "Active", joined: "2023-05-01" },
-  { id: "user_004", name: "Diana Prince", email: "diana@example.com", status: "Active", joined: "2024-02-10" },
-  { id: "user_005", name: "Eve Adams", email: "eve@example.com", status: "Pending", joined: "2024-06-01" },
-];
-
+// Mock Data for other sections (Products, Orders, Contacts)
 const mockProducts = [
   { id: "prod_001", name: "Wireless Earbuds", category: "Electronics", price: 79.99, stock: 150 },
   { id: "prod_002", name: "Smart Watch", category: "Wearables", price: 199.99, stock: 80 },
@@ -60,9 +53,9 @@ const mockContacts = [
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview"); // Default active tab
+  const [users, setUsers] = useState([]); // State to store fetched user data
   const dashboardRef = useRef(null);
 
-  // Simulate data fetching
   useEffect(() => {
     // GSAP entry animation
     gsap.fromTo(
@@ -71,21 +64,38 @@ const Dashboard = () => {
       { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
     );
 
-    // Simulate API call delay
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000); // 1 second delay
-
-    return () => clearTimeout(timer);
+    // Fetch user data
+    getAllUsers();
   }, []);
+
+  async function getAllUsers() {
+    try {
+      const res = await axios.get("http://localhost:3000/api/admin/users", {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "Application/json",
+        },
+      });
+      // Assuming res.data.message contains the array of users
+      setUsers(res.data.message);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      // Fallback to empty array or handle error state appropriately
+      setUsers([]);
+    } finally {
+      setLoading(false); // Set loading to false after fetch attempt
+    }
+  }
 
   if (loading) {
     return <LoadingSpinner />;
   }
 
-  // Calculate summary statistics for overview
-  const totalUsers = mockUsers.length;
-  const activeUsers = mockUsers.filter(user => user.status === "Active").length;
+  // Calculate summary statistics for overview based on fetched users
+  const totalUsers = users.length;
+  // Assuming 'isEmailVerified' can act as a proxy for 'active' or you might have a 'status' field.
+  // Using 'isEmailVerified' as per the provided data structure.
+  const activeUsers = users.filter(user => user.isEmailVerified).length;
   const totalProducts = mockProducts.length;
   const totalOrders = mockOrders.length;
   const totalRevenue = mockOrders.reduce((sum, order) => sum + order.total, 0);
@@ -93,7 +103,10 @@ const Dashboard = () => {
   const newContacts = mockContacts.length; // Assuming all mock contacts are "new" for simplicity
 
   return (
-    <div ref={dashboardRef} className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sans">
+    <div
+      ref={dashboardRef}
+      className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8 font-sans"
+    >
       <div className="max-w-8xl mx-auto">
         {/* Header */}
         <motion.div
@@ -196,13 +209,13 @@ const Dashboard = () => {
                         <p className="text-2xl font-bold text-gray-900">{totalUsers}</p>
                       </div>
                     </div>
-                    {/* Stat Card: Active Users */}
+                    {/* Stat Card: Active Users (based on isEmailVerified) */}
                     <div className="bg-green-50 p-5 rounded-lg shadow-sm border border-green-100 flex items-center space-x-4">
                       <div className="p-3 bg-green-200 rounded-full text-green-700">
                         <Users className="h-6 w-6" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Active Users</p>
+                        <p className="text-sm text-gray-600">Verified Users</p>
                         <p className="text-2xl font-bold text-gray-900">{activeUsers}</p>
                       </div>
                     </div>
@@ -274,7 +287,10 @@ const Dashboard = () => {
                       <Users className="h-6 w-6 mr-3 text-purple-600" />
                       User Management
                     </h2>
-                    <button className="px-5 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200">
+                    <button
+                      className="px-5 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200"
+                      // onClick={() => navigate("/add-user")} // Placeholder for add user functionality
+                    >
                       + Add New User
                     </button>
                   </div>
@@ -292,7 +308,10 @@ const Dashboard = () => {
                             Email
                           </th>
                           <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Status
+                            Verified
+                          </th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Role
                           </th>
                           <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Joined Date
@@ -303,26 +322,26 @@ const Dashboard = () => {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {mockUsers.length === 0 ? (
+                        {users.length === 0 ? (
                           <tr>
-                            <td colSpan="6" className="px-6 py-8 text-center text-gray-500 text-lg">
+                            <td colSpan="7" className="px-6 py-8 text-center text-gray-500 text-lg">
                               No users found.
                             </td>
                           </tr>
                         ) : (
-                          mockUsers.map((user, index) => (
+                          users.map((user, index) => (
                             <motion.tr
-                              key={user.id}
+                              key={user._id}
                               className="hover:bg-gray-50 transition-colors duration-150"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ duration: 0.3, delay: index * 0.05 }}
                             >
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600">
-                                {user.id}
+                                {user._id.slice(0, 8)}...
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {user.name}
+                                {user.name || "N/A"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                 {user.email}
@@ -330,18 +349,21 @@ const Dashboard = () => {
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <span
                                   className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                    user.status === "Active"
+                                    user.isEmailVerified
                                       ? "bg-green-100 text-green-800"
-                                      : user.status === "Inactive"
-                                      ? "bg-red-100 text-red-800"
-                                      : "bg-yellow-100 text-yellow-800"
+                                      : "bg-red-100 text-red-800"
                                   }`}
                                 >
-                                  {user.status}
+                                  {user.isEmailVerified ? "Yes" : "No"}
                                 </span>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                {new Date(user.joined).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+                                {user.role || "N/A"}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {user.createdAt
+                                  ? new Date(user.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
+                                  : "N/A"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2 items-center">
                                 <motion.button
@@ -349,6 +371,7 @@ const Dashboard = () => {
                                   title="Edit User"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
+                                  // onClick={() => console.log('Edit user', user._id)} // Placeholder for edit functionality
                                 >
                                   <SquarePen className="h-5 w-5" />
                                 </motion.button>
@@ -357,6 +380,7 @@ const Dashboard = () => {
                                   title="Delete User"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
+                                  // onClick={() => console.log('Delete user', user._id)} // Placeholder for delete functionality
                                 >
                                   <X className="h-5 w-5" />
                                 </motion.button>
@@ -441,7 +465,10 @@ const Dashboard = () => {
                                 ${product.price.toFixed(2)}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                {product.stock} <span className="text-xs text-gray-500">units</span>
+                                {product.stock}{" "}
+                                <span className="text-xs text-gray-500">
+                                  units
+                                </span>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2 items-center">
                                 <motion.button
