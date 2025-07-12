@@ -49,5 +49,12 @@ export const registerAdmin = async (req, res) => {
 };
 
 export const getAllUsers = async (req, res) => {
-
+  try {
+    const users = await userModel.find();
+    if (!users) return res.status(500).json({ message: "Users Not Found" });
+    res.status(200).json({ message: users });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error });
+  }
 };
