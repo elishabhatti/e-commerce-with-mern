@@ -4,6 +4,7 @@ import { userModel } from "../models/user.models.js";
 import { hashPassword } from "../services/user.services.js";
 import { productModel } from "../models/product.models.js";
 import { purchaseModel } from "../models/purchase.model.js";
+import { contactModel } from "../models/contact.model.js";
 dotenv.config();
 
 export const registerAdmin = async (req, res) => {
@@ -90,5 +91,15 @@ export const getAllPurchaseProducts = async (req, res) => {
 };
 
 export const getAllContacts = async (req, res) => {
+  try {
+    const contacts = await contactModel.find();
+    if (!contacts)
+      return res.status(500).json({ message: "contacts Not Found" });
+    console.log(contacts);
 
-}
+    res.status(200).json({ message: contacts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error });
+  }
+};
