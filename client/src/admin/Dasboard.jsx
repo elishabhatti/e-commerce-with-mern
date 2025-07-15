@@ -256,7 +256,7 @@ const Dashboard = () => {
                       <div>
                         <p className="text-sm text-gray-600">Total Revenue</p>
                         <p className="text-2xl font-bold text-gray-900">
-                          ${totalRevenue.toFixed(2)}
+                          ${totalRevenue}
                         </p>
                       </div>
                     </div>
