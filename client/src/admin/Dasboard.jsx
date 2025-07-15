@@ -81,6 +81,7 @@ const Dashboard = () => {
   const [users, setUsers] = useState([]); // State to store fetched user data
   const [products, setProducts] = useState([]); // State to store fetched product data
   const [orders, setOrders] = useState([]); // State to store fetched product data
+  const [contact, setContact] = useState([]); // State to store fetched product data
   const dashboardRef = useRef(null);
 
   useEffect(() => {
@@ -93,7 +94,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const [usersRes, productsRes, purchaseProductsRes] = await Promise.all([
+        const [usersRes, productsRes, purchaseProductsRes, contactRes] = await Promise.all([
           axios.get("http://localhost:3000/api/admin/users", {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
@@ -106,11 +107,16 @@ const Dashboard = () => {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
           }),
+          axios.get("http://localhost:3000/api/admin/contact", {
+            withCredentials: true,
+            headers: { "Content-Type": "application/json" },
+          }),
         ]);
 
         setUsers(usersRes.data.message || []);
         setProducts(productsRes.data.message || []);
         setOrders(purchaseProductsRes.data.message || []);
+        setContact(contactRes.data.message || []);
 
         // ⚠️ This will log stale state value here
         console.log(purchaseProductsRes.data.message); // Log raw data instead of `orders`
