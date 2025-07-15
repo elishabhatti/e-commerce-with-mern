@@ -867,7 +867,7 @@ const Dashboard = () => {
                             </td>
                           </tr>
                         ) : (
-                          mockContacts.map((contact, index) => (
+                          contact.map((contact, index) => (
                             <motion.tr
                               key={contact.id}
                               className="hover:bg-gray-50 transition-colors duration-150"
@@ -888,7 +888,7 @@ const Dashboard = () => {
                                 {contact.message}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                {new Date(contact.date).toLocaleDateString(
+                                {new Date(contact.createdAt).toLocaleDateString(
                                   "en-US",
                                   {
                                     year: "numeric",
