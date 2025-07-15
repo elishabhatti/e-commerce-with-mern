@@ -19,62 +19,6 @@ import {
 import axios from "axios"; // Ensure axios is imported
 import LoadingSpinner from "../components/LoadingSpinner";
 
-// Mock Data for other sections (Orders, Contacts) - these are not fetched from API in this update
-const mockOrders = [
-  {
-    id: "order_001",
-    customer: "Alice Smith",
-    total: 159.98,
-    status: "Completed",
-    date: "2024-07-01",
-  },
-  {
-    id: "order_002",
-    customer: "Charlie Brown",
-    total: 349.99,
-    status: "Pending",
-    date: "2024-07-05",
-  },
-  {
-    id: "order_003",
-    customer: "Bob Johnson",
-    total: 79.99,
-    status: "Shipped",
-    date: "2024-07-08",
-  },
-  {
-    id: "order_004",
-    customer: "Diana Prince",
-    total: 240.0,
-    status: "Completed",
-    date: "2024-07-10",
-  },
-];
-
-const mockContacts = [
-  {
-    id: "cont_001",
-    name: "John Doe",
-    email: "john.doe@example.com",
-    message: "Inquiry about bulk orders.",
-    date: "2024-06-20",
-  },
-  {
-    id: "cont_002",
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    message: "Question about product warranty.",
-    date: "2024-07-03",
-  },
-  {
-    id: "cont_003",
-    name: "Peter Jones",
-    email: "peter.j@example.com",
-    message: "Feedback on website usability.",
-    date: "2024-07-11",
-  },
-];
-
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview"); // Default active tab
