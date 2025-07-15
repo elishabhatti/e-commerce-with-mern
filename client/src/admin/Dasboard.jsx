@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import axios from "axios"; // Ensure axios is imported
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -27,6 +28,7 @@ const Dashboard = () => {
   const [orders, setOrders] = useState([]); // State to store fetched product data
   const [contact, setContact] = useState([]); // State to store fetched product data
   const dashboardRef = useRef(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     // GSAP animation
@@ -304,7 +306,7 @@ const Dashboard = () => {
                     </h2>
                     <button
                       className="px-5 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200"
-                      // onClick={() => navigate("/add-user")} // Placeholder for add user functionality
+                      onClick={() => navigate("/register")}
                     >
                       + Add New User
                     </button>
