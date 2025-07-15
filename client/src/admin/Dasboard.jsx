@@ -38,24 +38,25 @@ const Dashboard = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const [usersRes, productsRes, purchaseProductsRes, contactRes] = await Promise.all([
-          axios.get("http://localhost:3000/api/admin/users", {
-            withCredentials: true,
-            headers: { "Content-Type": "application/json" },
-          }),
-          axios.get("http://localhost:3000/api/admin/products", {
-            withCredentials: true,
-            headers: { "Content-Type": "application/json" },
-          }),
-          axios.get("http://localhost:3000/api/admin/purchase", {
-            withCredentials: true,
-            headers: { "Content-Type": "application/json" },
-          }),
-          axios.get("http://localhost:3000/api/admin/contact", {
-            withCredentials: true,
-            headers: { "Content-Type": "application/json" },
-          }),
-        ]);
+        const [usersRes, productsRes, purchaseProductsRes, contactRes] =
+          await Promise.all([
+            axios.get("http://localhost:3000/api/admin/users", {
+              withCredentials: true,
+              headers: { "Content-Type": "application/json" },
+            }),
+            axios.get("http://localhost:3000/api/admin/products", {
+              withCredentials: true,
+              headers: { "Content-Type": "application/json" },
+            }),
+            axios.get("http://localhost:3000/api/admin/purchase", {
+              withCredentials: true,
+              headers: { "Content-Type": "application/json" },
+            }),
+            axios.get("http://localhost:3000/api/admin/contact", {
+              withCredentials: true,
+              headers: { "Content-Type": "application/json" },
+            }),
+          ]);
 
         setUsers(usersRes.data.message || []);
         setProducts(productsRes.data.message || []);
@@ -85,12 +86,12 @@ const Dashboard = () => {
   const totalUsers = users.length;
   const verifiedUsers = users.filter((user) => user.isEmailVerified).length; // Using 'isEmailVerified' for verified users
   const totalProducts = products.length; // Now using fetched products
-  const totalOrders = mockOrders.length;
-  const totalRevenue = mockOrders.reduce((sum, order) => sum + order.total, 0);
-  const pendingOrders = mockOrders.filter(
+  const totalOrders = orders.length;
+  const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+  const pendingOrders = orders.filter(
     (order) => order.status === "Pending"
   ).length;
-  const newContacts = mockContacts.length;
+  const newContacts = contact.length;
 
   return (
     <div
