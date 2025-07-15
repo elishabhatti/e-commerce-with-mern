@@ -103,3 +103,8 @@ export const getAllContacts = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
+
+
+export const createProduct = async (req, res) => {
+  
+}
