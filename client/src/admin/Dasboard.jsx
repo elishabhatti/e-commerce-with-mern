@@ -70,6 +70,7 @@ const Dashboard = () => {
         setUsers([]);
         setProducts([]);
         setOrders([]);
+        setContact([])
       } finally {
         setLoading(false);
       }
