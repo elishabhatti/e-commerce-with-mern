@@ -460,7 +460,7 @@ const Dashboard = () => {
                     </h2>
                     <button
                       className="px-5 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200"
-                      // onClick={() => navigate("/add-product")} // Placeholder for add product functionality
+                      onClick={() => navigate("/admin-create-product")} // Placeholder for add product functionality
                     >
                       + Add New Product
                     </button>

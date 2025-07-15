@@ -24,6 +24,7 @@ import Register from "./admin/Register";
 import VerifyEmail from "./pages/VerifyEmail";
 import Wishlist from "./pages/Wishlist";
 import Dasboard from "./admin/Dasboard";
+import CreateProduct from "./admin/CreateProduct";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           <Routes>
             <Route path="/admin-register" element={<Register />} />
             <Route path="/admin-dashboard" element={<Dasboard />} />
+            <Route path="/admin-create-product" element={<CreateProduct />} />
             <Route path="/register" element={<RegisterUser />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/login" element={<LoginUser />} />
