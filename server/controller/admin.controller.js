@@ -88,3 +88,7 @@ export const getAllPurchaseProducts = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
+
+export const getAllContacts = async (req, res) => {
+
+}
