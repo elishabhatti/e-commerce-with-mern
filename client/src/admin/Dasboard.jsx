@@ -119,7 +119,7 @@ const Dashboard = () => {
         setContact(contactRes.data.message || []);
 
         // ⚠️ This will log stale state value here
-        console.log(purchaseProductsRes.data.message); // Log raw data instead of `orders`
+        console.log(contactRes.data.message); // Log raw data instead of `orders`
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
         setUsers([]);
