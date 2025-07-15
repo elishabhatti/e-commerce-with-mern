@@ -422,7 +422,6 @@ const Dashboard = () => {
                                   title="Edit User"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
-                                  // onClick={() => console.log('Edit user', user._id)} // Placeholder for edit functionality
                                 >
                                   <SquarePen className="h-5 w-5" />
                                 </motion.button>
