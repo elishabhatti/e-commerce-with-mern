@@ -29,48 +29,53 @@ const Dashboard = () => {
   const dashboardRef = useRef(null);
 
   useEffect(() => {
-    // GSAP entry animation
+    // GSAP animation
     gsap.fromTo(
       dashboardRef.current,
       { opacity: 0, y: 20 },
       { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
     );
+
     const fetchData = async () => {
       setLoading(true);
+
+      const config = {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      };
+
+      const endpoints = {
+        users: "http://localhost:3000/api/admin/users",
+        products: "http://localhost:3000/api/admin/products",
+        orders: "http://localhost:3000/api/admin/purchase",
+        contact: "http://localhost:3000/api/admin/contact",
+      };
+
       try {
-        const [usersRes, productsRes, purchaseProductsRes, contactRes] =
-          await Promise.all([
-            axios.get("http://localhost:3000/api/admin/users", {
-              withCredentials: true,
-              headers: { "Content-Type": "application/json" },
-            }),
-            axios.get("http://localhost:3000/api/admin/products", {
-              withCredentials: true,
-              headers: { "Content-Type": "application/json" },
-            }),
-            axios.get("http://localhost:3000/api/admin/purchase", {
-              withCredentials: true,
-              headers: { "Content-Type": "application/json" },
-            }),
-            axios.get("http://localhost:3000/api/admin/contact", {
-              withCredentials: true,
-              headers: { "Content-Type": "application/json" },
-            }),
-          ]);
+        const responses = await Promise.all(
+          Object.values(endpoints).map((url) => axios.get(url, config))
+        );
 
-        setUsers(usersRes.data.message || []);
-        setProducts(productsRes.data.message || []);
-        setOrders(purchaseProductsRes.data.message || []);
-        setContact(contactRes.data.message || []);
+        const data = Object.keys(endpoints).reduce((acc, key, index) => {
+          acc[key] = responses[index].data.message || [];
+          return acc;
+        }, {});
 
-        // ⚠️ This will log stale state value here
-        console.log(contactRes.data.message); // Log raw data instead of `orders`
+        // Set all data
+        setUsers(data.users);
+        setProducts(data.products);
+        setOrders(data.orders);
+        setContact(data.contact);
+
+        console.log(data.contact);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
+
+        // Reset all state
         setUsers([]);
         setProducts([]);
         setOrders([]);
-        setContact([])
+        setContact([]);
       } finally {
         setLoading(false);
       }
