@@ -602,10 +602,7 @@ const Dashboard = () => {
                                 {product.category || "N/A"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-700">
-                                $
-                                {product.price
-                                  ? product.price
-                                  : "0.00"}
+                                ${product.price ? product.price : "0.00"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                 {product.stock || 0}{" "}
@@ -715,7 +712,7 @@ const Dashboard = () => {
                         ) : (
                           orders.map((order, index) => (
                             <motion.tr
-                              key={order.id}
+                              key={order._id}
                               className="hover:bg-gray-50 transition-colors duration-150"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
@@ -728,22 +725,22 @@ const Dashboard = () => {
                                 {order._id}
                               </td>
                               <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                                {order.customer}
+                                {order.user?.name}
                               </td>
                               <td className="px-6 py-4 text-sm text-gray-800">
                                 <div className="flex items-center space-x-2">
                                   <img
-                                    src={order.productImage}
+                                    src={order.product?.image}
                                     alt="product"
                                     className="w-10 h-10 rounded object-cover"
                                   />
                                   <span className="font-medium">
-                                    {order.productTitle}
+                                    {order.product?.title}
                                   </span>
                                 </div>
                               </td>
                               <td className="px-6 py-4 text-sm font-semibold text-indigo-700">
-                                ${order.total}
+                                ${order.product?.price}
                               </td>
                               <td className="px-6 py-4">
                                 <span
@@ -755,11 +752,11 @@ const Dashboard = () => {
                                       : "bg-blue-100 text-blue-800"
                                   }`}
                                 >
-                                  {order.status}
+                                  {order.status || "Pending"}
                                 </span>
                               </td>
                               <td className="px-6 py-4 text-sm text-gray-700">
-                                {new Date(order.date).toLocaleDateString(
+                                {new Date(order.createdAt).toLocaleDateString(
                                   "en-US",
                                   {
                                     year: "numeric",
