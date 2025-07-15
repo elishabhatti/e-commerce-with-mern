@@ -677,6 +677,12 @@ const Dashboard = () => {
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                           >
+                            Product
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
                             Total
                           </th>
                           <th
@@ -699,6 +705,7 @@ const Dashboard = () => {
                           </th>
                         </tr>
                       </thead>
+
                       <tbody className="bg-white divide-y divide-gray-200">
                         {orders.length === 0 ? (
                           <tr>
