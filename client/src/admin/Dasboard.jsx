@@ -802,7 +802,7 @@ const Dashboard = () => {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {mockContacts.length === 0 ? (
+                        {contact.length === 0 ? (
                           <tr>
                             <td
                               colSpan="5"
