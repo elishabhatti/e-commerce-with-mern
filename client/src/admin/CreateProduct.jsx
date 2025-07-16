@@ -3,8 +3,10 @@ import { motion } from "framer-motion";
 import Input from "../components/Input"; // Make sure this path is correct
 import axios from "axios";
 import { toast } from "react-toastify";
+import {useNavigate} from "react-router-dom"
 
 const CreateProduct = () => {
+  const navigate  = useNavigate()
   const [formData, setFormData] = useState({
     image: "",
     title: "",
@@ -50,6 +52,7 @@ const CreateProduct = () => {
       
 
       toast.success("Product created successfully!");
+      navigate("/")
       setFormData({
         image: "",
         title: "",
