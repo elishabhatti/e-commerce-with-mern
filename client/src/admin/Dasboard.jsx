@@ -28,7 +28,7 @@ const Dashboard = () => {
   const [orders, setOrders] = useState([]); // State to store fetched product data
   const [contact, setContact] = useState([]); // State to store fetched product data
   const dashboardRef = useRef(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     // GSAP animation
@@ -88,8 +88,19 @@ const Dashboard = () => {
 
   const handleDeleteProductDashboard = async (id) => {
     console.log(id);
-    
-  }
+    try {
+      const res = await axios.delete(
+        "http://localhost:3000/api/admin/delete-product",
+        {
+          id,
+          config,
+        }
+      );
+      console.log(res);
+    } catch (error) {
+      console.error("Error When Deleting Product - Admin", error);
+    }
+  };
 
   if (loading) {
     return <LoadingSpinner />;
@@ -588,7 +599,9 @@ const Dashboard = () => {
                                   title="Delete Product"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
-                                  onClick={() => handleDeleteProductDashboard(product._id)} // Placeholder for delete functionality
+                                  onClick={() =>
+                                    handleDeleteProductDashboard(product._id)
+                                  } // Placeholder for delete functionality
                                 >
                                   <X className="h-5 w-5" />
                                 </motion.button>
