@@ -50,7 +50,6 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    // GSAP animation
     gsap.fromTo(
       dashboardRef.current,
       { opacity: 0, y: 20 },
