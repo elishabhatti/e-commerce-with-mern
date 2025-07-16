@@ -144,3 +144,7 @@ export const createProduct = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
+
+
+export const deleteProduct = async (req, res) => {
+}
