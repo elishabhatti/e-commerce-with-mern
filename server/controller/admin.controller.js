@@ -81,7 +81,6 @@ export const getAllPurchaseProducts = async (req, res) => {
       .populate(["product", "user"]);
     if (!purchaseProducts)
       return res.status(500).json({ message: "Purchase Products Not Found" });
-    console.log(purchaseProducts);
 
     res.status(200).json({ message: purchaseProducts });
   } catch (error) {
@@ -95,7 +94,6 @@ export const getAllContacts = async (req, res) => {
     const contacts = await contactModel.find();
     if (!contacts)
       return res.status(500).json({ message: "contacts Not Found" });
-    console.log(contacts);
 
     res.status(200).json({ message: contacts });
   } catch (error) {
@@ -116,16 +114,6 @@ export const createProduct = async (req, res) => {
     isFeatured,
   } = req.body;
   try {
-    console.log(
-      image,
-      title,
-      description,
-      price,
-      brand,
-      rating,
-      reviews,
-      isFeatured
-    );
     const products = await productModel.create({
       image,
       title,
@@ -147,14 +135,17 @@ export const createProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
-  
+  console.log("Delete ID:", id);
+
   try {
-    if (!id)
-      return res.status(400).json({ message: "Can't Delete the Product" });
-    const deleteProduct = await productModel.findByIdAndDelete(id);
-    res.status(500).json({ message: deleteProduct });
+    if (!id) {
+      return res.status(400).json({ message: "ID is required to delete product." });
+    }
+
+    await productModel.findByIdAndDelete(id);
+    return res.status(200).json({ message: "Product Deleted Successfully!" });
   } catch (error) {
-    res.status(500).json({ message: error });
+    console.error("Delete Error:", error);
+    return res.status(500).json({ message: "Internal Server Error", error });
   }
 };

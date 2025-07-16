@@ -30,6 +30,22 @@ const Dashboard = () => {
   const dashboardRef = useRef(null);
   const navigate = useNavigate();
 
+  const handleDeleteProductDashboard = async (id) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/admin/delete-product/${id}`,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      console.log(res);
+    } catch (error) {
+      console.error("Error When Deleting Product - Admin", error);
+    }
+  };
+
   useEffect(() => {
     // GSAP animation
     gsap.fromTo(
@@ -68,8 +84,6 @@ const Dashboard = () => {
         setProducts(data.products);
         setOrders(data.orders);
         setContact(data.contact);
-
-        console.log(data.contact);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
 
@@ -85,21 +99,6 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
-
-  const handleDeleteProductDashboard = async (id) => {
-    try {
-      const res = await axios.get(
-        `http://localhost:3000/api/admin/delete-product/${id}`,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log(res);
-    } catch (error) {
-      console.error("Error When Deleting Product - Admin", error);
-    }
-  };
 
   if (loading) {
     return <LoadingSpinner />;
