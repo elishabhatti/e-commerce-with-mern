@@ -100,6 +100,7 @@ const EditProduct = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+            <img src={formData.image} alt="Product Image Preview" />
           <Input
             label="Image URL"
             name="image"
