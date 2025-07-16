@@ -139,7 +139,9 @@ export const deleteProduct = async (req, res) => {
 
   try {
     if (!id) {
-      return res.status(400).json({ message: "ID is required to delete product." });
+      return res
+        .status(400)
+        .json({ message: "ID is required to delete product." });
     }
 
     await productModel.findByIdAndDelete(id);
@@ -151,6 +153,13 @@ export const deleteProduct = async (req, res) => {
 };
 
 export const getProductById = async (req, res) => {
-  
-  
-}
+  const { id } = req.params;
+  try {
+    const product = await productModel.findById(id);
+    if (!product) return res.status(500).json({ message: "Product Not Found" });
+    res.status(200).json({ message: product });
+  } catch (error) {
+    console.error("Error While Getting the Product By ID", error);
+    res.status(500).json({ message: error });
+  }
+};
