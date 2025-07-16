@@ -104,7 +104,8 @@ export const getAllContacts = async (req, res) => {
   }
 };
 
-
 export const createProduct = async (req, res) => {
+  const { image, title, description, price, brand, rating, reviews, isFeatured } = req.body;
+  console.log(image, title, description, price, brand, rating, reviews, isFeatured);
   
-}
+};

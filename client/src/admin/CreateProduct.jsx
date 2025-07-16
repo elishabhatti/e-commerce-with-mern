@@ -46,6 +46,8 @@ const CreateProduct = () => {
           },
         }
       );
+      console.log(res);
+      
 
       toast.success("Product created successfully!");
       setFormData({
