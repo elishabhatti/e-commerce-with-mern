@@ -147,11 +147,14 @@ export const createProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   const { id } = req.params;
-  console.log("Received ID:", id);
+  console.log(id);
   
-  if (!id) {
-    return res.status(400).json({ error: "ID is required" });
+  try {
+    if (!id)
+      return res.status(400).json({ message: "Can't Delete the Product" });
+    const deleteProduct = await productModel.findByIdAndDelete(id);
+    res.status(500).json({ message: deleteProduct });
+  } catch (error) {
+    res.status(500).json({ message: error });
   }
-
-  return res.status(200).json({ message: "Product deleted successfully", id });
 };
