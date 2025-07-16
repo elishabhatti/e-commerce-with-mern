@@ -9,6 +9,6 @@ router.get("/products", getAllProducts);
 router.get("/purchase", getAllPurchaseProducts);
 router.get("/contact", getAllContacts);
 router.post("/create-product", createProduct);
-router.delete("/delete-product", deleteProduct);
+router.get("/delete-product", deleteProduct);
 
 export default router;

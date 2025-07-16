@@ -88,10 +88,10 @@ const Dashboard = () => {
 
   const handleDeleteProductDashboard = async (id) => {
     try {
-      const res = await axios.delete(
+      const res = await axios.get(
         `http://localhost:3000/api/admin/delete-product`,
         {
-          data: { id },
+          id ,
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
         }

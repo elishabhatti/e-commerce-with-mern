@@ -147,5 +147,11 @@ export const createProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   const { id } = req.body;
-  console.log(id);
+  console.log("Received ID:", id);
+  
+  if (!id) {
+    return res.status(400).json({ error: "ID is required" });
+  }
+
+  return res.status(200).json({ message: "Product deleted successfully", id });
 };
