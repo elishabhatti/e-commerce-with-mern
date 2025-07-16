@@ -87,13 +87,13 @@ const Dashboard = () => {
   }, []);
 
   const handleDeleteProductDashboard = async (id) => {
-    console.log(id);
     try {
       const res = await axios.delete(
-        "http://localhost:3000/api/admin/delete-product",
+        `http://localhost:3000/api/admin/delete-product`,
         {
-          id,
-          config,
+          data: { id },
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
         }
       );
       console.log(res);
