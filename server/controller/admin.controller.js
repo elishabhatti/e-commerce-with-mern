@@ -163,3 +163,7 @@ export const getProductById = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
+
+export const updateProduct = async (req, res) => {
+ 
+};

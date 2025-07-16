@@ -63,7 +63,7 @@ const EditProduct = () => {
     setUpdating(true);
     try {
       await axios.put(
-        `http://localhost:3000/api/admin/product/${id}`,
+        `http://localhost:3000/api/admin/update-product/${id}`,
         {
           ...formData,
           price: Number(formData.price),
