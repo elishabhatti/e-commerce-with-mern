@@ -86,6 +86,11 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
+  const handleDeleteProductDashboard = async (id) => {
+    console.log(id);
+    
+  }
+
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -583,7 +588,7 @@ const Dashboard = () => {
                                   title="Delete Product"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
-                                  // onClick={() => console.log('Delete product', product._id)} // Placeholder for delete functionality
+                                  onClick={() => handleDeleteProductDashboard(product._id)} // Placeholder for delete functionality
                                 >
                                   <X className="h-5 w-5" />
                                 </motion.button>
