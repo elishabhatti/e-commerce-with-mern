@@ -519,7 +519,13 @@ const Dashboard = () => {
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                           >
-                            Stock
+                            Rating
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Reviews
                           </th>
                           <th
                             scope="col"
@@ -561,7 +567,7 @@ const Dashboard = () => {
                                     product.image ||
                                     "https://placehold.co/150x150/E0E0E0/666666?text=No+Image"
                                   }
-                                  alt={product.productName || "Product Image"}
+                                  alt={product.title || "Product Image"}
                                   onError={(e) => {
                                     e.target.onerror = null;
                                     e.target.src =
@@ -570,18 +576,24 @@ const Dashboard = () => {
                                 />
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {product.productName || "N/A"}
+                                {product.title || "N/A"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                {product.category || "N/A"}
+                                {product.brand || "N/A"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-700">
                                 ${product.price ? product.price : "0.00"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                {product.stock || 0}{" "}
+                                {product.rating || 0}{" "}
                                 <span className="text-xs text-gray-500">
-                                  units
+                                  Rating
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {product.reviews || 0}{" "}
+                                <span className="text-xs text-gray-500">
+                                  Reviews
                                 </span>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2 items-center">
