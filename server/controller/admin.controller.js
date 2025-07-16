@@ -146,7 +146,7 @@ export const createProduct = async (req, res) => {
 };
 
 export const deleteProduct = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   console.log("Received ID:", id);
   
   if (!id) {

@@ -89,9 +89,8 @@ const Dashboard = () => {
   const handleDeleteProductDashboard = async (id) => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/admin/delete-product`,
+        `http://localhost:3000/api/admin/delete-product/${id}`,
         {
-          id ,
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
         }
