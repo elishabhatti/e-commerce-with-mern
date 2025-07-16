@@ -105,7 +105,42 @@ export const getAllContacts = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
-  const { image, title, description, price, brand, rating, reviews, isFeatured } = req.body;
-  console.log(image, title, description, price, brand, rating, reviews, isFeatured);
-  
+  const {
+    image,
+    title,
+    description,
+    price,
+    brand,
+    rating,
+    reviews,
+    isFeatured,
+  } = req.body;
+  try {
+    console.log(
+      image,
+      title,
+      description,
+      price,
+      brand,
+      rating,
+      reviews,
+      isFeatured
+    );
+    const products = await productModel.create({
+      image,
+      title,
+      description,
+      price,
+      brand,
+      rating,
+      reviews,
+      isFeatured,
+    });
+    if (!products)
+      return res.status(400).json({ message: "Product Not Created" });
+    res.status(200).json({ message: products });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error });
+  }
 };
