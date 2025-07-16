@@ -41,6 +41,9 @@ const Dashboard = () => {
       );
 
       console.log(res);
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product._id !== id)
+      );
     } catch (error) {
       console.error("Error When Deleting Product - Admin", error);
     }
