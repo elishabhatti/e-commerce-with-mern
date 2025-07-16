@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import Input from "../components/Input"; // Make sure this path is correct
 import axios from "axios";
 import { toast } from "react-toastify";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 const CreateProduct = () => {
-  const navigate  = useNavigate()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     image: "",
     title: "",
@@ -49,10 +49,9 @@ const CreateProduct = () => {
         }
       );
       console.log(res);
-      
 
       toast.success("Product created successfully!");
-      navigate("/")
+      navigate("/");
       setFormData({
         image: "",
         title: "",
@@ -64,9 +63,7 @@ const CreateProduct = () => {
         isFeatured: false,
       });
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Failed to create product."
-      );
+      toast.error(error.response?.data?.message || "Failed to create product.");
     } finally {
       setLoading(false);
     }
@@ -85,6 +82,18 @@ const CreateProduct = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {formData.image.length > 0 ? (
+            <img
+              src={formData.image}
+              alt="Product Image Preview"
+              className="w-full h-64 object-contain rounded border border-gray-300"
+            />
+          ) : (
+            <div className="w-full h-64 flex items-center justify-center border border-dashed border-gray-300 text-gray-400 rounded">
+              No image URL provided
+            </div>
+          )}
+
           <Input
             label="Image URL"
             name="image"
