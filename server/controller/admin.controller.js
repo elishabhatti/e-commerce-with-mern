@@ -149,3 +149,8 @@ export const deleteProduct = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error", error });
   }
 };
+
+export const getProductById = async (req, res) => {
+  
+  
+}
