@@ -21,6 +21,6 @@ router.get("/contact", getAllContacts);
 router.post("/create-product", createProduct);
 router.get("/delete-product/:id", deleteProduct);
 router.get("/get-product/:id", getProductById);
-router.post("/update-product/:id", updateProduct);
+router.put("/update-product/:id", updateProduct);
 
 export default router;
