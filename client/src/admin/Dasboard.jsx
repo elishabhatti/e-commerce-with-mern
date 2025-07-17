@@ -478,14 +478,6 @@ const Dashboard = () => {
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2 items-center">
                                 <motion.button
-                                  className="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-50 transition-colors duration-150"
-                                  title="Edit User"
-                                  whileHover={{ scale: 1.1 }}
-                                  whileTap={{ scale: 0.9 }}
-                                >
-                                  <SquarePen className="h-5 w-5" />
-                                </motion.button>
-                                <motion.button
                                   className="text-red-600 hover:text-red-800 p-2 rounded-full hover:bg-red-50 transition-colors duration-150"
                                   title="Delete User"
                                   whileHover={{ scale: 1.1 }}
