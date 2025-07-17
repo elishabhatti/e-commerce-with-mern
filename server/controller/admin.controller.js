@@ -135,8 +135,7 @@ export const createProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   const { id } = req.params;
-  console.log("Delete ID:", id);
-
+  
   try {
     if (!id) {
       return res
@@ -206,7 +205,6 @@ export const updateProduct = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
    const { id } = req.params;
-  console.log("Delete ID:", id);
 
   try {
     if (!id) {
