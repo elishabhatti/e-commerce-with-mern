@@ -205,5 +205,20 @@ export const updateProduct = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
+   const { id } = req.params;
+  console.log("Delete ID:", id);
 
+  try {
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: "User deleted." });
+    }
+
+    await userModel.findByIdAndDelete(id);
+    return res.status(200).json({ message: "User Deleted Successfully!" });
+  } catch (error) {
+    console.error("Delete Error:", error);
+    return res.status(500).json({ message: "Internal Server Error", error });
+  }
 }
