@@ -52,10 +52,31 @@ const Dashboard = () => {
     }
   };
 
+  const handleDeleteOrder = async (id) => {
+    const isConfirmed = confirm("Sure Want To Delete The Order?");
+    if (!isConfirmed) return;
+
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/admin/delete-order/${id}`,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      console.log(res);
+      setOrders((prevOrders) =>
+        prevOrders.filter((order) => order._id !== id)
+      );
+    } catch (error) {
+      console.error("Error When Deleting Order - Admin", error);
+    }
+  };
+
   const handleDeleteUser = async (id) => {
     const isConfirmed = confirm("Sure Want To Delete The User?");
     if (!isConfirmed) return;
-    
     try {
       const res = await axios.get(
         `http://localhost:3000/api/admin/delete-user/${id}`,
@@ -797,6 +818,7 @@ const Dashboard = () => {
                                 <motion.button
                                   className="text-red-600 hover:text-red-800 p-2 rounded-full hover:bg-red-50"
                                   title="Cancel Order"
+                                  onClick={() => handleDeleteOrder(order._id)}
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
                                 >
