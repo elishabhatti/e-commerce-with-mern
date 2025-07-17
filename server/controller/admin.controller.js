@@ -236,6 +236,13 @@ export const deleteOrder = async (req, res) => {
 };
 
 export const getPurchaseProductById = async (req, res) => {
-  const { id } = req.params;
-  console.log("id",id);
+  try {
+    const { id } = req.params;
+    const order = purchaseModel.findById(id);
+    if (!order) return res.status(500).json({ message: "Order Not Found" });
+    res.status(200).json({ message: order });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error });
+  }
 };
