@@ -238,8 +238,13 @@ export const deleteOrder = async (req, res) => {
 export const getPurchaseProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const order = purchaseModel.findById(id);
+    console.log(id);
+    const order = await purchaseModel
+      .findById(id)
+      .populate(["product", "user"]);
     if (!order) return res.status(500).json({ message: "Order Not Found" });
+    console.log(order);
+
     res.status(200).json({ message: order });
   } catch (error) {
     console.error(error);
