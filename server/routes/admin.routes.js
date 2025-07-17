@@ -26,7 +26,7 @@ router.get("/delete-product/:id", deleteProduct);
 router.get("/delete-user/:id", deleteUser);
 router.get("/delete-order/:id", deleteOrder);
 router.get("/get-product/:id", getProductById);
-router.get("get-purchase-product/:id", getPurchaseProductById);
+router.get("/get-purchase-product/:id", getPurchaseProductById);
 router.put("/update-product/:id", updateProduct);
 
 export default router;

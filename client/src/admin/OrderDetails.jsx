@@ -6,13 +6,10 @@ import LoadingSpinner from "../components/LoadingSpinner";
 const OrderDetails = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem("token")
 
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        console.log(id);
-
         const res = await axios.get(
           `http://localhost:3000/api/admin/get-purchase-product/${id}`,
           {
