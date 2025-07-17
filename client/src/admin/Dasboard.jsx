@@ -53,6 +53,9 @@ const Dashboard = () => {
   };
 
   const handleDeleteUser = async (id) => {
+    const isConfirmed = confirm("Sure Want To Delete The User?");
+    if (!isConfirmed) return;
+    
     try {
       const res = await axios.get(
         `http://localhost:3000/api/admin/delete-user/${id}`,
