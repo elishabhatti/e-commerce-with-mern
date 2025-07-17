@@ -31,6 +31,9 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const handleDeleteProductDashboard = async (id) => {
+    const isConfirmed = confirm("Sure Want To Delete The Product?");
+    if (!isConfirmed) return;
+
     try {
       const res = await axios.get(
         `http://localhost:3000/api/admin/delete-product/${id}`,
@@ -60,9 +63,7 @@ const Dashboard = () => {
       );
 
       console.log(res);
-      setUsers((prevUsers) =>
-        prevUsers.filter((user) => user._id !== id)
-      );
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
     } catch (error) {
       console.error("Error When Deleting Product - Admin", error);
     }
@@ -139,7 +140,7 @@ const Dashboard = () => {
   return (
     <div
       ref={dashboardRef}
-      className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8 font-sans"
+      className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sans"
     >
       <div className="max-w-8xl mx-auto">
         {/* Header */}
@@ -621,7 +622,9 @@ const Dashboard = () => {
                                   title="Edit Product"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
-                                  onClick={() => navigate(`/edit-product/${product._id}`)} // Placeholder for edit functionality
+                                  onClick={() =>
+                                    navigate(`/edit-product/${product._id}`)
+                                  } // Placeholder for edit functionality
                                 >
                                   <SquarePen className="h-5 w-5" />
                                 </motion.button>
