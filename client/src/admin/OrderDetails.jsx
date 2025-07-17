@@ -85,7 +85,7 @@ const OrderDetails = () => {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div>
         <LoadingSpinner />
       </div>
     );
