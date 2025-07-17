@@ -10,6 +10,7 @@ import {
   getProductById,
   updateProduct,
   deleteUser,
+  deleteOrder,
 } from "../controller/admin.controller.js";
 
 const router = Router();
@@ -22,6 +23,7 @@ router.get("/contact", getAllContacts);
 router.post("/create-product", createProduct);
 router.get("/delete-product/:id", deleteProduct);
 router.get("/delete-user/:id", deleteUser);
+router.get("/delete-order/:id", deleteOrder);
 router.get("/get-product/:id", getProductById);
 router.put("/update-product/:id", updateProduct);
 

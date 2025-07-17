@@ -135,7 +135,7 @@ export const createProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   const { id } = req.params;
-  
+
   try {
     if (!id) {
       return res
@@ -210,7 +210,7 @@ export const deleteUser = async (req, res) => {
     if (!id) {
       return res
         .status(400)
-        .json({ message: "User deleted." });
+        .json({ message: "User Not Found." });
     }
 
     await userModel.findByIdAndDelete(id);
@@ -219,4 +219,8 @@ export const deleteUser = async (req, res) => {
     console.error("Delete Error:", error);
     return res.status(500).json({ message: "Internal Server Error", error });
   }
+}
+
+export const deleteOrder = async (req, res) => {
+
 }
