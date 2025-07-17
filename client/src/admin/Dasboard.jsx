@@ -49,6 +49,25 @@ const Dashboard = () => {
     }
   };
 
+  const handleDeleteUser = async (id) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/admin/delete-user/${id}`,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      console.log(res);
+      setUsers((prevUsers) =>
+        prevUsers.filter((user) => user._id !== id)
+      );
+    } catch (error) {
+      console.error("Error When Deleting Product - Admin", error);
+    }
+  };
+
   useEffect(() => {
     gsap.fromTo(
       dashboardRef.current,
@@ -446,7 +465,7 @@ const Dashboard = () => {
                                   title="Delete User"
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
-                                  // onClick={() => console.log('Delete user', user._id)} // Placeholder for delete functionality
+                                  onClick={() => handleDeleteUser(user._id)}
                                 >
                                   <X className="h-5 w-5" />
                                 </motion.button>
