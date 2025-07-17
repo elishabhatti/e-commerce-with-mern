@@ -26,6 +26,7 @@ import Wishlist from "./pages/Wishlist";
 import Dasboard from "./admin/Dasboard";
 import CreateProduct from "./admin/CreateProduct";
 import EditProduct from "./admin/EditProduct";
+import OrderDetails from "./admin/OrderDetails";
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
             <Route path="/admin-dashboard" element={<Dasboard />} />
             <Route path="/admin-create-product" element={<CreateProduct />} />
             <Route path="/edit-product/:id" element={<EditProduct />} />
+            <Route path="/order-details/:id" element={<OrderDetails />} />
             <Route path="/register" element={<RegisterUser />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/login" element={<LoginUser />} />
