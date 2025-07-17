@@ -39,7 +39,7 @@
           You've requested to verify email. Please click the button below to complete the process.
         </mj-text>
         <mj-button background-color="#2A8FFC" color="white"  href="<%= token %>">
-          Reset Password
+          Verify Email
         </mj-button>
         <mj-text font-size="14px" padding-top="30px" align="center" css-class="subtle-text">
           If the button doesn't work, copy and paste the following token into your browser:
