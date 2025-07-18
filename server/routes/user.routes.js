@@ -14,6 +14,7 @@ import {
   addToWishList,
   getWishListProducts,
   deleteWishListProducts,
+  removeContactFromProfile,
 } from "../controller/user.controller.js";
 import { verifyAuthentication } from "../middlewares/verifyAuthentication.js";
 import { upload } from "../middlewares/upload.js";
@@ -32,6 +33,7 @@ router.post("/change-password", changePassword);
 router.post("/logout", logoutUserFromServer);
 router.post("/add-wishList", verifyAuthentication, addToWishList);
 router.get("/get-wishlist-product", verifyAuthentication, getWishListProducts);
+router.get("/remove-contact/", verifyAuthentication, removeContactFromProfile);
 router.post("/delete-wishlist-product", verifyAuthentication, deleteWishListProducts);
 router.put("/update-profile", verifyAuthentication, updateProfile);
 

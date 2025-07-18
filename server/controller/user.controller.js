@@ -1,5 +1,6 @@
 import passwordResetTokenModel from "../models/password-reset.model.js";
 import { userModel } from "../models/user.models.js";
+import { contactModel } from "../models/contact.model.js";
 import { sendEmail } from "../lib/sendEmailForgotPassword.js";
 import argon2 from "argon2";
 import crypto from "crypto";
@@ -401,5 +402,17 @@ export const deleteWishListProducts = async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const removeContactFromProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const contact = await contactModel.findByIdAndDelete(id);
+    if (!contact) return res.status(500).json({ message: "Contact Not Found" });
+    res.status(200).json({ message: contact });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Contact Not Found" });
   }
 };
