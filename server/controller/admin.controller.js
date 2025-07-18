@@ -270,8 +270,8 @@ export const getPurchaseProductById = async (req, res) => {
 export const getContactById = async (req, res) => {
   try {
     const { id } = req.params;
-    const contact = await contactModel.findById(id);
-    
+    const contact = await contactModel.findById(id).populate("user");
+
     if (!contact) return res.status(500).json({ message: "Contact Not Found" });
     res.status(200).json({ message: contact });
   } catch (error) {
