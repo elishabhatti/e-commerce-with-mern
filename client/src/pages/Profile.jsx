@@ -26,6 +26,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("purchases");
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   // GSAP Ref for overall page entry animation
   const profileRef = useRef(null);
@@ -46,7 +47,6 @@ const Profile = () => {
 
   const fetchContacts = async () => {
     try {
-      const token = localStorage.getItem("token");
       const response = await axios.get(
         "http://localhost:3000/api/contact/get-contact",
         {
@@ -160,6 +160,9 @@ const Profile = () => {
         `http://localhost:3000/api/users/remove-contact/${id}`,
         {
           withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       console.log(res);
