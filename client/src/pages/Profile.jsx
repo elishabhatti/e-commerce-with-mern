@@ -751,7 +751,9 @@ const Profile = () => {
                                 {c.email}
                               </td>
                               <td className="px-6 py-4 text-sm text-gray-700 max-w-xs overflow-hidden text-ellipsis">
-                                {c.message}
+                                {c.message.length > 30
+                                  ? c.message.slice(0, 30) + "..."
+                                  : c.message}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {new Date(c.createdAt).toLocaleDateString(
