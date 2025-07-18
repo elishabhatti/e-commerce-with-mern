@@ -267,3 +267,7 @@ export const getPurchaseProductById = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
+
+export const getContactById = async (req, res) => {
+
+};
