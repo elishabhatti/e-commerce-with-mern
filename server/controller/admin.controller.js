@@ -254,7 +254,6 @@ export const deleteContact = async (req, res) => {
 export const getPurchaseProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const order = await purchaseModel
       .findById(id)
       .populate(["product", "user"]);
@@ -269,5 +268,14 @@ export const getPurchaseProductById = async (req, res) => {
 };
 
 export const getContactById = async (req, res) => {
-
+  try {
+    const { id } = req.params;
+    const contact = await contactModel.findById(id);
+    
+    if (!contact) return res.status(500).json({ message: "Contact Not Found" });
+    res.status(200).json({ message: contact });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error });
+  }
 };
