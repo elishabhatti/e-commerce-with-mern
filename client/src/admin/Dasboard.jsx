@@ -942,6 +942,7 @@ const Dashboard = () => {
                                 <motion.button
                                   className="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-50 transition-colors duration-150"
                                   title="View Message"
+                                  onClick={() => navigate(`/contact-details/${contact._id}`)}
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
                                 >
