@@ -93,6 +93,25 @@ const Dashboard = () => {
     }
   };
 
+  const handleDeleteContact = async (id) => {
+    const isConfirmed = confirm("Sure Want To Delete The Contact?");
+    if (!isConfirmed) return;
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/admin/delete-contact/${id}`,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      console.log(res);
+      setContact((prevContact) => prevContact.filter((contact) => contact._id !== id));
+    } catch (error) {
+      console.error("Error When Deleting Product - Admin", error);
+    }
+  };
+
   useEffect(() => {
     gsap.fromTo(
       dashboardRef.current,
@@ -931,6 +950,7 @@ const Dashboard = () => {
                                 <motion.button
                                   className="text-red-600 hover:text-red-800 p-2 rounded-full hover:bg-red-50 transition-colors duration-150"
                                   title="Delete Contact"
+                                  onClick={() => handleDeleteContact(contact._id)}
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
                                 >
