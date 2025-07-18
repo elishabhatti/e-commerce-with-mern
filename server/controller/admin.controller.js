@@ -235,6 +235,10 @@ export const deleteOrder = async (req, res) => {
   }
 };
 
+export const deleteContact = async (req, res) => {
+
+};
+
 export const getPurchaseProductById = async (req, res) => {
   try {
     const { id } = req.params;
