@@ -18,6 +18,8 @@ const ContactDetails = () => {
           `http://localhost:3000/api/admin/get-contact/${id}`,
           { withCredentials: true }
         );
+        console.log(res);
+
         setContact(res.data.message);
       } catch (error) {
         console.error("Error fetching contact details:", error);
@@ -86,13 +88,27 @@ const ContactDetails = () => {
       >
         📬 Contact Message
       </motion.div>
-
-      <motion.div className="flex justify-center mb-6" variants={itemVariants}>
-        <img
-          src={`http://localhost:3000${contact.user.avatar}`}
-          alt="User Avatar"
-          className="w-32 h-32 rounded-full border-4 border-blue-500 shadow-lg object-cover hover:scale-105 transition-transform duration-300"
-        />
+      <motion.div
+        className="flex flex-col items-center gap-2 mb-6"
+        variants={itemVariants}
+      >
+        <div className="relative">
+          <img
+            src={`http://localhost:3000${contact.user.avatar}`}
+            alt="User Avatar"
+            className="w-32 h-32 rounded-full border-4 border-blue-500 shadow-lg object-cover hover:scale-105 transition-transform duration-300"
+          />
+          {contact.user.isEmailVerified && (
+            <span className="absolute bottom-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full shadow-md">
+              Verified
+            </span>
+          )}
+          {!contact.user.isEmailVerified && (
+            <span className="absolute bottom-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full shadow-md">
+              Not Verified
+            </span>
+          )}
+        </div>
       </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
