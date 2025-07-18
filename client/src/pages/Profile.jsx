@@ -154,6 +154,25 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteContactProfile = async (id) => {
+    try {
+      let res = await axios.get(
+        `http://localhost:3000/api/users/remove-contact/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(res);
+
+      setContacts((prev) => prev.filter((c) => c._id !== id));
+    } catch (error) {
+      console.error(
+        "Error deleting Contact:",
+        error.response?.data || error.message
+      );
+    }
+  };
+
   const handleRemoveCartProduct = async (cartItemId) => {
     try {
       const token = localStorage.getItem("token");
@@ -764,6 +783,15 @@ const Profile = () => {
                                     day: "numeric",
                                   }
                                 )}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                <button
+                                  onClick={() =>
+                                    handleDeleteContactProfile(c._id)
+                                  }
+                                >
+                                  X
+                                </button>
                               </td>
                             </motion.tr>
                           ))
