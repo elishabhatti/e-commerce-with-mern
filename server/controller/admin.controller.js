@@ -236,7 +236,19 @@ export const deleteOrder = async (req, res) => {
 };
 
 export const deleteContact = async (req, res) => {
+  const { id } = req.params;
 
+  try {
+    if (!id) {
+      return res.status(400).json({ message: "Contact Not Found." });
+    }
+
+    await contactModel.findByIdAndDelete(id);
+    return res.status(200).json({ message: "Contact Deleted Successfully!" });
+  } catch (error) {
+    console.error("Delete Error:", error);
+    return res.status(500).json({ message: "Internal Server Error", error });
+  }
 };
 
 export const getPurchaseProductById = async (req, res) => {
