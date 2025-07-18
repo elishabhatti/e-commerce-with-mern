@@ -742,6 +742,12 @@ const Profile = () => {
                           >
                             Date
                           </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            Actions
+                          </th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
@@ -789,11 +795,12 @@ const Profile = () => {
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                 <button
+                                  className="text-red-500 rounded-full p-1 hover:bg-red-100"
                                   onClick={() =>
                                     handleDeleteContactProfile(c._id)
                                   }
                                 >
-                                  X
+                                  <X />
                                 </button>
                               </td>
                             </motion.tr>
