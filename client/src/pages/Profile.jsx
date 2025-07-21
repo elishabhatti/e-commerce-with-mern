@@ -14,8 +14,8 @@ import {
   IdCard,
   Clock,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion"; // Import motion and AnimatePresence
-import { gsap } from "gsap"; // Import gsap
+import { motion, AnimatePresence } from "framer-motion";
+import { gsap } from "gsap"; 
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const Profile = () => {
