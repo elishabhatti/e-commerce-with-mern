@@ -36,9 +36,7 @@ const ChangePassword = () => {
       newPassword,
     });
 
-    console.log(res); 
-
-    if (res.success) {
+    if (res) {
       setMessage("Password changed successfully! Redirecting to login...");
       setTimeout(() => navigate("/login"), 3000);
     } else {
