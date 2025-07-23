@@ -48,6 +48,11 @@ const Profile = () => {
         getRequest("/cart/get-cart-product"),
         getRequest("/contact/get-contact"),
       ]);
+      console.log("userData:", userData);
+      console.log("purchaseData:", purchaseData);
+      console.log("cartData:", cartData);
+      console.log("contactData:", contactData);
+      
 
       setUser(userData);
       setProducts(purchaseData);

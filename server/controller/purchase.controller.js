@@ -29,7 +29,6 @@ export const getPurchaseProduct = async (req, res) => {
       .populate("product");
 
     res.status(200).json({
-      message: "Products fetched successfully",
       data: getProduct,
     });
   } catch (error) {
@@ -49,7 +48,6 @@ export const removePurchaseProduct = async (req, res) => {
       return res.status(500).json({ message: "Product not Deleted" });
 
     res.status(200).json({
-      message: "Products Deleted successfully",
       data: deleteProduct,
     });
   } catch (error) {
@@ -71,7 +69,6 @@ export const getPurchaseProductById = async (req, res) => {
     }
 
     res.status(200).json({
-      message: "Product fetched successfully",
       data: getPurchasedProduct,
     });
   } catch (error) {

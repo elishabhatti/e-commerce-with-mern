@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Input from "../components/Input";
+import { postRequest } from "../../utils/api";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -29,15 +30,12 @@ const ChangePassword = () => {
       setError("");
       setMessage("");
 
-      const res = await axios.post(
-        "http://localhost:3000/api/users/change-password",
-        {
-          email,
-          currentPassword: oldPassword,
-          newPassword,
-        }
-      );
-
+      const data = await postRequest("/users/change-password", {
+        email,
+        currentPassword: oldPassword,
+        newPassword,
+      });
+      console.log(data);
       if (res.data.success) {
         setMessage("Password changed successfully! Redirecting to login...");
         setTimeout(() => navigate("/login"), 3000);
