@@ -16,10 +16,9 @@ import {
   Box,
   MessageSquare,
 } from "lucide-react";
-import axios from "axios"; // Ensure axios is imported
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
-import { getRequest } from "../../utils/api";
+import { deleteRequest, getRequest } from "../../utils/api";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
