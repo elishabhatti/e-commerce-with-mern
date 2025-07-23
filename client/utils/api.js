@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
 // Generic GET
 export const getRequest = async (url) => {
   const res = await axiosInstance.get(url);
-  return res.data.data;
+  return res.data.message || res.data.data || res.data;
 };
 
 // Generic POST
