@@ -4,7 +4,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import Input from "../components/Input";
 import { toast } from "react-toastify";
-import { getRequest } from "../../utils/api";
+import { getRequest, putRequest } from "../../utils/api";
 
 const EditProduct = () => {
     const { id } = useParams();
