@@ -4,6 +4,7 @@ import axios from "axios";
 import LoadingSpinner from "../components/LoadingSpinner"; // Assuming this is already styled
 import { motion } from "framer-motion"; // Import motion from framer-motion
 import { gsap } from "gsap"; // Import gsap for potential advanced animations
+import { getRequest } from "../../utils/api";
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -14,18 +15,11 @@ const OrderDetails = () => {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:3000/api/admin/get-purchase-product/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        setOrder(res.data.message);
-        console.log(res); // For debugging
+        const res = await getRequest(`/admin/get-purchase-product/${id}`);
+        console.log(res); 
+        setOrder(res);
       } catch (error) {
         console.error("Error fetching order details:", error);
-        // Optionally navigate to an error page or show a user-friendly message
-        // navigate('/error');
       } finally {
         setLoading(false);
       }
