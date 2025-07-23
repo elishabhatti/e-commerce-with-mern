@@ -4,12 +4,15 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import Input from "../components/Input";
 import { toast } from "react-toastify";
+import { getRequest } from "../../utils/api";
 
 const EditProduct = () => {
-  const { id } = useParams();
+    const { id } = useParams();
   const navigate = useNavigate();
+
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
+
   const [formData, setFormData] = useState({
     image: "",
     title: "",
@@ -21,33 +24,29 @@ const EditProduct = () => {
     isFeatured: false,
   });
 
-  const fetchProduct = async () => {
-    try {
-      const res = await axios.get(`http://localhost:3000/api/admin/get-product/${id}`, {
-        withCredentials: true,
-      });
-
-      const product = res.data.message;
-      setFormData({
-        image: product.image || "",
-        title: product.title || "",
-        description: product.description || "",
-        price: product.price || "",
-        brand: product.brand || "",
-        rating: product.rating || "",
-        reviews: product.reviews || "",
-        isFeatured: product.isFeatured || false,
-      });
-    } catch (error) {
-      console.error("Failed to fetch product", error);
-      toast.error("Failed to fetch product");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchProduct();
+    const fetchProduct = async () => {
+      try {
+        const product = await getRequest(`/admin/get-product/${id}`);
+        setFormData({
+          image: product.image || "",
+          title: product.title || "",
+          description: product.description || "",
+          price: product.price || "",
+          brand: product.brand || "",
+          rating: product.rating || "",
+          reviews: product.reviews || "",
+          isFeatured: product.isFeatured || false,
+        });
+      } catch (error) {
+        console.error("Failed to fetch product", error);
+        toast.error("Failed to fetch product");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) fetchProduct();
   }, [id]);
 
   const handleChange = (e) => {
@@ -61,19 +60,14 @@ const EditProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUpdating(true);
+
     try {
-      await axios.put(
-        `http://localhost:3000/api/admin/update-product/${id}`,
-        {
-          ...formData,
-          price: Number(formData.price),
-          rating: Number(formData.rating),
-          reviews: Number(formData.reviews),
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      await putRequest(`/admin/update-product/${id}`, {
+        ...formData,
+        price: Number(formData.price),
+        rating: Number(formData.rating),
+        reviews: Number(formData.reviews),
+      });
 
       toast.success("Product updated successfully!");
       navigate("/admin-dashboard");

@@ -32,5 +32,15 @@ export const deleteRequest = async (url) => {
   return res.data;
 };
 
+export const putRequest = async (url, body = {}) => {
+  const res = await axiosInstance.put(url, body, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res.data;
+};
+
+
 
 export default axiosInstance;
