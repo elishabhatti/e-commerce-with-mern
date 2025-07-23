@@ -17,9 +17,15 @@ export const getRequest = async (url) => {
 };
 
 // Generic POST
+// utils/api.js
 export const postRequest = async (url, body = {}) => {
-  const res = await axiosInstance.post(url, body);
+  const res = await axiosInstance.post(url, body, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   return res.data.data;
 };
+
 
 export default axiosInstance;

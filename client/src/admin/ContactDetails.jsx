@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"; // Original imports
-import axios from "axios"; // Original import
 import LoadingSpinner from "../components/LoadingSpinner"; // Original import
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
