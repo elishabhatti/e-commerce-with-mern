@@ -5,6 +5,7 @@ import Input from "../components/Input";
 import axios from "axios"; // Not needed for just design
 import { useNavigate } from "react-router-dom"; // Not strictly needed for just design
 import { motion } from "framer-motion";
+import { postRequest } from "../../utils/api";
 
 const ContactUs = () => {
   const navigate = useNavigate();
@@ -23,23 +24,9 @@ const ContactUs = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("Please login first to continue.");
-      return;
-    }
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/contact/add-contact",
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const data = await postRequest("/contact/add-contact", formData)
+      console.log("Contact Form Data:", data);
       toast.success("Thank you for your message! We'll get back to you soon.");
       setFormData({
         name: "",
