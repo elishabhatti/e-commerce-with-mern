@@ -4,6 +4,7 @@ import axios from "axios"; // Original import
 import LoadingSpinner from "../components/LoadingSpinner"; // Original import
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
+import { getRequest } from "../../utils/api";
 
 const ContactDetails = () => {
   const { id } = useParams();
@@ -14,14 +15,14 @@ const ContactDetails = () => {
   useEffect(() => {
     const fetchContactDetails = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:3000/api/admin/get-contact/${id}`,
-          { withCredentials: true }
-        );
-        console.log(res); // Keep original console.log
-        setContact(res.data.message);
+        const data = await getRequest(`/admin/get-contact/${id}`);
+        console.log(data); // or console.log(res) if you want raw data
+        setContact(data);
       } catch (error) {
-        console.error("Error fetching contact details:", error);
+        console.error(
+          "Error fetching contact details:",
+          error.response?.data || error.message
+        );
       } finally {
         setLoading(false);
       }
@@ -148,7 +149,6 @@ const ContactDetails = () => {
             </p>
           </motion.div>
 
-
           {/* User ID (assuming contact.user.id exists and you want to display it) */}
           <motion.div variants={itemVariants} className="flex flex-col">
             <p className="text-sm font-medium text-gray-500 mb-1">User ID</p>
@@ -158,13 +158,13 @@ const ContactDetails = () => {
           </motion.div>
         </div>
 
-         {/* Address */}
-          <motion.div variants={itemVariants} className="flex flex-col">
-            <p className="text-sm font-medium text-gray-500 mb-1">Address</p>
-            <p className="text-lg text-gray-800 font-semibold">
-              {contact.user.address}
-            </p>
-          </motion.div>
+        {/* Address */}
+        <motion.div variants={itemVariants} className="flex flex-col">
+          <p className="text-sm font-medium text-gray-500 mb-1">Address</p>
+          <p className="text-lg text-gray-800 font-semibold">
+            {contact.user.address}
+          </p>
+        </motion.div>
 
         {/* Message Content Section */}
         <motion.div
