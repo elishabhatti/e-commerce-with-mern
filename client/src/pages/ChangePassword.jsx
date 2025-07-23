@@ -15,39 +15,42 @@ const ChangePassword = () => {
   const [loading, setLoading] = useState(false);
 
   const handleChangePassword = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!email || !oldPassword || !newPassword) {
-      return setError("All fields are required");
+  if (!email || !oldPassword || !newPassword) {
+    return setError("All fields are required");
+  }
+
+  if (oldPassword === newPassword) {
+    return setError("New password must be different from old password");
+  }
+
+  try {
+    setLoading(true);
+    setError("");
+    setMessage("");
+
+    const res = await postRequest("/users/change-password", {
+      email,
+      currentPassword: oldPassword,
+      newPassword,
+    });
+
+    console.log(res); 
+
+    if (res.success) {
+      setMessage("Password changed successfully! Redirecting to login...");
+      setTimeout(() => navigate("/login"), 3000);
+    } else {
+      setError(res.data.message || "Something went wrong");
     }
+  } catch (err) {
+    setError(err.response?.data?.message || "Failed to change password");
+  } finally {
+    setLoading(false);
+  }
+};
 
-    if (oldPassword === newPassword) {
-      return setError("New password must be different from old password");
-    }
-
-    try {
-      setLoading(true);
-      setError("");
-      setMessage("");
-
-      const data = await postRequest("/users/change-password", {
-        email,
-        currentPassword: oldPassword,
-        newPassword,
-      });
-      console.log(data);
-      if (res.data.success) {
-        setMessage("Password changed successfully! Redirecting to login...");
-        setTimeout(() => navigate("/login"), 3000);
-      } else {
-        setError(res.data.message || "Something went wrong");
-      }
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to change password");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">

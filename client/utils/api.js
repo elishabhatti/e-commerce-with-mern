@@ -24,7 +24,7 @@ export const postRequest = async (url, body = {}) => {
       "Content-Type": "application/json",
     },
   });
-  return res.data.data;
+  return res.data.data || res.data.message || res.data;
 };
 
 export const deleteRequest = async (url) => {
