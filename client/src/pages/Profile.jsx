@@ -17,6 +17,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap"; 
 import LoadingSpinner from "../components/LoadingSpinner";
+import { getRequest, postRequest } from "../../utils/api";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -26,107 +27,34 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("purchases");
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
 
-  // GSAP Ref for overall page entry animation
   const profileRef = useRef(null);
 
   useEffect(() => {
-    // GSAP entry animation
     gsap.fromTo(
       profileRef.current,
       { opacity: 0, y: 20 },
       { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
     );
 
-    fetchUSerProfileData();
-    fetchPurchasedProducts();
-    fetchCartProducts();
-    fetchContacts();
+    fetchAllData();
   }, []);
 
-  const fetchContacts = async () => {
+  const fetchAllData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/api/contact/get-contact",
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setContacts(response.data.data);
-    } catch (error) {
-      console.error(
-        "Error fetching contacts:",
-        error.response?.data || error.message
-      );
-    }
-  };
+      const [userData, purchaseData, cartData, contactData] = await Promise.all([
+        getRequest("/users/profile"),
+        getRequest("/purchase/get-purchase-product"),
+        getRequest("/cart/get-cart-product"),
+        getRequest("/contact/get-contact"),
+      ]);
 
-  const fetchUSerProfileData = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get(
-        "http://localhost:3000/api/users/profile",
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setUser(response.data.data);
+      setUser(userData);
+      setProducts(purchaseData);
+      setCartProducts(cartData);
+      setContacts(contactData);
     } catch (error) {
-      console.error(
-        "Error fetching user profile:",
-        error.response?.data || error.message
-      );
-    }
-  };
-
-  const fetchPurchasedProducts = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get(
-        "http://localhost:3000/api/purchase/get-purchase-product",
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setProducts(response.data.data);
-    } catch (error) {
-      console.error(
-        "Error fetching purchased products:",
-        error.response?.data || error.message
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchCartProducts = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get(
-        "http://localhost:3000/api/cart/get-cart-product",
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setCartProducts(response.data.data);
-    } catch (error) {
-      console.error(
-        "Error fetching cart products:",
-        error.response?.data || error.message
-      );
+      console.error("Error loading profile data:", error.response?.data || error.message);
     } finally {
       setLoading(false);
     }
@@ -134,73 +62,35 @@ const Profile = () => {
 
   const handleRemoveProduct = async (productId) => {
     try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-        `http://localhost:3000/api/purchase/remove-purchased-product/${productId}`,
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await postRequest(`/purchase/remove-purchased-product/${productId}`);
       setProducts((prev) => prev.filter((p) => p._id !== productId));
     } catch (error) {
-      console.error(
-        "Error deleting purchased product:",
-        error.response?.data || error.message
-      );
+      console.error("Error deleting purchased product:", error.response?.data || error.message);
     }
   };
 
   const handleDeleteContactProfile = async (id) => {
     try {
-      let res = await axios.get(
-        `http://localhost:3000/api/users/remove-contact/${id}`,
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(res);
-
+      await getRequest(`/users/remove-contact/${id}`);
       setContacts((prev) => prev.filter((c) => c._id !== id));
     } catch (error) {
-      console.error(
-        "Error deleting Contact:",
-        error.response?.data || error.message
-      );
+      console.error("Error deleting Contact:", error.response?.data || error.message);
     }
   };
 
   const handleRemoveCartProduct = async (cartItemId) => {
     try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-        `http://localhost:3000/api/cart/remove-cart-product/${cartItemId}`,
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await postRequest(`/cart/remove-cart-product/${cartItemId}`);
       setCartProducts((prev) => prev.filter((item) => item._id !== cartItemId));
     } catch (error) {
-      console.error(
-        "Error deleting cart product:",
-        error.response?.data || error.message
-      );
+      console.error("Error deleting cart product:", error.response?.data || error.message);
     }
   };
 
   if (loading) {
     return <LoadingSpinner />;
   }
+
 
   return (
     <div ref={profileRef} className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
