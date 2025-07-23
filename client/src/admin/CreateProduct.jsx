@@ -4,6 +4,7 @@ import Input from "../components/Input"; // Make sure this path is correct
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { postRequest } from "../../utils/api";
 
 const CreateProduct = () => {
   const navigate = useNavigate();
@@ -33,25 +34,17 @@ const CreateProduct = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/admin/create-product",
-        {
-          ...formData,
-          price: Number(formData.price),
-          rating: Number(formData.rating),
-          reviews: Number(formData.reviews),
-        },
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(res);
+      const res = await postRequest("/admin/create-product", {
+        ...formData,
+        price: Number(formData.price),
+        rating: Number(formData.rating),
+        reviews: Number(formData.reviews),
+      });
 
+      console.log(res);
       toast.success("Product created successfully!");
       navigate("/");
+
       setFormData({
         image: "",
         title: "",
@@ -63,7 +56,11 @@ const CreateProduct = () => {
         isFeatured: false,
       });
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to create product.");
+      console.error(
+        "Error creating product:",
+        error.response?.data || error.message
+      );
+      toast.error("Failed to create product");
     } finally {
       setLoading(false);
     }
