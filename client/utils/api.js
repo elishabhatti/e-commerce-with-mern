@@ -27,5 +27,10 @@ export const postRequest = async (url, body = {}) => {
   return res.data.data;
 };
 
+export const deleteRequest = async (url) => {
+  const res = await axiosInstance.get(url); 
+  return res.data;
+};
+
 
 export default axiosInstance;

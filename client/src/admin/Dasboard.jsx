@@ -19,98 +19,37 @@ import {
 import axios from "axios"; // Ensure axios is imported
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
+import { getRequest } from "../../utils/api";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("overview"); // Default active tab
-  const [users, setUsers] = useState([]); // State to store fetched user data
-  const [products, setProducts] = useState([]); // State to store fetched product data
-  const [orders, setOrders] = useState([]); // State to store fetched product data
-  const [contact, setContact] = useState([]); // State to store fetched product data
+  const [activeTab, setActiveTab] = useState("overview");
+  const [users, setUsers] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [contact, setContact] = useState([]);
+
   const dashboardRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleDeleteProductDashboard = async (id) => {
-    const isConfirmed = confirm("Sure Want To Delete The Product?");
-    if (!isConfirmed) return;
+  // Generic delete handler
+  const handleDelete = async (type, id, setter) => {
+    const confirmDelete = confirm(`Sure Want To Delete The ${type}?`);
+    if (!confirmDelete) return;
 
     try {
-      const res = await axios.get(
-        `http://localhost:3000/api/admin/delete-product/${id}`,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      console.log(res);
-      setProducts((prevProducts) =>
-        prevProducts.filter((product) => product._id !== id)
-      );
+      await deleteRequest(`/admin/delete-${type}/${id}`);
+      setter((prev) => prev.filter((item) => item._id !== id));
     } catch (error) {
-      console.error("Error When Deleting Product - Admin", error);
+      console.error(`Error deleting ${type} - Admin`, error.response?.data || error.message);
     }
   };
 
-  const handleDeleteOrder = async (id) => {
-    const isConfirmed = confirm("Sure Want To Delete The Order?");
-    if (!isConfirmed) return;
-
-    try {
-      const res = await axios.get(
-        `http://localhost:3000/api/admin/delete-order/${id}`,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      console.log(res);
-      setOrders((prevOrders) =>
-        prevOrders.filter((order) => order._id !== id)
-      );
-    } catch (error) {
-      console.error("Error When Deleting Order - Admin", error);
-    }
-  };
-
-  const handleDeleteUser = async (id) => {
-    const isConfirmed = confirm("Sure Want To Delete The User?");
-    if (!isConfirmed) return;
-    try {
-      const res = await axios.get(
-        `http://localhost:3000/api/admin/delete-user/${id}`,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      console.log(res);
-      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
-    } catch (error) {
-      console.error("Error When Deleting Product - Admin", error);
-    }
-  };
-
-  const handleDeleteContact = async (id) => {
-    const isConfirmed = confirm("Sure Want To Delete The Contact?");
-    if (!isConfirmed) return;
-    try {
-      const res = await axios.get(
-        `http://localhost:3000/api/admin/delete-contact/${id}`,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      console.log(res);
-      setContact((prevContact) => prevContact.filter((contact) => contact._id !== id));
-    } catch (error) {
-      console.error("Error When Deleting Product - Admin", error);
-    }
-  };
+  // Handlers
+  const handleDeleteProductDashboard = (id) => handleDelete("product", id, setProducts);
+  const handleDeleteOrder = (id) => handleDelete("order", id, setOrders);
+  const handleDeleteUser = (id) => handleDelete("user", id, setUsers);
+  const handleDeleteContact = (id) => handleDelete("contact", id, setContact);
 
   useEffect(() => {
     gsap.fromTo(
@@ -121,38 +60,24 @@ const Dashboard = () => {
 
     const fetchData = async () => {
       setLoading(true);
-
-      const config = {
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" },
-      };
-
       const endpoints = {
-        users: "http://localhost:3000/api/admin/users",
-        products: "http://localhost:3000/api/admin/products",
-        orders: "http://localhost:3000/api/admin/purchase",
-        contact: "http://localhost:3000/api/admin/contact",
+        users: "/admin/users",
+        products: "/admin/products",
+        orders: "/admin/purchase",
+        contact: "/admin/contact",
       };
 
       try {
-        const responses = await Promise.all(
-          Object.values(endpoints).map((url) => axios.get(url, config))
+        const [userData, productData, orderData, contactData] = await Promise.all(
+          Object.values(endpoints).map((url) => getRequest(url))
         );
 
-        const data = Object.keys(endpoints).reduce((acc, key, index) => {
-          acc[key] = responses[index].data.message || [];
-          return acc;
-        }, {});
-
-        // Set all data
-        setUsers(data.users);
-        setProducts(data.products);
-        setOrders(data.orders);
-        setContact(data.contact);
+        setUsers(userData);
+        setProducts(productData);
+        setOrders(orderData);
+        setContact(contactData);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
-
-        // Reset all state
         setUsers([]);
         setProducts([]);
         setOrders([]);
