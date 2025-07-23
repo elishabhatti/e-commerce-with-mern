@@ -11,6 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { getRequest, postRequest, putRequest } from "../../utils/api";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -18,21 +19,23 @@ const Cart = () => {
   const [subtotal, setSubtotal] = useState(0);
   const navigate = useNavigate();
 
+  const calculateSubtotal = (items) => {
+    const total = items.reduce(
+      (sum, item) => sum + item.product.price * item.quantity,
+      0
+    );
+    setSubtotal(total);
+  };
+
   useEffect(() => {
     const fetchCartProducts = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          "http://localhost:3000/api/cart/get-cart-product",
-          {
-            withCredentials: true,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setProducts(response.data.data);
-        calculateSubtotal(response.data.data);
+        const res = await getRequest("/cart/get-cart-product");
+        console.log("res",res);
+        const cartItems = Array.isArray(res) ? res : res?.data || [];
+        
+        setProducts(cartItems);
+        calculateSubtotal(cartItems);
       } catch (error) {
         console.error(
           "Error fetching cart products:",
@@ -46,32 +49,14 @@ const Cart = () => {
     fetchCartProducts();
   }, []);
 
-  const calculateSubtotal = (items) => {
-    const total = items.reduce((sum, item) => {
-      return sum + item.product.price * item.quantity;
-    }, 0);
-    setSubtotal(total);
-  };
-
   const handleRemoveProduct = async (cartItemId) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to remove this item from your cart?"
+    );
+    if (!isConfirmed) return;
+
     try {
-      const isConfirmed = window.confirm(
-        "Are you sure you want to remove this item from your cart?"
-      );
-
-      if (!isConfirmed) return;
-      const token = localStorage.getItem("token");
-      await axios.post(
-        `http://localhost:3000/api/cart/remove-cart-product/${cartItemId}`,
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
+      await postRequest(`/cart/remove-cart-product/${cartItemId}`);
       const updatedProducts = products.filter(
         (item) => item._id !== cartItemId
       );
@@ -95,33 +80,24 @@ const Cart = () => {
     calculateSubtotal(optimisticProducts);
 
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.put(
-        `http://localhost:3000/api/cart/update-quantity/${cartItemId}`,
-        { quantity: newQuantity },
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await putRequest(`/cart/update-quantity/${cartItemId}`, {
+        quantity: newQuantity,
+      });
     } catch (error) {
       console.error("Error updating quantity:", error);
 
+      toast.error(error.response?.data?.message || "Failed to update quantity");
+
+      // Rollback to original quantity
       const originalProducts = products.map((item) =>
         item._id === cartItemId ? { ...item, quantity: item.quantity } : item
       );
       setProducts(originalProducts);
       calculateSubtotal(originalProducts);
-
-      toast.error(error.response?.data?.message || "Failed to update quantity");
     }
   };
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  if (loading) return <LoadingSpinner />;
 
   if (products.length === 0) {
     return (

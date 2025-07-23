@@ -29,7 +29,6 @@ export const getCartProducts = async (req, res) => {
       .populate("product");
 
     res.status(200).json({
-      message: "Products fetched successfully",
       data: getCartProduct,
     });
   } catch (error) {

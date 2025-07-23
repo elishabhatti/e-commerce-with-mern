@@ -3,17 +3,12 @@ import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  FaChair,
   FaBoxOpen,
   FaHandshake,
-  FaGlobe,
-  FaStar,
   FaCheck,
 } from "react-icons/fa"; // Updated icons for furniture business context
 import {
   MdOutlineDesignServices,
-  MdVerifiedUser,
-  MdRecycling,
 } from "react-icons/md"; // More relevant icons
 import TestimonialSection from "../components/TestimonialSection";
 
