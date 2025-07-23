@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { postRequest } from '../../utils/api';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -20,11 +21,8 @@ const ForgotPassword = () => {
       setError('');
       setMessage('');
 
-      const res = await axios.post('http://localhost:3000/api/users/forgot-password', {
-        email,
-      });
-
-      if (res.data.success) {
+      const data = await postRequest('/users/forgot-password', { email });
+      if (data) {
         setMessage("Check your email for password reset link.");
       } else {
         setError(res.data.error || "Something went wrong");
