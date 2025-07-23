@@ -5,6 +5,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
+import { getRequest } from "../../utils/api";
 
 const CartDetails = () => {
   const { id } = useParams();
@@ -17,17 +18,8 @@ const CartDetails = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get(
-          `http://localhost:3000/api/products/products/${id}`,
-          {
-            withCredentials: true,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setProduct(res.data.message);
+        const data = await getRequest(`/products/products/${id}`);
+        setProduct(data); 
       } catch (error) {
         console.error("Error fetching product details:", error);
       } finally {

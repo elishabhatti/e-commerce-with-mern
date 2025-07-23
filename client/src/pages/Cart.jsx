@@ -31,7 +31,6 @@ const Cart = () => {
     const fetchCartProducts = async () => {
       try {
         const res = await getRequest("/cart/get-cart-product");
-        console.log("res",res);
         const cartItems = Array.isArray(res) ? res : res?.data || [];
         
         setProducts(cartItems);
