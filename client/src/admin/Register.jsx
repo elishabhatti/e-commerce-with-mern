@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
+import { postRequest } from "../../utils/api";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +18,6 @@ const Register = () => {
     adminSecret: "",
   });
 
-  const { storeTokenIns } = useAuth();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -79,16 +79,7 @@ const Register = () => {
     setLoading(true);
     
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/admin/register-admin",
-        formData,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log(response);
-
+      const response = await postRequest("/admin/register-admin", formData);
       setFormData({
         name: "",
         email: "",
@@ -98,6 +89,7 @@ const Register = () => {
         phone: "",
         adminSecret: "",
       });
+      navigate("/admin-dashboard");
     } catch (error) {
       const errorMessage =
         error.response?.data?.message ||
