@@ -26,7 +26,7 @@ import mjml2html from "mjml";
 import ejs from "ejs";
 import { sendVerifyEmail } from "../lib/sendEmailVerifyEmail.js";
 import { wishListModel } from "../models/wishlist.model.js";
-import { generateCodeVerifier, generateState } from "arctic";
+import { decodeIdToken, generateCodeVerifier, generateState } from "arctic";
 import { google } from "../lib/oauth/google.js";
 import { OAUTH_EXCHANGE_EXPIRAY } from "../config/CONSTANTS.js";
 
@@ -454,22 +454,14 @@ export const getGoogleLoginCallBack = async (req, res) => {
   } = req.cookies;
 
   if (!code || !state || !storeState || !codeVerifier || state !== storeState) {
-    req.flash(
-      "errors",
-      "Counld'nt login with Google because of invalid login attempt, Please try Again"
-    );
-    return res.redirect("/login");
+    console.error("Invalid Google OAuth callback parameters");
   }
 
   let tokens;
   try {
     tokens = await google.validateAuthorizationCode(code, codeVerifier);
   } catch (error) {
-    req.flash(
-      "errors",
-      "Counld'nt login with Google because of invalid login attempt, Please try Again"
-    );
-    return res.redirect("/login");
+    console.error("Error validating Google authorization code:", error);
   }
   console.log("Google Tokens:", tokens);
 
@@ -477,13 +469,13 @@ export const getGoogleLoginCallBack = async (req, res) => {
   const { sub: googleUserId, name, email, picture } = claims;
 
   console.log("Google User Claims:", claims);
-  
+
   let user = await getUserWithOauthId({
     provider: "google",
     email,
-  })
+  });
 
-  if(user && !user.providerAccountId) {
+  if (user && !user.providerAccountId) {
     await linkUserWithOauth({
       userId: user._id,
       provider: "google",
@@ -491,14 +483,14 @@ export const getGoogleLoginCallBack = async (req, res) => {
     });
   }
 
-  if(!user) {
+  if (!user) {
     user = await createUserWithOauth({
       name,
       email,
       provider: "google",
       providerAccountId: googleUserId,
-    })
+    });
   }
 
-  await authenticateUser({req, res, user, name, email});
+  await authenticateUser({ req, res, user, name, email });
 };

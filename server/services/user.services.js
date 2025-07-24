@@ -182,7 +182,7 @@ export const getUserWithOauthId = async ({ email, provider }) => {
   });
 
   return {
-    id: user._id,
+    _id: user._id,
     name: user.name,
     email: user.email,
     isEmailValid: user.isEmailValid,
@@ -222,7 +222,7 @@ export const createUserWithOauth = async ({
   });
 
   return {
-    id: user._id,
+    _id: user._id,
     name: user.name,
     email: user.email,
     isEmailValid: user.isEmailValid,
