@@ -416,3 +416,7 @@ export const removeContactFromProfile = async (req, res) => {
     return res.status(500).json({ message: "Contact Not Found" });
   }
 };
+
+export const getGoogleLoginPage = (req, res) => {
+
+}

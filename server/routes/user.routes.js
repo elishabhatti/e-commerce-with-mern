@@ -15,6 +15,7 @@ import {
   getWishListProducts,
   deleteWishListProducts,
   removeContactFromProfile,
+  getGoogleLoginPage,
 } from "../controller/user.controller.js";
 import { verifyAuthentication } from "../middlewares/verifyAuthentication.js";
 import { upload } from "../middlewares/upload.js";
@@ -36,5 +37,6 @@ router.get("/get-wishlist-product", verifyAuthentication, getWishListProducts);
 router.get("/remove-contact/:id", verifyAuthentication, removeContactFromProfile);
 router.post("/delete-wishlist-product", verifyAuthentication, deleteWishListProducts);
 router.put("/update-profile", verifyAuthentication, updateProfile);
+router.get("/google", getGoogleLoginPage);
 
 export default router;
