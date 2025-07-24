@@ -10,19 +10,14 @@ import crypto from "crypto";
 import dotenv from "dotenv";
 import sessionModel from "../models/session.model.js";
 import verifyEmailModel from "../models/verify-email.model.js";
+import OauthAccountModel from "../models/oauth.model.js";
 dotenv.config();
 
 export const hashPassword = (password) => {
   return argon2.hash(password);
 };
 
-export const createUser = ({
-  name,
-  email,
-  password,
-  phone,
-  address,
-}) => {
+export const createUser = ({ name, email, password, phone, address }) => {
   return userModel.create({ name, email, password, phone, address });
 };
 
@@ -174,4 +169,24 @@ export const getVerifyEmailToken = async (userId) => {
 
 export const deleteVerifyEmailToken = async (userId) => {
   return await verifyEmailModel.deleteMany({ userId });
+};
+
+export const getUserWithOauthId = async ({ email, provider }) => {
+  const user = await userModel.findOne({ email });
+
+  if (!user) return null;
+
+  const oauthAccount = await OauthAccountModel.findOne({
+    userId: user._id,
+    provider,
+  });
+
+  return {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    isEmailValid: user.isEmailValid,
+    providerAccountId: oauthAccount?.providerAccountId || null,
+    provider: oauthAccount?.provider || null,
+  };
 };

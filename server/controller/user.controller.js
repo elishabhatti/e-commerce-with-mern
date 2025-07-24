@@ -15,6 +15,7 @@ import {
   generateRandomToken,
   getVerifyEmailToken,
   deleteVerifyEmailToken,
+  getUserWithOauthId,
 } from "../services/user.services.js";
 import { fileURLToPath } from "url";
 import fs from "fs/promises";
@@ -436,12 +437,47 @@ export const getGoogleLoginPage = (req, res) => {
     sameSite: "lax",
   };
 
-  res.cookie("oauth_state", state, cookieConfig);
-  res.cookie("oauth_code_verifier", codeVerifier, cookieConfig);
+  res.cookie("google_oauth_state", state, cookieConfig);
+  res.cookie("google_oauth_verifier", codeVerifier, cookieConfig);
 
   res.redirect(url.toString());
 };
 
 export const getGoogleLoginCallBack = async (req, res) => {
+  const { code, state } = req.query;
+  console.log("Google Callback Code:", code, state);
+  const {
+    google_oauth_state: storeState,
+    google_oauth_verifier: codeVerifier,
+  } = req.cookies;
+
+  if (!code || !state || !storeState || !codeVerifier || state !== storeState) {
+    req.flash(
+      "errors",
+      "Counld'nt login with Google because of invalid login attempt, Please try Again"
+    );
+    return res.redirect("/login");
+  }
+
+  let tokens;
+  try {
+    tokens = await google.validateAuthorizationCode(code, codeVerifier);
+  } catch (error) {
+    req.flash(
+      "errors",
+      "Counld'nt login with Google because of invalid login attempt, Please try Again"
+    );
+    return res.redirect("/login");
+  }
+  console.log("Google Tokens:", tokens);
+
+  const claims = decodeIdToken(tokens.idToken());
+  const { sub: googleUserId, name, email, picture } = claims;
+
+  console.log("Google User Claims:", claims);
   
-}
+  let user = await getUserWithOauthId({
+    provider: "google",
+    email,
+  })
+};
