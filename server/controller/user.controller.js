@@ -24,6 +24,8 @@ import ejs from "ejs";
 import { sendVerifyEmail } from "../lib/sendEmailVerifyEmail.js";
 import { wishListModel } from "../models/wishlist.model.js";
 import { generateCodeVerifier, generateState } from "arctic";
+import { google } from "../lib/oauth/google.js";
+import { OAUTH_EXCHANGE_EXPIRAY } from "../config/CONSTANTS.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -427,5 +429,13 @@ export const getGoogleLoginPage = (req, res) => {
     "email",
   ]);
 
-  
+  const cookieConfig = {
+    httpOnly: true,
+    secure: true,
+    maxAge: OAUTH_EXCHANGE_EXPIRAY,
+    sameSite: "lax",
+  };
+
+  res.cookie("oauth_state", state, cookieConfig);
+  res.cookie("oauth_code_verifier", codeVerifier, cookieConfig);
 };
