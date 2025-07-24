@@ -438,4 +438,6 @@ export const getGoogleLoginPage = (req, res) => {
 
   res.cookie("oauth_state", state, cookieConfig);
   res.cookie("oauth_code_verifier", codeVerifier, cookieConfig);
+
+  res.redirect(url.toString());
 };

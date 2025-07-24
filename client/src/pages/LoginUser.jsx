@@ -122,6 +122,10 @@ const LoginUser = () => {
     }
   };
 
+  const handleGetGooglePage = () => {
+    window.location.href = "http://localhost:3000/api/users/google";
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4 font-sans text-gray-800">
       {/* Top Logo Section */}
@@ -159,7 +163,7 @@ const LoginUser = () => {
             className="absolute inset-0 w-full h-full object-cover z-0"
             loading="lazy"
           />
-           <div className="relative z-10 text-center mt-125 md:mb-0">
+          <div className="relative z-10 text-center mt-125 md:mb-0">
             <h3 className="text-3xl text-black font-bold">Welcome aboard!</h3>
             <p className="text-black text-lg">
               Sign in to manage your account.
@@ -183,14 +187,21 @@ const LoginUser = () => {
           </motion.p>
 
           {/* Google Sign-in Button */}
-          <motion.a
-          className="flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-lg px-4 py-2 mb-6 hover:bg-gray-50 transition-colors duration-200 text-gray-800 font-medium text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          href="/google"
+          <motion.button
+            type="button"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-gray-700 font-semibold hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            variants={itemVariants}
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+            onClick={() => handleGetGooglePage()}
           >
-            <img className="w-5" src="/images/google-logo.png"
-             alt="Google Logo" />
+            <img
+              className="w-5"
+              src="/images/google-logo.png"
+              alt="Google Logo"
+            />
             Continue with Google
-          </motion.a>
+          </motion.button>
 
           {/* OR Separator */}
           <motion.div
