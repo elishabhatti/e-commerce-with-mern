@@ -23,6 +23,7 @@ import mjml2html from "mjml";
 import ejs from "ejs";
 import { sendVerifyEmail } from "../lib/sendEmailVerifyEmail.js";
 import { wishListModel } from "../models/wishlist.model.js";
+import { generateCodeVerifier, generateState } from "arctic";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -418,5 +419,13 @@ export const removeContactFromProfile = async (req, res) => {
 };
 
 export const getGoogleLoginPage = (req, res) => {
+  const state = generateState();
+  const codeVerifier = generateCodeVerifier();
+  const url = google.createAuthorizationURL(state, codeVerifier, [
+    "openid",
+    "profile",
+    "email",
+  ]);
 
-}
+  
+};
