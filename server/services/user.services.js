@@ -195,19 +195,42 @@ export const linkUserWithOauth = async ({
   userId,
   provider,
   providerAccountId,
-  avatarUrl,
 }) => {
   await OauthAccountModel.create({
     userId,
     provider,
     providerAccountId,
   });
+};
 
-  // If user has no avatar and one is provided, update it
-  if (avatarUrl) {
-    await userModel.updateOne(
-      { _id: userId, avatarUrl: null },
-      { $set: { avatar } }
-    );
-  }
+export const createUserWithOauth = async ({
+  name,
+  email,
+  provider,
+  providerAccountId,
+  avatarUrl,
+}) => {
+  // Create user
+  const user = await userModel.create({
+    name,
+    email,
+    avatarUrl,
+    isEmailValid: true,
+  });
+
+  // Link OAuth account
+  await OauthAccountModel.create({
+    userId: user._id,
+    provider,
+    providerAccountId,
+  });
+
+  return {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    isEmailValid: user.isEmailValid,
+    provider,
+    providerAccountId,
+  };
 };
