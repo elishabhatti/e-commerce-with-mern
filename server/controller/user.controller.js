@@ -16,6 +16,7 @@ import {
   getVerifyEmailToken,
   deleteVerifyEmailToken,
   getUserWithOauthId,
+  linkUserWithOauth,
 } from "../services/user.services.js";
 import { fileURLToPath } from "url";
 import fs from "fs/promises";
@@ -480,4 +481,12 @@ export const getGoogleLoginCallBack = async (req, res) => {
     provider: "google",
     email,
   })
+
+  if(user && !user.providerAccountId) {
+    await linkUserWithOauth({
+      userId: user._id,
+      provider: "google",
+      providerAccountId: googleUserId,
+    });
+  }
 };
