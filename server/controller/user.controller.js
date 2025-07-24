@@ -499,4 +499,6 @@ export const getGoogleLoginCallBack = async (req, res) => {
       providerAccountId: googleUserId,
     })
   }
+
+  await authenticateUser({req, res, user, name, email});
 };

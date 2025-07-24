@@ -208,17 +208,13 @@ export const createUserWithOauth = async ({
   email,
   provider,
   providerAccountId,
-  avatarUrl,
 }) => {
-  // Create user
   const user = await userModel.create({
     name,
     email,
-    avatarUrl,
     isEmailValid: true,
   });
 
-  // Link OAuth account
   await OauthAccountModel.create({
     userId: user._id,
     provider,
