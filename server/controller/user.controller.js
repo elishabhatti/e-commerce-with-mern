@@ -441,3 +441,7 @@ export const getGoogleLoginPage = (req, res) => {
 
   res.redirect(url.toString());
 };
+
+export const getGoogleLoginCallBack = async (req, res) => {
+  
+}
