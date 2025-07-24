@@ -183,18 +183,14 @@ const LoginUser = () => {
           </motion.p>
 
           {/* Google Sign-in Button */}
-          <motion.button
-            type="button"
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-gray-700 font-semibold hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            variants={itemVariants}
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            onClick={() => toast.info("Google Sign-In integration needed!")}
+          <motion.a
+          className="flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-lg px-4 py-2 mb-6 hover:bg-gray-50 transition-colors duration-200 text-gray-800 font-medium text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          href="/google"
           >
             <img className="w-5" src="/images/google-logo.png"
              alt="Google Logo" />
             Continue with Google
-          </motion.button>
+          </motion.a>
 
           {/* OR Separator */}
           <motion.div
