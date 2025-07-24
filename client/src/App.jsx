@@ -28,6 +28,7 @@ import CreateProduct from "./admin/CreateProduct";
 import EditProduct from "./admin/EditProduct";
 import OrderDetails from "./admin/OrderDetails";
 import ContactDetails from "./admin/ContactDetails";
+import OauthSuccess from "./pages/OauthSuccess";
 
 const App = () => {
   return (
@@ -68,6 +69,7 @@ const App = () => {
             <Route path="/change-password/:id" element={<ChangePassword />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/" element={<Home />} />
+            <Route path="/oauth-success" element={<OauthSuccess />} />
             <Route path="*" element={<Page404 />} />
           </Routes>
         </main>

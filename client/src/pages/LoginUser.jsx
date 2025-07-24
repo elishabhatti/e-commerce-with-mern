@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
 import Input from "../components/Input"; // Ensure this path is correct
+import { useEffect } from "react";
 
 const LoginUser = () => {
   const { storeTokenIns } = useAuth();

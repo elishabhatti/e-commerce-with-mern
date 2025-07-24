@@ -492,5 +492,7 @@ export const getGoogleLoginCallBack = async (req, res) => {
     });
   }
 
-  await authenticateUser({ req, res, user, name, email });
+  const token = await authenticateUser({ req, res, user });
+
+  res.redirect(`http://localhost:5173/oauth-success?token=${token}`);
 };
