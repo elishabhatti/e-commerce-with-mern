@@ -15,7 +15,7 @@ import {
   Clock,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { gsap } from "gsap"; 
+import { gsap } from "gsap";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { getRequest, postRequest } from "../../utils/api";
 
@@ -26,6 +26,7 @@ const Profile = () => {
   const [cartProduct, setCartProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("purchases");
+  const [profilePhoto, setProfilePhoto] = useState("");
   const navigate = useNavigate();
 
   const profileRef = useRef(null);
@@ -42,19 +43,25 @@ const Profile = () => {
 
   const fetchAllData = async () => {
     try {
-      const [userData, purchaseData, cartData, contactData] = await Promise.all([
-        getRequest("/users/profile"),
-        getRequest("/purchase/get-purchase-product"),
-        getRequest("/cart/get-cart-product"),
-        getRequest("/contact/get-contact"),
-      ]);
-      
+      const [userData, purchaseData, cartData, contactData] = await Promise.all(
+        [
+          getRequest("/users/profile"),
+          getRequest("/purchase/get-purchase-product"),
+          getRequest("/cart/get-cart-product"),
+          getRequest("/contact/get-contact"),
+        ]
+      );
+
       setUser(userData);
       setProducts(purchaseData);
       setCartProducts(cartData);
       setContacts(contactData);
+      setProfilePhoto(userData.avatar);
     } catch (error) {
-      console.error("Error loading profile data:", error.response?.data || error.message);
+      console.error(
+        "Error loading profile data:",
+        error.response?.data || error.message
+      );
     } finally {
       setLoading(false);
     }
@@ -65,7 +72,10 @@ const Profile = () => {
       await postRequest(`/purchase/remove-purchased-product/${productId}`);
       setProducts((prev) => prev.filter((p) => p._id !== productId));
     } catch (error) {
-      console.error("Error deleting purchased product:", error.response?.data || error.message);
+      console.error(
+        "Error deleting purchased product:",
+        error.response?.data || error.message
+      );
     }
   };
 
@@ -74,7 +84,10 @@ const Profile = () => {
       await getRequest(`/users/remove-contact/${id}`);
       setContacts((prev) => prev.filter((c) => c._id !== id));
     } catch (error) {
-      console.error("Error deleting Contact:", error.response?.data || error.message);
+      console.error(
+        "Error deleting Contact:",
+        error.response?.data || error.message
+      );
     }
   };
 
@@ -83,14 +96,16 @@ const Profile = () => {
       await postRequest(`/cart/remove-cart-product/${cartItemId}`);
       setCartProducts((prev) => prev.filter((item) => item._id !== cartItemId));
     } catch (error) {
-      console.error("Error deleting cart product:", error.response?.data || error.message);
+      console.error(
+        "Error deleting cart product:",
+        error.response?.data || error.message
+      );
     }
   };
 
   if (loading) {
     return <LoadingSpinner />;
   }
-
 
   return (
     <div ref={profileRef} className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
@@ -150,7 +165,9 @@ const Profile = () => {
                 <div className="flex items-center space-x-4">
                   <img
                     src={
-                      user?.avatar
+                      profilePhoto
+                        ? `${profilePhoto}`
+                        : user?.avatar
                         ? `http://localhost:3000${user.avatar}`
                         : "https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
                     }
