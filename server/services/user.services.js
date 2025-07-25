@@ -208,7 +208,7 @@ export const createUserWithOauth = async ({
   email,
   provider,
   providerAccountId,
-  picture
+  picture,
 }) => {
   const user = await userModel.create({
     name,
@@ -230,6 +230,6 @@ export const createUserWithOauth = async ({
     isEmailVerified: user.isEmailVerified,
     provider,
     providerAccountId,
-    picture: user.avatar,
+    avatar: user.avatar,
   };
 };

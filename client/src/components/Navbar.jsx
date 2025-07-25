@@ -26,6 +26,7 @@ const Navbar = () => {
   const { isLoggedIn } = useAuth();
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const [profilePhoto, setProfilePhoto] = useState("");
 
   const fetchUserProfileData = async () => {
     try {
@@ -38,8 +39,9 @@ const Navbar = () => {
             Authorization: `Bearer ${token}`,
           },
         }
-      );
+      );      
       setUser(response.data.data);
+      setProfilePhoto(response.data.data.avatar);
     } catch (error) {
       console.error(
         "Error fetching user profile:",
@@ -71,9 +73,8 @@ const Navbar = () => {
       <div className="flex justify-between items-center">
         <div className="text-2xl font-black flex gap-2 items-center">
           <div className="bg-black p-2 rounded-full">
-          <img className="w-7 h-7"
-           src="/images/logo.png" alt="DEVIAS Logo" />
-           </div>
+            <img className="w-7 h-7" src="/images/logo.png" alt="DEVIAS Logo" />
+          </div>
           <NavLink to="/">DEVIAS STORE</NavLink>
         </div>
 
@@ -131,7 +132,9 @@ const Navbar = () => {
                   {user?.avatar && (
                     <img
                       src={
-                        user?.avatar
+                        profilePhoto
+                          ? `${profilePhoto}`
+                          : user?.avatar
                           ? `http://localhost:3000${user.avatar}`
                           : "https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
                       }
