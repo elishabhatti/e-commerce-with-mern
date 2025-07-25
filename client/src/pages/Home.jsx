@@ -77,7 +77,7 @@ const Home = () => {
       console.error(error);
       toast.error("Failed to load products.");
     } finally {
-      setIsLoading(false); // ✅ Stop loading regardless of success/failure
+      setIsLoading(false); 
     }
   }
   const addProductToWishList = async (id) => {
