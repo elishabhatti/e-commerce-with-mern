@@ -489,6 +489,7 @@ export const getGoogleLoginCallBack = async (req, res) => {
       email,
       provider: "google",
       providerAccountId: googleUserId,
+      picture,
     });
   }
 
