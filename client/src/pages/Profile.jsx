@@ -28,7 +28,7 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("purchases");
   const [profilePhoto, setProfilePhoto] = useState("");
   const navigate = useNavigate();
-
+  console.log("Profile Photo:", profilePhoto);
   const profileRef = useRef(null);
 
   useEffect(() => {

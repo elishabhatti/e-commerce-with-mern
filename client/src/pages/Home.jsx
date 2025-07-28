@@ -72,6 +72,7 @@ const Home = () => {
           withCredentials: true,
         }
       );
+      console.log(res);
       setProducts(res.data.message);
     } catch (error) {
       console.error(error);
