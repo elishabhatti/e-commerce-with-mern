@@ -35,7 +35,7 @@ const Dashboard = () => {
   const getAdminData = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/admin/get-profile",
+        "http://localhost:3000/api/admin/get-profile-data",
         {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
