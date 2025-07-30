@@ -82,7 +82,11 @@ const Register = () => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/admin/register-admin",
-        formData
+        formData,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
       );
       setFormData({
         name: "",
