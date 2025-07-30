@@ -49,6 +49,7 @@ export const createAccessToken = async ({
   avatar,
   sessionId,
   isEmailVerified,
+  role,
 }) => {
   return jwt.sign(
     {
@@ -58,6 +59,7 @@ export const createAccessToken = async ({
       avatar,
       sessionId,
       isEmailVerified,
+      role,
     },
     process.env.JWT_SECRET_KEY,
     {
@@ -94,6 +96,7 @@ export const refreshTokens = async (refreshToken) => {
       email: user.email,
       avatar: user.avatar,
       isEmailVerified: user.isEmailVerified,
+      role: user.role,
       sessionId: currentSession.id,
     };
 
