@@ -144,7 +144,31 @@ const Dashboard = () => {
           <h1 className="text-4xl font-extrabold text-gray-900 leading-tight">
             Admin Dashboard
           </h1>
-          
+          <div className="flex items-center space-x-3">
+            <Mail className="h-5 w-5 text-gray-400" />
+            <span>
+              Email Status:{" "}
+              <span
+                className={`font-semibold ${
+                  admin?.isEmailVerified ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {admin?.isEmailVerified ? "Verified" : "Not Verified"}
+              </span>
+              {!admin?.isEmailVerified && (
+                <>
+                  {" "}
+                  -{" "}
+                  <button
+                    onClick={() => navigate("/verify-email")}
+                    className="text-blue-600 cursor-pointer underline hover:text-blue-800 ml-1 text-sm"
+                  >
+                    Verify Now
+                  </button>
+                </>
+              )}
+            </span>
+          </div>
           <p className="mt-3 text-lg text-gray-600">
             Overview and management of your platform's data.
           </p>
