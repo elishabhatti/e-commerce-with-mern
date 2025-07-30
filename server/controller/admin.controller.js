@@ -281,3 +281,7 @@ export const getContactById = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
+
+export const getProfileDataAdmin = async (req, res) => {
+
+};

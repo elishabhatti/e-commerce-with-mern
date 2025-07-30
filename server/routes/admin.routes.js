@@ -14,6 +14,7 @@ import {
   getPurchaseProductById,
   deleteContact,
   getContactById,
+  getProfileDataAdmin,
 } from "../controller/admin.controller.js";
 
 const router = Router();
@@ -32,5 +33,6 @@ router.get("/get-product/:id", getProductById);
 router.get("/get-contact/:id", getContactById);
 router.get("/get-purchase-product/:id", getPurchaseProductById);
 router.put("/update-product/:id", updateProduct);
+router.get("/get-profile-data", getProfileDataAdmin);
 
 export default router;
