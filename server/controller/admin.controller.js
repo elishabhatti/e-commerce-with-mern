@@ -283,5 +283,12 @@ export const getContactById = async (req, res) => {
 };
 
 export const getProfileDataAdmin = async (req, res) => {
-
+  try {
+    let userId = req.user.id;
+    let profile = await userModel.findById(userId);
+    res.status(200).json({ data: profile });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ data: error });
+  }
 };
