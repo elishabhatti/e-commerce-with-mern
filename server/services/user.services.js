@@ -49,7 +49,6 @@ export const createAccessToken = async ({
   avatar,
   sessionId,
   isEmailVerified,
-  role,
 }) => {
   return jwt.sign(
     {
@@ -59,7 +58,6 @@ export const createAccessToken = async ({
       avatar,
       sessionId,
       isEmailVerified,
-      role,
     },
     process.env.JWT_SECRET_KEY,
     {
@@ -96,7 +94,6 @@ export const refreshTokens = async (refreshToken) => {
       email: user.email,
       avatar: user.avatar,
       isEmailVerified: user.isEmailVerified,
-      role: user.role,
       sessionId: currentSession.id,
     };
 
@@ -125,14 +122,11 @@ export const authenticateUser = async ({ req, res, user }) => {
     id: user._id,
     email: user.email,
     name: user.name,
-    role: user.role,
     isEmailVerified: user.isEmailVerified,
     sessionId: session._id,
   });
 
-  console.log("role ", user.role);
-
-  const refreshToken = createRefreshToken(session._id);
+  const refreshToken = createRefreshToken(session._id);  
 
   const cookieOptions = {
     httpOnly: true,
