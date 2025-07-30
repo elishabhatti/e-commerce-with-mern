@@ -25,6 +25,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
   const [users, setUsers] = useState([]);
+  const [admin, setAdmin] = useState([]);
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [contact, setContact] = useState([]);
@@ -41,7 +42,8 @@ const Dashboard = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(res);
+      console.log(res.data.data);
+      setAdmin(res.data.data);
     } catch (error) {
       console.error(error);
     }
@@ -134,7 +136,7 @@ const Dashboard = () => {
       <div className="max-w-8xl mx-auto">
         {/* Header */}
         <motion.div
-          className="mb-8 text-center"
+          className="mb-8 text-center flex flex-col justify-center items-center"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -142,6 +144,7 @@ const Dashboard = () => {
           <h1 className="text-4xl font-extrabold text-gray-900 leading-tight">
             Admin Dashboard
           </h1>
+          
           <p className="mt-3 text-lg text-gray-600">
             Overview and management of your platform's data.
           </p>
@@ -159,13 +162,13 @@ const Dashboard = () => {
               <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-purple-600 to-indigo-700 text-white">
                 <div className="flex items-center space-x-4">
                   <img
-                    src="https://cdn-icons-png.flaticon.com/128/1999/1999625.png" // Generic admin avatar
+                    src={admin.avatar} // Generic admin avatar
                     alt="Admin Avatar"
                     className="w-24 h-24 rounded-full object-cover border-2 border-white"
                   />
                   <div>
-                    <h2 className="text-2xl font-bold">Admin User</h2>
-                    <p className="text-sm opacity-90">admin@yourcompany.com</p>
+                    <h2 className="text-2xl font-bold">{admin.name}</h2>
+                    <p className="text-sm opacity-90">{admin.email}</p>
                   </div>
                 </div>
               </div>
