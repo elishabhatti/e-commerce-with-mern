@@ -19,6 +19,7 @@ import {
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import { deleteRequest, getRequest } from "../../utils/api";
+import axios from "axios";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -31,6 +32,21 @@ const Dashboard = () => {
   const dashboardRef = useRef(null);
   const navigate = useNavigate();
 
+  const getAdminData = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:3000/api/admin/get-profile",
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // Generic delete handler
   const handleDelete = async (type, id, setter) => {
     const confirmDelete = confirm(`Sure Want To Delete The ${type}?`);
@@ -40,12 +56,16 @@ const Dashboard = () => {
       await deleteRequest(`/admin/delete-${type}/${id}`);
       setter((prev) => prev.filter((item) => item._id !== id));
     } catch (error) {
-      console.error(`Error deleting ${type} - Admin`, error.response?.data || error.message);
+      console.error(
+        `Error deleting ${type} - Admin`,
+        error.response?.data || error.message
+      );
     }
   };
 
   // Handlers
-  const handleDeleteProductDashboard = (id) => handleDelete("product", id, setProducts);
+  const handleDeleteProductDashboard = (id) =>
+    handleDelete("product", id, setProducts);
   const handleDeleteOrder = (id) => handleDelete("order", id, setOrders);
   const handleDeleteUser = (id) => handleDelete("user", id, setUsers);
   const handleDeleteContact = (id) => handleDelete("contact", id, setContact);
@@ -67,9 +87,10 @@ const Dashboard = () => {
       };
 
       try {
-        const [userData, productData, orderData, contactData] = await Promise.all(
-          Object.values(endpoints).map((url) => getRequest(url))
-        );
+        const [userData, productData, orderData, contactData] =
+          await Promise.all(
+            Object.values(endpoints).map((url) => getRequest(url))
+          );
 
         setUsers(userData);
         setProducts(productData);
@@ -87,6 +108,7 @@ const Dashboard = () => {
     };
 
     fetchData();
+    getAdminData();
   }, []);
 
   if (loading) {
@@ -745,7 +767,9 @@ const Dashboard = () => {
                                 <motion.button
                                   className="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-50"
                                   title="View Order Details"
-                                  onClick={() => navigate(`/order-details/${order._id}`)}
+                                  onClick={() =>
+                                    navigate(`/order-details/${order._id}`)
+                                  }
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
                                 >
@@ -866,7 +890,9 @@ const Dashboard = () => {
                                 <motion.button
                                   className="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-50 transition-colors duration-150"
                                   title="View Message"
-                                  onClick={() => navigate(`/contact-details/${contact._id}`)}
+                                  onClick={() =>
+                                    navigate(`/contact-details/${contact._id}`)
+                                  }
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
                                 >
@@ -875,7 +901,9 @@ const Dashboard = () => {
                                 <motion.button
                                   className="text-red-600 hover:text-red-800 p-2 rounded-full hover:bg-red-50 transition-colors duration-150"
                                   title="Delete Contact"
-                                  onClick={() => handleDeleteContact(contact._id)}
+                                  onClick={() =>
+                                    handleDeleteContact(contact._id)
+                                  }
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
                                 >

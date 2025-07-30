@@ -123,6 +123,7 @@ export const authenticateUser = async ({ req, res, user }) => {
     email: user.email,
     name: user.name,
     isEmailVerified: user.isEmailVerified,
+    role: user.role,
     sessionId: session._id,
   });
 
