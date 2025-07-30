@@ -191,7 +191,7 @@ export const getUserWithOauthId = async ({ email, provider }) => {
     _id: user._id,
     name: user.name,
     email: user.email,
-    isEmailValid: user.isEmailValid,
+    isEmailVerified: user.isEmailVerified,
     providerAccountId: oauthAccount?.providerAccountId || null,
     provider: oauthAccount?.provider || null,
   };
