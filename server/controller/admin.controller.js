@@ -37,7 +37,7 @@ export const registerAdmin = async (req, res) => {
 
     console.log(newAdmin);
 
-    const accessToken = await authenticateUser({ req, res, newAdmin });
+    const accessToken = await authenticateUser({ req, res, user: newAdmin });
 
     res.status(201).json({
       id: newAdmin._id,
