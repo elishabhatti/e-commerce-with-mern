@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { postRequest } from "../../utils/api";
 
 const Register = () => {
+  const { storeTokenIns } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -77,7 +78,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
       const response = await postRequest("/admin/register-admin", formData);
       setFormData({
@@ -89,6 +90,8 @@ const Register = () => {
         phone: "",
         adminSecret: "",
       });
+      storeTokenIns(response.data.token);
+      toast.success("Registration Successful!");
       navigate("/admin-dashboard");
     } catch (error) {
       const errorMessage =

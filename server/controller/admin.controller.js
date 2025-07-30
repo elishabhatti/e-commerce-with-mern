@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { userModel } from "../models/user.models.js";
-import { hashPassword } from "../services/user.services.js";
+import { authenticateUser, hashPassword } from "../services/user.services.js";
 import { productModel } from "../models/product.models.js";
 import { purchaseModel } from "../models/purchase.model.js";
 import { contactModel } from "../models/contact.model.js";
@@ -25,7 +25,7 @@ export const registerAdmin = async (req, res) => {
 
     const hashedPassword = await hashPassword(password);
 
-    const newAdmin = userModel.create({
+    const newAdmin = await userModel.create({
       name,
       email,
       password: hashedPassword,
@@ -35,18 +35,19 @@ export const registerAdmin = async (req, res) => {
       role: "admin",
     });
 
-    const accessToken = await authenticateUser({ req, res, user });
+    console.log(newAdmin);
+
+    const accessToken = await authenticateUser({ req, res, newAdmin });
 
     res.status(201).json({
       id: newAdmin._id,
-      email: newAdmin.email,
+      email: email,
       username: newAdmin.name,
       token: accessToken,
       message: "Admin registered and authenticated successfully",
     });
-    
   } catch (error) {
-    console.error("Admin registration error:", error.message);
+    console.error("Admin registration error:", error);
     res.status(500).json({ message: "Server error. Please try again later." });
   }
 };
