@@ -35,16 +35,16 @@ export const registerAdmin = async (req, res) => {
       role: "admin",
     });
 
-    const token = jwt.sign(
-      { id: newAdmin._id, role: newAdmin.role },
-      process.env.JWT_SECRET_KEY,
-      { expiresIn: "7d" }
-    );
+    const accessToken = await authenticateUser({ req, res, user });
 
     res.status(201).json({
-      message: "Admin registered successfully.",
-      token,
+      id: newAdmin._id,
+      email: newAdmin.email,
+      username: newAdmin.name,
+      token: accessToken,
+      message: "Admin registered and authenticated successfully",
     });
+    
   } catch (error) {
     console.error("Admin registration error:", error.message);
     res.status(500).json({ message: "Server error. Please try again later." });
