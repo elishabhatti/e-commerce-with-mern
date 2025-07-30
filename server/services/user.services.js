@@ -48,7 +48,7 @@ export const createAccessToken = async ({
   name,
   avatar,
   sessionId,
-  isEmailValid,
+  isEmailVerified,
 }) => {
   return jwt.sign(
     {
@@ -57,7 +57,7 @@ export const createAccessToken = async ({
       name,
       avatar,
       sessionId,
-      isEmailValid,
+      isEmailVerified,
     },
     process.env.JWT_SECRET_KEY,
     {
@@ -93,7 +93,7 @@ export const refreshTokens = async (refreshToken) => {
       name: user.name,
       email: user.email,
       avatar: user.avatar,
-      isEmailValid: user.isEmailValid,
+      isEmailVerified: user.isEmailVerified,
       sessionId: currentSession.id,
     };
 
@@ -120,12 +120,14 @@ export const authenticateUser = async ({ req, res, user }) => {
 
   const accessToken = await createAccessToken({
     id: user._id,
-    name: user.name,
     email: user.email,
+    name: user.name,
     role: user.role,
     isEmailVerified: user.isEmailVerified,
     sessionId: session._id,
   });
+
+  console.log("role ", user.role);
 
   const refreshToken = createRefreshToken(session._id);
 
