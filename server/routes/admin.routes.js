@@ -33,6 +33,6 @@ router.get("/get-product/:id", getProductById);
 router.get("/get-contact/:id", getContactById);
 router.get("/get-purchase-product/:id", getPurchaseProductById);
 router.put("/update-product/:id", updateProduct);
-router.get("/get-profile-data", getProfileDataAdmin);
+router.get("/get-profile", getProfileDataAdmin);
 
 export default router;
