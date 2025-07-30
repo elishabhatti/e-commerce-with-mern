@@ -80,7 +80,10 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const response = await postRequest("/admin/register-admin", formData);
+      const response = await axios.post(
+        "http://localhost:3000/api/admin/register-admin",
+        formData
+      );
       setFormData({
         name: "",
         email: "",
@@ -90,10 +93,12 @@ const Register = () => {
         phone: "",
         adminSecret: "",
       });
+      console.log(response);
       storeTokenIns(response.data.token);
       toast.success("Registration Successful!");
       navigate("/admin-dashboard");
     } catch (error) {
+      console.error(error);
       const errorMessage =
         error.response?.data?.message ||
         "Registration failed. Please try again.";

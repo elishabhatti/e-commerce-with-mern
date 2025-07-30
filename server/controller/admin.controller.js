@@ -28,6 +28,7 @@ export const registerAdmin = async (req, res) => {
     const newAdmin = await userModel.create({
       name,
       email,
+      isEmailVerified: true,
       password: hashedPassword,
       address,
       phone,
