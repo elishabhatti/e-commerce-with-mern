@@ -16,6 +16,7 @@ import {
   getContactById,
   getProfileDataAdmin,
 } from "../controller/admin.controller.js";
+import { verifyAuthentication } from "../middlewares/verifyAuthentication.js";
 
 const router = Router();
 
@@ -33,6 +34,6 @@ router.get("/get-product/:id", getProductById);
 router.get("/get-contact/:id", getContactById);
 router.get("/get-purchase-product/:id", getPurchaseProductById);
 router.put("/update-product/:id", updateProduct);
-router.get("/get-profile", getProfileDataAdmin);
+router.get("/get-profile", verifyAuthentication, getProfileDataAdmin);
 
 export default router;
