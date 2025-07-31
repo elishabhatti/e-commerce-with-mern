@@ -7,7 +7,7 @@ export const createPurchase = async (req, res) => {
 
     const userId = req.user.id;
     const user = await userModel.findById(userId);
-    console.log("user", user);
+    
     if (!user.address)
       return res.status(500).json({ message: "Fill the Address First" });
 
