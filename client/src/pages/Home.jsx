@@ -68,12 +68,14 @@ const Home = () => {
   const getWishlist = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/users/get-wishlist",
+        "http://localhost:3000/api/users/get-wishlist-product",
         {
           withCredentials: true,
         }
       );
-      setWishlist(res.data.message); 
+      let ids = res.data.products.map((product) => product._id);
+
+      setWishlist(ids);
     } catch (err) {
       console.error("Failed to fetch wishlist", err);
     }
@@ -87,7 +89,6 @@ const Home = () => {
           withCredentials: true,
         }
       );
-      console.log(res);
       setProducts(res.data.message);
     } catch (error) {
       console.error(error);
@@ -104,7 +105,7 @@ const Home = () => {
         { withCredentials: true }
       );
       navigate("/wishlist");
-      getWishlist(); 
+      getWishlist();
       console.log("Added to wishlist:", res.data);
       toast.success("Product added to wishlist!");
     } catch (error) {
@@ -306,7 +307,11 @@ const Home = () => {
                       }}
                       className="flex justify-center items-center p-3 w-12 h-12 cursor-pointer bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 shadow-sm"
                     >
-                      <Heart size={20} />
+                      {wishlist.includes(product._id) ? (
+                        <Heart fill="white" size={20} />
+                      ) : (
+                        <Heart size={20} />
+                      )}
                     </motion.button>
                   </div>
                 </div>
