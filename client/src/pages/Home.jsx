@@ -14,6 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // ✅ Loading state
   const navigate = useNavigate();
 
@@ -23,7 +24,7 @@ const Home = () => {
 
   useEffect(() => {
     getAllProducts();
-
+    getWishlist();
     if (heroRef.current && headingRef.current) {
       const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
       tl.fromTo(
@@ -64,6 +65,20 @@ const Home = () => {
     }
   }, []);
 
+  const getWishlist = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:3000/api/users/get-wishlist",
+        {
+          withCredentials: true,
+        }
+      );
+      setWishlist(res.data.message); 
+    } catch (err) {
+      console.error("Failed to fetch wishlist", err);
+    }
+  };
+
   async function getAllProducts() {
     try {
       const res = await axios.get(
@@ -78,7 +93,7 @@ const Home = () => {
       console.error(error);
       toast.error("Failed to load products.");
     } finally {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   }
   const addProductToWishList = async (id) => {
@@ -89,6 +104,7 @@ const Home = () => {
         { withCredentials: true }
       );
       navigate("/wishlist");
+      getWishlist(); 
       console.log("Added to wishlist:", res.data);
       toast.success("Product added to wishlist!");
     } catch (error) {
