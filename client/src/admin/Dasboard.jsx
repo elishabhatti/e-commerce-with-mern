@@ -20,6 +20,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import { deleteRequest, getRequest } from "../../utils/api";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -42,8 +43,12 @@ const Dashboard = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(res.data.data);
-      setAdmin(res.data.data);
+      if (res.data.data.role === "admin") {
+        console.log(res.data.data);
+        setAdmin(res.data.data);
+      }else {
+        navigate("/")
+      }
     } catch (error) {
       console.error(error);
     }
