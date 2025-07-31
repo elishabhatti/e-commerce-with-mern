@@ -16,7 +16,7 @@ const PurchaseProducts = () => {
         const response = await axios.get(
           "http://localhost:3000/api/purchase/get-purchase-product",
           {
-            withCredentials: true,
+            withCredentials: true,  
             headers: {
               Authorization: `Bearer ${token}`,
             },

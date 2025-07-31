@@ -1,8 +1,15 @@
 import { purchaseModel } from "../models/purchase.model.js";
+import { userModel } from "../models/user.models.js";
 
 export const createPurchase = async (req, res) => {
   try {
     const { productId, size, quantity } = req.body;
+
+    const userId = req.user.id;
+    const user = await userModel.findById(userId);
+    console.log("user", user);
+    if (!user.address)
+      return res.status(500).json({ message: "Fill the Address First" });
 
     const newBuy = await purchaseModel.create({
       user: req.user.id,

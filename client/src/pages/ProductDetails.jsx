@@ -59,8 +59,8 @@ const ProductDetails = () => {
       console.log("Purchase Product:", res);
       toast.success("Purchase successful!");
     } catch (error) {
-      console.error("Purchase failed:", error);
-      toast.warning("Purchase failed!");
+      console.error(error.response.data.message);
+      toast.warning(error.response.data.message);
     }
   };
 
