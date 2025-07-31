@@ -11,6 +11,9 @@ export const createPurchase = async (req, res) => {
     if (!user.address)
       return res.status(500).json({ message: "Fill the Address First" });
 
+    if (!user.phone)
+      return res.status(500).json({ message: "Fill the Phone Number First" });
+
     const newBuy = await purchaseModel.create({
       user: req.user.id,
       product: productId,
