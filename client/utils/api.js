@@ -3,7 +3,7 @@ import axios from "axios";
 const token = localStorage.getItem("token");
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: `${import.meta.env.VITE_SERVER_URL}/api`,
   withCredentials: true,
   headers: {
     Authorization: `Bearer ${token}`,
@@ -28,7 +28,7 @@ export const postRequest = async (url, body = {}) => {
 };
 
 export const deleteRequest = async (url) => {
-  const res = await axiosInstance.get(url); 
+  const res = await axiosInstance.get(url);
   return res.data;
 };
 
@@ -40,7 +40,5 @@ export const putRequest = async (url, body = {}) => {
   });
   return res.data;
 };
-
-
 
 export default axiosInstance;
