@@ -124,7 +124,7 @@ const LoginUser = () => {
   };
 
   const handleGetGooglePage = () => {
-    window.location.href = "http://localhost:3000/api/users/google";
+    window.location.href = `${import.meta.env.VITE_SERVER_URL}/api/users/google`;
   };
 
   return (
