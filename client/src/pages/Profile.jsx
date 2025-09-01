@@ -10,7 +10,6 @@ import {
   User,
   Home,
   Phone,
-  Calendar,
   IdCard,
   Clock,
 } from "lucide-react";
@@ -28,7 +27,6 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("purchases");
   const [profilePhoto, setProfilePhoto] = useState("");
   const navigate = useNavigate();
-  console.log("Profile Photo:", profilePhoto);
   const profileRef = useRef(null);
 
   useEffect(() => {
@@ -166,14 +164,13 @@ const Profile = () => {
                   <img
                     src={
                       profilePhoto
-                        ? `${profilePhoto}`
-                        : user?.avatar
-                        ? `http://localhost:3000${user.avatar}`
+                        ? `http://localhost:3000${profilePhoto}`
                         : "https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
                     }
                     alt="User Avatar"
-                    className="w-24 h-24 rounded-full object-cover"
+                    className="w-24 h-24 rounded-full object-cover border-2 border-blue-500 shadow-md"
                   />
+
                   <div>
                     <h2 className="text-2xl font-bold">
                       {user?.name || "No Name"}

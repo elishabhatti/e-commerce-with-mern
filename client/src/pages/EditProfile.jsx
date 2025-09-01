@@ -140,8 +140,8 @@ const EditProfile = () => {
             src={
               profilePhoto
                 ? `${profilePhoto}`
-                : user?.avatar
-                ? `http://localhost:3000${user.avatar}`
+                : userData.avatar
+                ? `http://localhost:3000${userData.avatar}`
                 : "https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
             }
             alt="Avatar Preview"

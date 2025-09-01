@@ -480,7 +480,7 @@ export const getGoogleLoginCallBack = async (req, res) => {
 
   if (user && !user.providerAccountId) {
     await linkUserWithOauth({
-      userId: user._id,
+      userId: user._id, 
       provider: "google",
       providerAccountId: googleUserId,
     });

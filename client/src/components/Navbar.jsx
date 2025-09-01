@@ -39,7 +39,7 @@ const Navbar = () => {
             Authorization: `Bearer ${token}`,
           },
         }
-      );      
+      );
       setUser(response.data.data);
       setProfilePhoto(response.data.data.avatar);
     } catch (error) {
@@ -133,9 +133,9 @@ const Navbar = () => {
                     <img
                       src={
                         profilePhoto
-                          ? `${profilePhoto}`
-                          : user?.avatar
-                          ? `http://localhost:3000${user.avatar}`
+                          ? profilePhoto.startsWith("http")
+                            ? profilePhoto
+                            : `http://localhost:3000${profilePhoto}`
                           : "https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
                       }
                       alt="Profile"
