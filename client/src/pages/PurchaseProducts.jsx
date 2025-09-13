@@ -16,12 +16,14 @@ const PurchaseProducts = () => {
         const response = await axios.get(
           "http://localhost:3000/api/purchase/get-purchase-product",
           {
-            withCredentials: true,  
+            withCredentials: true,
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
+        console.log(response.data.data);
+
         setProducts(response.data.data);
       } catch (error) {
         console.error(
@@ -95,63 +97,104 @@ const PurchaseProducts = () => {
       </div>
 
       <div className="bg-white border border-gray-200 rounded-lg divide-y divide-gray-100">
-        {products.map(({ product, size, quantity, _id }) => (
-          <div
-            key={_id}
-            className="p-4 hover:bg-gray-50 transition-colors relative"
-          >
-            <div className="absolute top-4 right-4 flex gap-3">
-              <button
-                onClick={() => navigate(`/update-purchase/${_id}`)}
-                className="text-blue-600 hover:text-blue-800 cursor-pointer"
-                aria-label="Edit purchase"
-              >
-                <PenBox size={20} />
-              </button>
-              <button
-                onClick={() => handleDelete(_id)}
-                className="text-red-600 hover:text-red-800 cursor-pointer"
-                aria-label="Delete purchase"
-              >
-                <Trash2 size={20} />
-              </button>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              {/* Product Image */}
-              <div className="w-full sm:w-32 h-32">
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="w-full h-full object-cover rounded-md border"
-                />
+        {products.map(
+          ({
+            product,
+            size,
+            quantity,
+            _id,
+            paymentMethod,
+            paymentStatus,
+            transactionId,
+          }) => (
+            <div
+              key={_id}
+              className="p-4 hover:bg-gray-50 transition-colors relative"
+            >
+              {/* Action Buttons */}
+              <div className="absolute top-4 right-4 flex gap-3">
+                <button
+                  onClick={() => navigate(`/update-purchase/${_id}`)}
+                  className="text-blue-600 hover:text-blue-800 cursor-pointer"
+                  aria-label="Edit purchase"
+                >
+                  <PenBox size={20} />
+                </button>
+                <button
+                  onClick={() => handleDelete(_id)}
+                  className="text-red-600 hover:text-red-800 cursor-pointer"
+                  aria-label="Delete purchase"
+                >
+                  <Trash2 size={20} />
+                </button>
               </div>
 
-              {/* Product Info */}
-              <div className="flex flex-col justify-between flex-grow">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    {product.title}
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    Brand: {product.brand}
-                  </p>
-                  <div className="mt-2 space-y-1 text-sm text-gray-600">
-                    <p>
-                      Size: <span className="font-medium">{size}</span>
-                    </p>
-                    <p>
-                      Quantity: <span className="font-medium">{quantity}</span>
-                    </p>
-                  </div>
+              {/* Product Details */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="w-full sm:w-32 h-32">
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="w-full h-full object-cover rounded-md border"
+                  />
                 </div>
-                <p className="text-lg font-bold text-gray-900 mt-2 sm:mt-0 sm:text-right">
-                  ${product.price.toFixed(2)}
+
+                <div className="flex flex-col justify-between flex-grow">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-800">
+                      {product.title}
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      Brand: {product.brand || "N/A"}
+                    </p>
+
+                    <div className="mt-2 space-y-1 text-sm text-gray-600">
+                      <p>
+                        Size: <span className="font-medium">{size}</span>
+                      </p>
+                      <p>
+                        Quantity:{" "}
+                        <span className="font-medium">{quantity}</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="text-lg font-bold text-gray-900 mt-2 sm:mt-0 sm:text-right">
+                    ${product.price.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+
+              {/* Payment Info */}
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 bg-gray-50 p-3 rounded-lg text-sm">
+                <p>
+                  <span className="font-semibold text-gray-700">
+                    Payment Method:{" "}
+                  </span>
+                  <span className="text-gray-800">{paymentMethod}</span>
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-700">Status: </span>
+                  <span
+                    className={`px-2 py-1 rounded-md text-xs ${
+                      paymentStatus === "paid"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-yellow-100 text-yellow-700"
+                    }`}
+                  >
+                    {paymentStatus}
+                  </span>
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-700">Txn ID: </span>
+                  <span className="text-gray-800">
+                    {transactionId || "N/A"}
+                  </span>
                 </p>
               </div>
             </div>
-          </div>
-        ))}
+          )
+        )}
       </div>
     </div>
   );
