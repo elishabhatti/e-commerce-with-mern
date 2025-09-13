@@ -14,6 +14,21 @@ const purchaseSchema = new mongoose.Schema(
     },
     size: { type: String },
     quantity: { type: Number },
+
+    paymentMethod: {
+      type: String,
+      enum: ["COD", "JazzCash", "EasyPaisa"],
+      required: true,
+    },
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "paid", "failed"],
+      default: "pending",
+    },
+    transactionId: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true }
 );
