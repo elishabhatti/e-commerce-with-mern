@@ -14,12 +14,16 @@ const Payment = () => {
 
   const handleCOD = async () => {
     try {
-      await axios.post("http://localhost:3000/api/purchase/purchase-product", {
-        productId,
-        quantity,
-        size,
-        paymentMethod: "COD",
-      }, { withCredentials: true });
+      await axios.post(
+        "http://localhost:3000/api/purchase/purchase-product",
+        {
+          productId,
+          quantity,
+          size,
+          paymentMethod: "COD",
+        },
+        { withCredentials: true }
+      );
 
       toast.success("Order placed with Cash on Delivery!");
       navigate("/purchase");
@@ -28,23 +32,10 @@ const Payment = () => {
     }
   };
 
-  const handleJazzCash = async () => {
-    const fakeTxId = "JC-" + Math.floor(Math.random() * 1000000);
-
-    try {
-      await axios.post("http://localhost:3000/api/purchase/purchase-product", {
-        productId,
-        quantity,
-        size,
-        paymentMethod: "JazzCash",
-        jazzCashTxId: fakeTxId,
-      }, { withCredentials: true });
-
-      toast.success(`JazzCash Payment Successful! Txn: ${fakeTxId}`);
-      navigate("/purchase");
-    } catch (err) {
-      toast.error("Payment failed");
-    }
+  const handleJazzCash = () => {
+    navigate("/jazzcash", {
+      state: { productId, quantity, size, price, title },
+    });
   };
 
   return (
