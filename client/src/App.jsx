@@ -30,6 +30,7 @@ import OrderDetails from "./admin/OrderDetails";
 import ContactDetails from "./admin/ContactDetails";
 import OauthSuccess from "./pages/OauthSuccess";
 import Payment from "./pages/Payment"
+import JazzCashPage from "./pages/JazzCashPage";
 
 const App = () => {
   return (
@@ -58,6 +59,7 @@ const App = () => {
             <Route path="/product-cart/:id" element={<CartDetails />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/jazzcash" element={<JazzCashPage />} />
             <Route
               path="/update-cart-product/:id"
               element={<UpdateCartProduct />}
