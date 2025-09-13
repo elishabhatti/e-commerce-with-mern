@@ -42,26 +42,37 @@ const ProductDetails = () => {
       </div>
     );
 
+  // const handleSubmit = async () => {
+  //   try {
+  //     const res = await axios.post(
+  //       "http://localhost:3000/api/purchase/purchase-product",
+  //       {
+  //         productId: product._id,
+  //         quantity: Number(quantity),
+  //         size,
+  //       },
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     );
+  //     navigate("/purchase");
+  //     console.log("Purchase Product:", res);
+  //     toast.success("Purchase successful!");
+  //   } catch (error) {
+  //     console.error(error.response.data.message);
+  //     toast.warning(error.response.data.message);
+  //   }
+  // };
   const handleSubmit = async () => {
-    try {
-      const res = await axios.post(
-        "http://localhost:3000/api/purchase/purchase-product",
-        {
-          productId: product._id,
-          quantity: Number(quantity),
-          size,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      navigate("/purchase");
-      console.log("Purchase Product:", res);
-      toast.success("Purchase successful!");
-    } catch (error) {
-      console.error(error.response.data.message);
-      toast.warning(error.response.data.message);
-    }
+    navigate("/payment", {
+      state: {
+        productId: product._id,
+        quantity: Number(quantity),
+        size,
+        price: product.price,
+        title: product.title,
+      },
+    });
   };
 
   return (

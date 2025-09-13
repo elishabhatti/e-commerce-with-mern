@@ -114,6 +114,7 @@ const LoginUser = () => {
         password: "",
       });
     } catch (error) {
+      
       const errorMessage =
         error.response?.data?.message || "Failed to log in. Please try again.";
       toast.error(errorMessage);
