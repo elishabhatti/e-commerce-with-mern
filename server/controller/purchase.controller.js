@@ -3,30 +3,42 @@ import { userModel } from "../models/user.models.js";
 
 export const createPurchase = async (req, res) => {
   try {
-    const { productId, size, quantity } = req.body;
+    const { productId, size, quantity, paymentMethod, transactionId } =
+      req.body;
 
     const userId = req.user.id;
     const user = await userModel.findById(userId);
-    
+
     if (!user.address)
-      return res.status(500).json({ message: "Fill the Address First" });
+      return res.status(400).json({ message: "Fill the Address First" });
 
     if (!user.phone)
-      return res.status(500).json({ message: "Fill the Phone Number First" });
+      return res.status(400).json({ message: "Fill the Phone Number First" });
 
-    const newBuy = await purchaseModel.create({
-      user: req.user.id,
+    // set payment status
+    let paymentStatus = "pending";
+    if (paymentMethod === "JazzCash" || paymentMethod === "EasyPaisa") {
+      paymentStatus = "paid"; // dummy case: assume payment done
+    }
+
+    const newPurchase = await purchaseModel.create({
+      user: userId,
       product: productId,
       size,
       quantity,
+      paymentMethod,
+      paymentStatus,
+      transactionId: transactionId || null,
     });
 
     res.status(201).json({
       message: "Product purchased successfully",
-      data: newBuy,
+      data: newPurchase,
     });
   } catch (error) {
-    res.status(500).json({ message: "Failed to buy product", error });
+    res
+      .status(500)
+      .json({ message: "Failed to buy product", error: error.message });
   }
 };
 
