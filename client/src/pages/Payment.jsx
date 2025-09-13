@@ -16,24 +16,28 @@ const Payment = () => {
     );
   }
 
-  const handleCOD = async () => {
-    try {
-      await axios.post(
-        "http://localhost:3000/api/purchase/purchase-product",
-        {
-          productId,
-          quantity,
-          size,
-          paymentMethod: "COD",
-        },
-        { withCredentials: true }
-      );
-      toast.success("Order placed with Cash on Delivery!");
-      navigate("/purchase");
-    } catch (err) {
-      toast.error("Error placing order");
-    }
-  };
+const handleCOD = async () => {
+  try {
+    await axios.post(
+      "http://localhost:3000/api/purchase/purchase-product",
+      {
+        productId,
+        quantity,
+        size,
+        paymentMethod: "COD",
+      },
+      { withCredentials: true }
+    );
+
+    toast.success("Order placed with Cash on Delivery!");
+    navigate("/purchase");
+  } catch (err) {
+    const msg =
+      err.response?.data?.message || "Error placing order. Please try again.";
+    toast.error(msg);
+  }
+};
+
 
   const handleJazzCash = () => {
     navigate("/jazzcash", {
@@ -42,7 +46,7 @@ const Payment = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center px-6 py-12">
+    <div className="pt-30 flex justify-center items-center px-6">
       <div className="flex w-full max-w-5xl shadow-2xl rounded-3xl overflow-hidden bg-white">
         {/* Left side - Illustration */}
         <div className="w-1/2 bg-gradient-to-br from-purple-500 to-indigo-600 flex justify-center items-center p-10">

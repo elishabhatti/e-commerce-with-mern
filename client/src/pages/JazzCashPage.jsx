@@ -28,7 +28,7 @@ const JazzCashPage = () => {
           size,
           paymentMethod: "JazzCash",
           transactionId: fakeTxId,
-          number, // optional: save user number
+          number,
         },
         { withCredentials: true }
       );
@@ -36,7 +36,9 @@ const JazzCashPage = () => {
       toast.success(`JazzCash Payment Successful! Txn: ${fakeTxId}`);
       navigate("/purchase");
     } catch (err) {
-      toast.error("Payment failed");
+      const msg =
+        err.response?.data?.message || "Payment failed. Please try again.";
+      toast.error(msg);
     }
   };
 
