@@ -53,7 +53,9 @@ const JazzCashPage = () => {
 
       <form onSubmit={handlePayment} className="space-y-4">
         <div>
-          <label className="block mb-1 text-sm font-medium">JazzCash Number</label>
+          <label className="block mb-1 text-sm font-medium">
+            JazzCash Number
+          </label>
           <input
             type="text"
             value={number}

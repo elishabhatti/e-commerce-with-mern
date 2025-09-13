@@ -9,7 +9,11 @@ const Payment = () => {
   const { productId, quantity, size, price, title } = location.state || {};
 
   if (!productId) {
-    return <div className="p-10">No product selected!</div>;
+    return (
+      <div className="p-10 text-center text-lg font-semibold">
+        No product selected!
+      </div>
+    );
   }
 
   const handleCOD = async () => {
@@ -24,7 +28,6 @@ const Payment = () => {
         },
         { withCredentials: true }
       );
-
       toast.success("Order placed with Cash on Delivery!");
       navigate("/purchase");
     } catch (err) {
@@ -39,29 +42,55 @@ const Payment = () => {
   };
 
   return (
-    <div className="p-10 max-w-lg mx-auto">
-      <h2 className="text-3xl font-bold mb-6">Choose Payment Method</h2>
+    <div className="min-h-screen flex justify-center items-center px-6 py-12">
+      <div className="flex w-full max-w-5xl shadow-2xl rounded-3xl overflow-hidden bg-white">
+        {/* Left side - Illustration */}
+        <div className="w-1/2 bg-gradient-to-br from-purple-500 to-indigo-600 flex justify-center items-center p-10">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2331/2331941.png"
+            alt="Payment Illustration"
+            className="w-3/4 drop-shadow-lg"
+          />
+        </div>
 
-      <div className="border rounded-lg p-5 mb-4">
-        <h3 className="text-xl font-semibold mb-2">{title}</h3>
-        <p>Qty: {quantity}</p>
-        <p>Size: {size}</p>
-        <p className="font-bold mt-2">Total: ${price * quantity}</p>
+        {/* Right side - Payment Card */}
+        <div className="w-1/2 p-10 flex flex-col justify-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+            Complete Your Purchase
+          </h2>
+
+          {/* Product Card */}
+          <div className="bg-gray-100 rounded-xl p-6 mb-6 shadow-inner">
+            <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
+            <p className="text-gray-700 mt-2">
+              <span className="font-medium">Quantity:</span> {quantity}
+            </p>
+            <p className="text-gray-700">
+              <span className="font-medium">Size:</span> {size}
+            </p>
+            <p className="text-2xl font-bold text-gray-900 mt-4">
+              Total: ${price * quantity}
+            </p>
+          </div>
+
+          {/* Payment Options */}
+          <div className="space-y-4">
+            <button
+              onClick={handleCOD}
+              className="w-full py-3 rounded-xl bg-gray-900 text-white font-semibold hover:bg-gray-800 transition duration-200 shadow-md"
+            >
+              Cash on Delivery
+            </button>
+
+            <button
+              onClick={handleJazzCash}
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold hover:opacity-90 transition duration-200 shadow-md"
+            >
+              Pay with JazzCash
+            </button>
+          </div>
+        </div>
       </div>
-
-      <button
-        onClick={handleCOD}
-        className="w-full bg-black text-white py-3 rounded-md mb-4 hover:bg-gray-800"
-      >
-        Cash on Delivery
-      </button>
-
-      <button
-        onClick={handleJazzCash}
-        className="w-full bg-purple-600 text-white py-3 rounded-md hover:bg-purple-700"
-      >
-        Pay with JazzCash
-      </button>
     </div>
   );
 };
