@@ -30,7 +30,7 @@ export const registerAgent = async (req, res) => {
       role: "agent",
     });
 
-    console.log(newAdmin);
+    console.log(newAgent);
 
     const accessToken = await authenticateUser({ req, res, user: newAgent });
 
