@@ -106,6 +106,7 @@ const PurchaseProducts = () => {
             paymentMethod,
             paymentStatus,
             transactionId,
+            shippingStatus,
           }) => (
             <div
               key={_id}
@@ -166,29 +167,62 @@ const PurchaseProducts = () => {
               </div>
 
               {/* Payment Info */}
-              <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 bg-gray-50 p-3 rounded-lg text-sm">
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-4 gap-4 bg-gray-50 p-3 rounded-lg text-sm">
+                {/* Payment Method */}
                 <p>
                   <span className="font-semibold text-gray-700">
                     Payment Method:{" "}
                   </span>
                   <span className="text-gray-800">{paymentMethod}</span>
                 </p>
+
+                {/* Payment Status */}
                 <p>
-                  <span className="font-semibold text-gray-700">Status: </span>
+                  <span className="font-semibold text-gray-700">
+                    Payment Status:{" "}
+                  </span>
                   <span
                     className={`px-2 py-1 rounded-md text-xs ${
                       paymentStatus === "paid"
                         ? "bg-green-100 text-green-700"
+                        : paymentStatus === "failed"
+                        ? "bg-red-100 text-red-700"
                         : "bg-yellow-100 text-yellow-700"
                     }`}
                   >
                     {paymentStatus}
                   </span>
                 </p>
+
+                {/* Transaction ID */}
                 <p>
                   <span className="font-semibold text-gray-700">Txn ID: </span>
                   <span className="text-gray-800">
                     {transactionId || "N/A"}
+                  </span>
+                </p>
+
+                {/* 🚚 Shipping Status */}
+                <p>
+                  <span className="font-semibold text-gray-700">
+                    Shipping Status:{" "}
+                  </span>
+                  <span
+                    className={`px-2 py-1 rounded-md text-xs ${
+                      shippingStatus === "delivered"
+                        ? "bg-green-100 text-green-700"
+                        : shippingStatus === "shipped"
+                        ? "bg-blue-100 text-blue-700"
+                        : shippingStatus === "packed"
+                        ? "bg-purple-100 text-purple-700"
+                        : shippingStatus === "out-for-delivery"
+                        ? "bg-orange-100 text-orange-700"
+                        : shippingStatus === "cancelled"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-gray-100 text-gray-700"
+                    }`}
+                  >
+                    {shippingStatus}
                   </span>
                 </p>
               </div>
