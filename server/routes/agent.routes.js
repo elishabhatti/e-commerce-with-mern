@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { registerAgent } from "../controller/agent.controller.js";
 
 const router = Router();
 
