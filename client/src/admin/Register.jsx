@@ -258,7 +258,7 @@ const Register = () => {
           >
             Already an admin?{" "}
             <Link
-              to="/admin/login"
+              to="/admin-login"
               className="font-semibold text-red-600 hover:text-red-700 transition-colors"
             >
               Login here

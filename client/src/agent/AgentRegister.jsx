@@ -258,7 +258,7 @@ const AgentRegister = () => {
           >
             Already an agent?{" "}
             <Link
-              to="/agent/login"
+              to="/agent-login"
               className="font-semibold text-red-600 hover:text-red-700 transition-colors"
             >
               Login here
