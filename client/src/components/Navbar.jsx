@@ -136,7 +136,7 @@ const Navbar = () => {
                           ? profilePhoto.startsWith("http")
                             ? profilePhoto
                             : `http://localhost:3000${profilePhoto}`
-                          : "https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
+                          : "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_incoming&w=740&q=80"
                       }
                       alt="Profile"
                       className="w-10 h-10 cursor-pointer rounded-full object-cover"

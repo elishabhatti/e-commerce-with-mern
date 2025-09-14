@@ -165,7 +165,7 @@ const Profile = () => {
                     src={
                       profilePhoto
                         ? `http://localhost:3000${profilePhoto}`
-                        : "https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
+                        : "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_incoming&w=740&q=80"
                     }
                     alt="User Avatar"
                     className="w-24 h-24 rounded-full object-cover border-2 border-blue-500 shadow-md"
