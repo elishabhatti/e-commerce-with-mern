@@ -31,6 +31,7 @@ import ContactDetails from "./admin/ContactDetails";
 import OauthSuccess from "./pages/OauthSuccess";
 import Payment from "./pages/Payment"
 import JazzCashPage from "./pages/JazzCashPage";
+import AgentRegister from "./agent/AgentRegister";
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
             <Route path="/admin-register" element={<Register />} />
             <Route path="/admin-dashboard" element={<Dasboard />} />
             <Route path="/admin-create-product" element={<CreateProduct />} />
+            <Route path="/agent-register" element={<AgentRegister />} />
             <Route path="/edit-product/:id" element={<EditProduct />} />
             <Route path="/order-details/:id" element={<OrderDetails />} />
             <Route path="/contact-details/:id" element={<ContactDetails />} />
