@@ -1,3 +1,4 @@
+import { userModel } from "../models/user.models.js";
 import { authenticateUser, hashPassword } from "../services/user.services.js";
 
 export const registerAgent = async (req, res) => {
@@ -34,9 +35,9 @@ export const registerAgent = async (req, res) => {
     const accessToken = await authenticateUser({ req, res, user: newAgent });
 
     res.status(201).json({
-      id: newAdmin._id,
+      id: newAgent._id,
       email: email,
-      username: newAdmin.name,
+      username: newAgent.name,
       token: accessToken,
       message: "Agent registered and authenticated successfully",
     });
