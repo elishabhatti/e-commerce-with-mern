@@ -14,7 +14,18 @@ const purchaseSchema = new mongoose.Schema(
     },
     size: { type: String },
     quantity: { type: Number },
-
+    shippingStatus: {
+      type: String,
+      enum: [
+        "placed",
+        "packed",
+        "shipped",
+        "out-for-delivery",
+        "delivered",
+        "cancelled",
+      ],
+      default: "placed",
+    },
     paymentMethod: {
       type: String,
       enum: ["COD", "JazzCash", "EasyPaisa"],
