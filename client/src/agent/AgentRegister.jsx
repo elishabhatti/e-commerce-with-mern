@@ -16,7 +16,7 @@ const AgentRegister = () => {
     avatar: "",
     address: "",
     phone: "",
-    adminSecret: "",
+    agentSecret: "",
   });
 
   const navigate = useNavigate();
@@ -81,7 +81,7 @@ const AgentRegister = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/admin/register-admin",
+        "http://localhost:3000/api/agent/register-agent",
         formData,
         {
           withCredentials: true,
@@ -95,12 +95,12 @@ const AgentRegister = () => {
         avatar: "",
         address: "",
         phone: "",
-        adminSecret: "",
+        agentSecret: "",
       });
       console.log(response);
       storeTokenIns(response.data.token);
       toast.success("Registration Successful!");
-      navigate("/admin-dashboard");
+      navigate("/agent-dashboard");
     } catch (error) {
       console.error(error);
       const errorMessage =
@@ -121,7 +121,7 @@ const AgentRegister = () => {
         animate="visible"
       >
         <Link to="/" className="flex items-center space-x-2">
-          <span className="text-4xl font-bold text-red-600">Admin</span>
+          <span className="text-4xl font-bold text-red-600">Agent</span>
           <span className="text-4xl font-bold text-gray-900">
             Panel Sign Up
           </span>
@@ -139,13 +139,13 @@ const AgentRegister = () => {
             className="text-4xl font-extrabold mb-2 text-center text-gray-900 leading-tight"
             variants={itemVariants}
           >
-            Admin Registration
+            Agent Registration
           </motion.h2>
           <motion.p
             className="text-center text-gray-600 mb-8 text-md"
             variants={itemVariants}
           >
-            Only authorized users can register as admin.
+            Only authorized users can register as agent.
           </motion.p>
 
           <motion.form
@@ -159,7 +159,7 @@ const AgentRegister = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Admin Name"
+                placeholder="Agent Name"
                 required
                 error={errors.name}
               />
@@ -172,7 +172,7 @@ const AgentRegister = () => {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="admin@example.com"
+                placeholder="agent@example.com"
                 required
                 error={errors.email}
               />
@@ -197,7 +197,7 @@ const AgentRegister = () => {
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
-                placeholder="123 Admin St"
+                placeholder="123 Agent St"
                 required
                 error={errors.address}
               />
@@ -229,14 +229,14 @@ const AgentRegister = () => {
 
             <motion.div variants={itemVariants}>
               <Input
-                label="Admin Secret Key"
-                name="adminSecret"
+                label="Agent Secret Key"
+                name="agentSecret"
                 type="password"
-                value={formData.adminSecret}
+                value={formData.agentSecret}
                 onChange={handleChange}
-                placeholder="Enter admin secret"
+                placeholder="Enter agent secret"
                 required
-                error={errors.adminSecret}
+                error={errors.agentSecret}
               />
             </motion.div>
 
@@ -248,7 +248,7 @@ const AgentRegister = () => {
               whileTap={{ scale: 0.99 }}
               variants={itemVariants}
             >
-              {loading ? "Registering..." : "Register as Admin"}
+              {loading ? "Registering..." : "Register as Agent"}
             </motion.button>
           </motion.form>
 
@@ -256,9 +256,9 @@ const AgentRegister = () => {
             className="text-center text-sm text-gray-500 mt-6"
             variants={itemVariants}
           >
-            Already an admin?{" "}
+            Already an agent?{" "}
             <Link
-              to="/admin/login"
+              to="/agent/login"
               className="font-semibold text-red-600 hover:text-red-700 transition-colors"
             >
               Login here
@@ -271,9 +271,9 @@ const AgentRegister = () => {
           variants={imageSideVariants}
         >
           <div className="text-white text-center">
-            <h3 className="text-3xl font-bold mb-4">Welcome Admin!</h3>
+            <h3 className="text-3xl font-bold mb-4">Welcome Agent!</h3>
             <p className="text-gray-300 text-lg">
-              Manage your platform efficiently with your new admin account.
+              Manage your platform efficiently with your new agent account.
             </p>
           </div>
         </motion.div>
