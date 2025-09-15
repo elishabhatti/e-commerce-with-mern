@@ -139,10 +139,8 @@ const EditProfile = () => {
           <img
             src={
               profilePhoto
-                ? `${profilePhoto}`
-                : userData.avatar
-                ? `http://localhost:3000${userData.avatar}`
-                : "https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
+                ? `http://localhost:3000${profilePhoto}`
+                : "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_incoming&w=740&q=80"
             }
             alt="Avatar Preview"
             className="w-24 h-24 rounded-full object-cover border-2 border-blue-500 shadow-md"
