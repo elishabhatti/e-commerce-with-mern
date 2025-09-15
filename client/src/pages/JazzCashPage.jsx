@@ -12,7 +12,9 @@ const JazzCashPage = () => {
   const [pin, setPin] = useState("");
 
   if (!productId) {
-    return <div className="p-10 text-center text-gray-500">No product selected!</div>;
+    return (
+      <div className="p-10 text-center text-gray-500">No product selected!</div>
+    );
   }
 
   const handlePayment = async (e) => {
@@ -44,12 +46,12 @@ const JazzCashPage = () => {
 
   return (
     <div className="flex items-center justify-center py-15 px-4">
-      <div className="w-full max-w-md rounded-2xl shadow-md p-8 border border-gray-100">
+      <div className="w-full max-w-md rounded-2xl p-8 border border-gray-300">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           JazzCash Payment
         </h2>
 
-        <div className="bg-gray-50 rounded-xl p-5 mb-6 border border-gray-100">
+        <div className="rounded-xl p-5 mb-6 border border-gray-100">
           <h3 className="text-lg font-semibold text-gray-700">{title}</h3>
           <p className="text-gray-600">Qty: {quantity}</p>
           <p className="text-gray-600">Size: {size}</p>
@@ -57,6 +59,7 @@ const JazzCashPage = () => {
             Total: ${price * quantity}
           </p>
         </div>
+        <hr className="border border-gray-300 mb-5" />
 
         <form onSubmit={handlePayment} className="space-y-5">
           <div>
@@ -89,7 +92,7 @@ const JazzCashPage = () => {
 
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 active:bg-purple-800 transition shadow-sm"
+            className="mt-8 w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed text-lg font-semibold"
           >
             Pay Now
           </button>
