@@ -17,6 +17,17 @@ const AgentDashboard = () => {
     fetchPurchases();
   }, []);
 
+   const handleStatusChange = async (purchaseId, newStatus) => {
+    try {
+      await axios.put(`http://localhost:3000/api/agent/update-status/${purchaseId}`, {
+        shippingStatus: newStatus,
+      });
+      fetchPurchases(); // refresh after update
+    } catch (err) {
+      console.error("Error updating status:", err);
+    }
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Agent Dashboard</h1>
