@@ -7,8 +7,8 @@ const AgentDashboard = () => {
   useEffect(() => {
     const fetchPurchases = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/purchases");
-        setPurchases(res.data.data); // tumne res.data.data bheja hai backend se
+        const res = await axios.get("http://localhost:3000/api/agent/get-user-purchase-products");
+        setPurchases(res.data.data);
       } catch (err) {
         console.error("Error fetching purchases:", err);
       }
@@ -17,14 +17,11 @@ const AgentDashboard = () => {
     fetchPurchases();
   }, [handleStatusChange]);
 
-  const handleStatusChange = async (purchaseId, newStatus) => {
+   async function handleStatusChange (purchaseId, newStatus) {
     try {
-      await axios.put(
-        `http://localhost:3000/api/agent/update-status/${purchaseId}`,
-        {
-          shippingStatus: newStatus,
-        }
-      );
+      await axios.put(`http://localhost:3000/api/agent/update-status/${purchaseId}`, {
+        shippingStatus: newStatus,
+      });
     } catch (err) {
       console.error("Error updating status:", err);
     }
