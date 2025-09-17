@@ -45,9 +45,11 @@ const App = () => {
             <Route path="/admin-register" element={<Register />} />
             <Route path="/admin-dashboard" element={<Dasboard />} />
             <Route path="/admin-create-product" element={<CreateProduct />} />
+
             {/* Agent */}
             <Route path="/agent-register" element={<AgentRegister />} />
             <Route path="/agent-dashboard" element={<AgentDashboard />} />
+            
             {/* Users */}
             <Route path="/edit-product/:id" element={<EditProduct />} />
             <Route path="/order-details/:id" element={<OrderDetails />} />

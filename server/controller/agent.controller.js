@@ -46,3 +46,7 @@ export const registerAgent = async (req, res) => {
     res.status(500).json({ message: "Server error. Please try again later." });
   }
 };
+
+export const getPurchaseProduct = async (req, res) => {
+  
+}
