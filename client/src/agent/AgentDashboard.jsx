@@ -15,14 +15,16 @@ const AgentDashboard = () => {
     };
 
     fetchPurchases();
-  }, []);
+  }, [handleStatusChange]);
 
-   const handleStatusChange = async (purchaseId, newStatus) => {
+  const handleStatusChange = async (purchaseId, newStatus) => {
     try {
-      await axios.put(`http://localhost:3000/api/agent/update-status/${purchaseId}`, {
-        shippingStatus: newStatus,
-      });
-      fetchPurchases(); // refresh after update
+      await axios.put(
+        `http://localhost:3000/api/agent/update-status/${purchaseId}`,
+        {
+          shippingStatus: newStatus,
+        }
+      );
     } catch (err) {
       console.error("Error updating status:", err);
     }
