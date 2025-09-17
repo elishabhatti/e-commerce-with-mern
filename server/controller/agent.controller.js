@@ -1,3 +1,4 @@
+import { purchaseModel } from "../models/purchase.model.js";
 import { userModel } from "../models/user.models.js";
 import { authenticateUser, hashPassword } from "../services/user.services.js";
 
@@ -48,5 +49,14 @@ export const registerAgent = async (req, res) => {
 };
 
 export const getPurchaseProduct = async (req, res) => {
-  
-}
+  try {
+    const getProduct = await purchaseModel.populate("product");
+
+    res.status(200).json({
+      data: getProduct,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: "Failed to get products", error });
+  }
+};
