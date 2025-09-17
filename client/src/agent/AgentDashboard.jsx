@@ -7,7 +7,7 @@ const AgentDashboard = () => {
   useEffect(() => {
     const fetchPurchases = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/purchases"); 
+        const res = await axios.get("http://localhost:5000/api/purchases");
         setPurchases(res.data.data); // tumne res.data.data bheja hai backend se
       } catch (err) {
         console.error("Error fetching purchases:", err);
@@ -37,6 +37,7 @@ const AgentDashboard = () => {
               <th className="p-2">Payment Status</th>
               <th className="p-2">Shipping</th>
               <th className="p-2">Order Date</th>
+              <th className="p-2">Update Status</th>
             </tr>
           </thead>
           <tbody>
@@ -85,6 +86,20 @@ const AgentDashboard = () => {
                 </td>
                 <td className="p-2">
                   {new Date(p.createdAt).toLocaleDateString()}
+                </td>
+                <td className="p-2">
+                  <select
+                    value={p.shippingStatus}
+                    onChange={(e) => handleStatusChange(p._id, e.target.value)}
+                    className="border rounded p-1"
+                  >
+                    <option value="placed">Placed</option>
+                    <option value="packed">Packed</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="out-for-delivery">Out for Delivery</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
                 </td>
               </tr>
             ))}
