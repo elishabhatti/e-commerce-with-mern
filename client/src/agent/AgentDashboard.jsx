@@ -8,7 +8,7 @@ const AgentDashboard = () => {
     const fetchPurchases = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/purchase/get-purchase-product"
+          "http://localhost:3000/api/agent/get-user-purchase-products"
         );
         console.log(res);
         

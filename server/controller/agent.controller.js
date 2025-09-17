@@ -50,7 +50,10 @@ export const registerAgent = async (req, res) => {
 
 export const getPurchaseProduct = async (req, res) => {
   try {
-    const getProduct = await purchaseModel.populate("product");
+    const getProduct = await purchaseModel
+      .find()
+      .populate("product")
+      .populate("user");
 
     res.status(200).json({
       data: getProduct,
