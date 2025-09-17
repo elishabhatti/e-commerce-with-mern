@@ -65,5 +65,19 @@ export const getPurchaseProduct = async (req, res) => {
 };
 
 export const updateStatus = async (req, res) => {
-  
+    try {
+    const { id } = req.params;
+    const { shippingStatus } = req.body;
+
+    const updatedPurchase = await purchaseModel.findByIdAndUpdate(
+      id,
+      { shippingStatus },
+      { new: true }
+    );
+
+    res.status(200).json({ message: "Status updated", data: updatedPurchase });
+  } catch (err) {
+    console.error("Error updating status:", err);
+    res.status(500).json({ message: "Failed to update status", err });
+  }
 }
