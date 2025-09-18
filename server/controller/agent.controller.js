@@ -78,18 +78,21 @@ export const updateStatus = async (req, res) => {
         const { id } = req.params;
         const { shippingStatus } = req.body;
 
-        const updatedPurchase = await purchaseModel.findByIdAndUpdate(
-            id,
-            { shippingStatus },
-            { new: true }
-        );
+        // Update + populate ek hi query me kar lo
+        const updatedPurchase = await purchaseModel
+            .findByIdAndUpdate(id, { shippingStatus }, { new: true })
+            .populate("user");
 
-        const userData = await purchaseModel.findById(id).populate("user");
+        if (!updatedPurchase) {
+            return res.status(404).json({ message: "Purchase not found" });
+        }
+
+        console.log(updatedPurchase.user.email);
 
         await sendEmail({
-            to: userData.user.email,
+            to: updatedPurchase.user.email,
             subject: "Shipping Status",
-            html: `${userData.user.email} Your Shipping status has been updated to: ${userData.shippingStatus}`,
+            html: `${updatedPurchase.user.name}, your shipping status has been updated to: <b>${updatedPurchase.shippingStatus}</b>`,
         });
 
         res.status(200).json({
