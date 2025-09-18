@@ -7,7 +7,7 @@ const resend = new Resend(process.env.FORGOT_PASSWORD_API_KEY);
 export const sendEmail = async ({ to, subject, html }) => {
   try {
     const { data, error } = await resend.emails.send({
-      from: "E-Commerce App | Forgot Password | MERN Series <website@resend.dev>",
+      from: "E-Commerce App | MERN Series <website@resend.dev>",
       to: [to],
       subject,
       html,
