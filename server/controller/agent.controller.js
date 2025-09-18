@@ -89,7 +89,7 @@ export const updateStatus = async (req, res) => {
         await sendEmail({
             to: userData.user.email,
             subject: "Shipping Status",
-            html: `Shipping status has been updated to: ${userData.shippingStatus}`,
+            html: `${userData.user.email} Your Shipping status has been updated to: ${userData.shippingStatus}`,
         });
 
         res.status(200).json({
