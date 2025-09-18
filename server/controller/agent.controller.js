@@ -78,7 +78,6 @@ export const updateStatus = async (req, res) => {
         const { id } = req.params;
         const { shippingStatus } = req.body;
 
-        // Update + populate ek hi query me kar lo
         const updatedPurchase = await purchaseModel
             .findByIdAndUpdate(id, { shippingStatus }, { new: true })
             .populate("user");
