@@ -22,9 +22,9 @@
         </mj-text>
         <mj-divider border-color="#e0e0e0" />
         <mj-text font-size="16px" color="#555555">
-          Hi <b>{{name}}</b>,<br/><br/>
+          Hi <b><%= name %></b>,<br/><br/>
           Your order shipping status has been updated to: 
-          <span class="status">{{shippingStatus}}</span>.
+          <span class="status"><%= shippingStatus %></span>.
         </mj-text>
         <mj-spacer height="15px"/>
         <mj-button background-color="#007bff" color="white" href="#">
