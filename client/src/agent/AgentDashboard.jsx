@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+const statusColors = {
+    placed: "bg-blue-100 text-blue-700",
+    packed: "bg-indigo-100 text-indigo-700",
+    shipped: "bg-purple-100 text-purple-700",
+    "out-for-delivery": "bg-yellow-100 text-yellow-700",
+    delivered: "bg-green-100 text-green-700",
+    cancelled: "bg-red-100 text-red-700",
+    pending: "bg-orange-100 text-orange-700",
+};
+
 const AgentDashboard = () => {
     const [purchases, setPurchases] = useState([]);
 
@@ -17,16 +27,15 @@ const AgentDashboard = () => {
         };
 
         fetchPurchases();
-    }, [handleStatusChange]);
+    }, []);
 
     async function handleStatusChange(purchaseId, newStatus) {
         try {
-            const res = await axios.put(
+            await axios.put(
                 `http://localhost:3000/api/agent/update-status/${purchaseId}`,
                 { shippingStatus: newStatus }
             );
 
-            // Update state locally
             setPurchases((prev) =>
                 prev.map((p) =>
                     p._id === purchaseId
@@ -41,75 +50,115 @@ const AgentDashboard = () => {
 
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Agent Dashboard</h1>
+            <h1 className="text-3xl font-bold mb-6 text-gray-800">
+                Agent Dashboard
+            </h1>
 
-            <div className="overflow-x-auto shadow-lg rounded-lg">
-                <table className="w-full border-collapse text-sm">
-                    <thead className="bg-gray-200">
+            <div className="overflow-x-auto bg-white shadow-lg rounded-xl">
+                <table className="w-full border-collapse">
+                    <thead className="bg-gray-50 text-gray-700 text-sm uppercase tracking-wide">
                         <tr>
-                            <th className="p-2">User</th>
-                            <th className="p-2">Email</th>
-                            <th className="p-2">Phone</th>
-                            <th className="p-2">Address</th>
-                            <th className="p-2">Product</th>
-                            <th className="p-2">Size</th>
-                            <th className="p-2">Qty</th>
-                            <th className="p-2">Price</th>
-                            <th className="p-2">Payment</th>
-                            <th className="p-2">Payment Status</th>
-                            <th className="p-2">Shipping</th>
-                            <th className="p-2">Order Date</th>
-                            <th className="p-2">Update Status</th>
+                            <th className="p-3 text-left">User</th>
+                            <th className="p-3 text-left">Contact</th>
+                            <th className="p-3 text-left">Product</th>
+                            <th className="p-3 text-center">Qty</th>
+                            <th className="p-3 text-center">Price</th>
+                            <th className="p-3 text-center">Payment</th>
+                            <th className="p-3 text-center">Status</th>
+                            <th className="p-3 text-center">Order Date</th>
+                            <th className="p-3 text-center">Update</th>
                         </tr>
                     </thead>
                     <tbody>
                         {purchases.map((p, idx) => (
-                            <tr key={idx} className="border-b hover:bg-gray-50">
-                                {/* User Info */}
-                                <td className="p-2 font-medium flex items-center">
-                                    {p.user?.name}
+                            <tr
+                                key={idx}
+                                className="border-b last:border-none hover:bg-gray-50 transition"
+                            >
+                                {/* User */}
+                                <td className="p-3">
+                                    <div className="font-medium text-gray-800">
+                                        {p.user?.name}
+                                    </div>
+                                    <div className="text-sm text-gray-500">
+                                        {p.user?.email}
+                                    </div>
                                 </td>
-                                <td className="p-2">{p.user?.email}</td>
-                                <td className="p-2">{p.user?.phone}</td>
-                                <td className="p-2">{p.user?.address}</td>
 
-                                {/* Product Info */}
-                                <td className="p-2 flex items-center gap-2">
+                                {/* Contact */}
+                                <td className="p-3 text-sm text-gray-600">
+                                    <div>{p.user?.phone}</div>
+                                    <div>{p.user?.address}</div>
+                                </td>
+
+                                {/* Product */}
+                                <td className="p-3 flex items-center gap-3">
                                     <img
                                         src={p.product?.image}
                                         alt={p.product?.title}
-                                        className="w-10 h-10 rounded"
+                                        className="w-12 h-12 rounded-lg object-cover shadow-sm"
                                     />
-                                    {p.product?.title}
+                                    <div>
+                                        <div className="font-medium">
+                                            {p.product?.title}
+                                        </div>
+                                        <div className="text-xs text-gray-500">
+                                            Size: {p.size}
+                                        </div>
+                                    </div>
                                 </td>
-                                <td className="p-2">{p.size}</td>
-                                <td className="p-2">{p.quantity}</td>
-                                <td className="p-2">${p.product?.price}</td>
 
-                                {/* Order / Payment Info */}
-                                <td className="p-2">{p.paymentMethod}</td>
-                                <td
-                                    className={`p-2 font-semibold ${
-                                        p.paymentStatus === "pending"
-                                            ? "text-yellow-600"
-                                            : "text-green-600"
-                                    }`}
-                                >
-                                    {p.paymentStatus}
+                                {/* Quantity */}
+                                <td className="p-3 text-center">
+                                    {p.quantity}
                                 </td>
-                                <td
-                                    className={`p-2 font-semibold ${
-                                        p.shippingStatus === "placed"
-                                            ? "text-blue-600"
-                                            : "text-green-600"
-                                    }`}
-                                >
-                                    {p.shippingStatus}
+
+                                {/* Price */}
+                                <td className="p-3 text-center font-semibold text-gray-700">
+                                    ${p.product?.price}
                                 </td>
-                                <td className="p-2">
-                                    {new Date(p.createdAt).toLocaleDateString()}
+
+                                {/* Payment */}
+                                <td className="p-3 text-center">
+                                    <span
+                                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                            p.paymentStatus === "pending"
+                                                ? statusColors.pending
+                                                : "bg-green-100 text-green-700"
+                                        }`}
+                                    >
+                                        {p.paymentStatus}
+                                    </span>
+                                    <div className="text-xs text-gray-500 mt-1">
+                                        {p.paymentMethod}
+                                    </div>
                                 </td>
-                                <td className="p-2">
+
+                                {/* Shipping Status */}
+                                <td className="p-3 text-center">
+                                    <span
+                                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                            statusColors[p.shippingStatus]
+                                        }`}
+                                    >
+                                        {p.shippingStatus}
+                                    </span>
+                                </td>
+
+                                {/* Date */}
+                                <td className="p-3 text-center text-gray-600 text-sm">
+                                    {new Date(p.createdAt).toLocaleDateString(
+                                        "en-US",
+                                        {
+                                            year: "numeric",
+                                            month: "short",
+                                            day: "numeric",
+                                        }
+                                    )}
+                                </td>
+
+                                {/* Update Status */}
+                                <td className="p-3 text-center">
                                     <select
                                         value={p.shippingStatus}
                                         onChange={(e) =>
@@ -118,7 +167,7 @@ const AgentDashboard = () => {
                                                 e.target.value
                                             )
                                         }
-                                        className="border rounded p-1"
+                                        className="border rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-400 outline-none"
                                     >
                                         <option value="placed">Placed</option>
                                         <option value="packed">Packed</option>
