@@ -8,6 +8,9 @@ import path from "path";
 import mjml2html from "mjml";
 import ejs from "ejs";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export const registerAgent = async (req, res) => {
     try {
         const { name, email, password, address, phone, avatar, agentSecret } =
@@ -106,7 +109,7 @@ export const updateStatus = async (req, res) => {
         await sendEmail({
             to: updatedPurchase.user.email,
             subject: "Shipping Status",
-            html: `${updatedPurchase.user.name}, your shipping status has been updated to: <b>${updatedPurchase.shippingStatus}</b>`,
+            html: htmlOutput
         });
 
         res.status(200).json({
