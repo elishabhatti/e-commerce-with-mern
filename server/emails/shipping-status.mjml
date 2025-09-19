@@ -27,9 +27,6 @@
           <span class="status"><%= shippingStatus %></span>.
         </mj-text>
         <mj-spacer height="15px"/>
-        <mj-button background-color="#007bff" color="white" href="#">
-          Track Your Order
-        </mj-button>
       </mj-column>
     </mj-section>
 
