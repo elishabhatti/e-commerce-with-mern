@@ -2,6 +2,11 @@ import { sendEmail } from "../lib/sendEmailForgotPassword.js";
 import { purchaseModel } from "../models/purchase.model.js";
 import { userModel } from "../models/user.models.js";
 import { authenticateUser, hashPassword } from "../services/user.services.js";
+import { fileURLToPath } from "url";
+import fs from "fs/promises";
+import path from "path";
+import mjml2html from "mjml";
+import ejs from "ejs";
 
 export const registerAgent = async (req, res) => {
     try {
@@ -86,7 +91,17 @@ export const updateStatus = async (req, res) => {
             return res.status(404).json({ message: "Purchase not found" });
         }
 
-        console.log(updatedPurchase.user.email);
+        const mjmlTemplate = await fs.readFile(
+            path.join(__dirname, "..", "emails", "shipping-status.mjml"),
+            "utf-8"
+        );
+
+        const filledTemplate = ejs.render(mjmlTemplate, {
+            name: updatedPurchase.user.name,
+            shippingStatus: updatedPurchase.shippingStatus,
+        });
+
+        const htmlOutput = mjml2html(filledTemplate).html;
 
         await sendEmail({
             to: updatedPurchase.user.email,
