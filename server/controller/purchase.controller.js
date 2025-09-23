@@ -156,3 +156,7 @@ export const updatePurchaseItem = async (req, res) => {
     });
   }
 };
+
+export const reviewProduct = async (req, res) => {
+  
+} 

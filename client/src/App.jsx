@@ -70,7 +70,7 @@ const App = () => {
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/jazzcash" element={<JazzCashPage />} />
-            <Route path="/review" element={<ReviewProduct />} />
+            <Route path="/review/:id" element={<ReviewProduct />} />
             <Route
               path="/update-cart-product/:id"
               element={<UpdateCartProduct />}

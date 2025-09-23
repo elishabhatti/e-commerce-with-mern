@@ -227,7 +227,7 @@ const PurchaseProducts = () => {
                 </p>
               </div>
               <div>
-                {shippingStatus === "delivered" ? <button onClick={() => navigate("/review")} className="bg-gray-100 py-2 px-4 rounded-md my-2">Review Product</button> : "" }
+                {shippingStatus === "delivered" ? <button onClick={() => navigate(`/review/${_id}`)} className="bg-gray-100 py-2 px-4 rounded-md my-2">Review Product</button> : "" }
               </div>
             </div>
           )
