@@ -33,6 +33,7 @@ import Payment from "./pages/Payment"
 import JazzCashPage from "./pages/JazzCashPage";
 import AgentRegister from "./agent/AgentRegister";
 import AgentDashboard from "./agent/AgentDashboard";
+import ReviewProduct from "./pages/ReviewProduct";
 
 const App = () => {
   return (
@@ -69,6 +70,7 @@ const App = () => {
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/jazzcash" element={<JazzCashPage />} />
+            <Route path="/review" element={<ReviewProduct />} />
             <Route
               path="/update-cart-product/:id"
               element={<UpdateCartProduct />}
