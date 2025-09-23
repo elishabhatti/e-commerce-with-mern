@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ShoppingBag, Trash2, PenBox } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const PurchaseProducts = () => {
@@ -227,7 +227,7 @@ const PurchaseProducts = () => {
                 </p>
               </div>
               <div>
-                {shippingStatus === "delivered" ? <button className="bg-gray-100 py-2 px-4 rounded-md my-2">Review Product</button> : "" }
+                {shippingStatus === "delivered" ? <button onClick={() => navigate("/review")} className="bg-gray-100 py-2 px-4 rounded-md my-2">Review Product</button> : "" }
               </div>
             </div>
           )
