@@ -213,18 +213,21 @@ const PurchaseProducts = () => {
                         ? "bg-green-100 text-green-700"
                         : shippingStatus === "shipped"
                         ? "bg-blue-100 text-blue-700"
-                        : shippingStatus === "packed"
-                        ? "bg-purple-100 text-purple-700"
-                        : shippingStatus === "out-for-delivery"
-                        ? "bg-orange-100 text-orange-700"
-                        : shippingStatus === "cancelled"
-                        ? "bg-red-100 text-red-700"
-                        : "bg-gray-100 text-gray-700"
-                    }`}
-                  >
+                          : shippingStatus === "packed"
+                          ? "bg-purple-100 text-purple-700"
+                          : shippingStatus === "out-for-delivery"
+                          ? "bg-orange-100 text-orange-700"
+                          : shippingStatus === "cancelled"
+                          ? "bg-red-100 text-red-700"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
+                    >
                     {shippingStatus}
                   </span>
                 </p>
+              </div>
+              <div>
+                {shippingStatus === "delivered" ? <button className="bg-gray-100 py-2 px-4 rounded-md my-2">Review Product</button> : "" }
               </div>
             </div>
           )
