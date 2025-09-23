@@ -158,15 +158,29 @@ export const updatePurchaseItem = async (req, res) => {
 };
 
 export const reviewProduct = async (req, res) => {
-    const { productId, review } = req.body;
+  try {
+    const { purchaseId, review } = req.body;
 
-  if (!productId || !review) {
-    return res.status(400).json({ message: "Missing fields" });
+    if (!purchaseId || !review) {
+      return res.status(400).json({ message: "Missing fields" });
+    }
+
+    // Update the purchase document with review
+    const updatedPurchase = await purchaseModel.findByIdAndUpdate(
+      purchaseId,
+      { review },
+      { new: true } // return updated document
+    );
+
+    if (!updatedPurchase) {
+      return res.status(404).json({ message: "Purchase not found" });
+    }
+
+    res.json({
+      message: "Review added successfully",
+      purchase: updatedPurchase,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
-
-  const newReview = await purchaseModel.create({
-    productId,
-    review,
-  });
-  res.json({ message: "Review added successfully", review: newReview });
-} 
+};
