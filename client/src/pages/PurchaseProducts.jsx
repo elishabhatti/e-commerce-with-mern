@@ -110,7 +110,7 @@ const PurchaseProducts = () => {
           }) => (
             <div
               key={_id}
-              className="p-4 hover:bg-gray-50 transition-colors relative"
+              className="p-4 transition-colors relative"
             >
               {/* Action Buttons */}
               <div className="absolute top-4 right-4 flex gap-3">
