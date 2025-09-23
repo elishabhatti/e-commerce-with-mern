@@ -158,5 +158,15 @@ export const updatePurchaseItem = async (req, res) => {
 };
 
 export const reviewProduct = async (req, res) => {
-  
+    const { productId, review } = req.body;
+
+  if (!productId || !review) {
+    return res.status(400).json({ message: "Missing fields" });
+  }
+
+  const newReview = await purchaseModel.create({
+    productId,
+    review,
+  });
+  res.json({ message: "Review added successfully", review: newReview });
 } 
