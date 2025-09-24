@@ -1,10 +1,10 @@
 import { Camera } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ReviewProduct = () => {
-  const { id } = useParams();
+  const { id: purchaseId } = useParams();
   const navigate = useNavigate();
 
   const [review, setReview] = useState("");
@@ -31,7 +31,7 @@ const ReviewProduct = () => {
 
     try {
       const formData = new FormData();
-      formData.append("id", id);
+      formData.append("purchaseId", purchaseId);
       formData.append("review", review);
       if (file) formData.append("image", file);
 

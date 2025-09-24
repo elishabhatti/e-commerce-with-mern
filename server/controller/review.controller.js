@@ -1,12 +1,13 @@
+import { purchaseModel } from "../models/purchase.model.js";
 import { reviewModel } from "../models/review.model.js";
 
 export const createReviewProduct = async (req, res) => {
   try {
-    const { id, review } = req.body;
+    const { purchaseId, review } = req.body;
     const userId = req.user.id;
-    console.log(id, review, userId);
+    console.log(purchaseId, review, userId);
 
-    if (!id || !review.trim()) {
+    if (!purchaseId || !review.trim()) {
       return res
         .status(400)
         .json({ message: "PurchaseId and review are required" });
@@ -21,7 +22,7 @@ export const createReviewProduct = async (req, res) => {
     // Save in DB
     const newReview = await reviewModel.create({
       user: userId,
-      product: id,
+      product: purchaseId,
       comment: review,
       photo: imagePath,
     });
@@ -38,11 +39,22 @@ export const createReviewProduct = async (req, res) => {
 
 export const getReviewProduct = async (req, res) => {
   try {
-    const reviews = await reviewModel.find().populate("product");
-    if (!reviews)
-      return res.status(500).json({ message: "reviews Not Found Try Later" });
-    return res.status(200).json({ message: reviews });
+    const reviews = await reviewModel.find();
+
+    if (!reviews || reviews.length === 0) {
+      return res.status(404).json({ message: "No reviews found" });
+    }
+
+    const populatedReviews = await Promise.all(
+      reviews.map(async (review) => {
+        const product = await purchaseModel.findById(review.product);
+        return { ...review.toObject(), product };
+      })
+    );
+
+    return res.status(200).json({ message: populatedReviews });
   } catch (error) {
     console.error("Error From Get Products Controller: ", error);
+    res.status(500).json({ message: "Server error", error });
   }
 };
