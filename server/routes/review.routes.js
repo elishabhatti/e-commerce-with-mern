@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createReviewProduct } from "../controller/review.controller.js";
-import { upload } from "../middlewares/upload.js";
+import { upload } from "../middlewares/review.js";
 
 const router = Router();
 
