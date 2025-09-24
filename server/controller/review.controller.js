@@ -2,11 +2,11 @@ import { reviewModel } from "../models/review.model.js";
 
 export const createReviewProduct = async (req, res) => {
   try {
-    const { purchaseId, review } = req.body;
+    const { id, review } = req.body;
     const userId = req.user.id;
-    console.log(purchaseId, review, userId);
+    console.log(id, review, userId);
 
-    if (!purchaseId || !review.trim()) {
+    if (!id || !review.trim()) {
       return res
         .status(400)
         .json({ message: "PurchaseId and review are required" });
@@ -21,7 +21,7 @@ export const createReviewProduct = async (req, res) => {
     // Save in DB
     const newReview = await reviewModel.create({
       user: userId,
-      product: purchaseId,
+      product: id,
       comment: review,
       photo: imagePath,
     });

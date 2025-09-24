@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ReviewProduct = () => {
-  const { id: purchaseId } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [review, setReview] = useState("");
@@ -31,15 +31,18 @@ const ReviewProduct = () => {
 
     try {
       const formData = new FormData();
-      formData.append("purchaseId", purchaseId);
+      formData.append("id", id);
       formData.append("review", review);
       if (file) formData.append("image", file);
 
-      const res = await fetch("http://localhost:3000/api/review/review-product", {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      });
+      const res = await fetch(
+        "http://localhost:3000/api/review/review-product",
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        }
+      );
 
       if (!res.ok) {
         const errorText = await res.text();
@@ -89,7 +92,9 @@ const ReviewProduct = () => {
           ) : (
             <>
               <Camera size={40} className="text-gray-500" />
-              <span className="text-gray-600">Upload Product Image (Optional)</span>
+              <span className="text-gray-600">
+                Upload Product Image (Optional)
+              </span>
             </>
           )}
         </label>

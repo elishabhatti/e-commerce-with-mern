@@ -1,88 +1,64 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState("M");
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+
+  const [reviews, setReviews] = useState([]); // store reviews
+
+  const fetchProductDetails = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/products/products/${id}`,
+        { withCredentials: true }
+      );
+      setProduct(res.data.message);
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchReviewProducts = async () => {
     try {
-      const token = localStorage.getItem("token");
       const res = await axios.get(
         `http://localhost:3000/api/review/get-review-product`,
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { withCredentials: true }
       );
-      console.log(res);
+      console.log(res)
+      setReviews(productReviews);
     } catch (error) {
       console.error("Error fetching review product details:", error);
+      toast.error("Failed to fetch reviews");
     }
   };
 
   useEffect(() => {
-    const fetchProductDetails = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:3000/api/products/products/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        setProduct(res.data.message);
-      } catch (error) {
-        console.error("Error fetching product details:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (id) {
       fetchProductDetails();
       fetchReviewProducts();
     }
   }, [id]);
 
-  if (loading)
+  if (loading) {
     return (
       <div className="p-10">
         <LoadingSpinner />
       </div>
     );
+  }
 
-  // const handleSubmit = async () => {
-  //   try {
-  //     const res = await axios.post(
-  //       "http://localhost:3000/api/purchase/purchase-product",
-  //       {
-  //         productId: product._id,
-  //         quantity: Number(quantity),
-  //         size,
-  //       },
-  //       {
-  //         withCredentials: true,
-  //       }
-  //     );
-  //     navigate("/purchase");
-  //     console.log("Purchase Product:", res);
-  //     toast.success("Purchase successful!");
-  //   } catch (error) {
-  //     console.error(error.response.data.message);
-  //     toast.warning(error.response.data.message);
-  //   }
-  // };
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     navigate("/payment", {
       state: {
         productId: product._id,
@@ -99,6 +75,7 @@ const ProductDetails = () => {
       <div className="flex justify-center items-center w-full pt-7">
         <h1 className="text-4xl font-bold">Product Details</h1>
       </div>
+
       <div className="p-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left: Product Image */}
         <div>
@@ -164,13 +141,56 @@ const ProductDetails = () => {
 
             {/* Buy Now Button */}
             <button
-              onClick={() => handleSubmit()}
+              onClick={handleSubmit}
               className="bg-black text-white py-3 cursor-pointer rounded-md w-full hover:bg-gray-800 transition"
             >
               Buy Now
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Reviews Section */}
+      <div className="max-w-6xl mx-auto p-10">
+        <h2 className="text-2xl font-bold mb-6">Customer Reviews</h2>
+
+        {reviews.length === 0 ? (
+          <p className="text-gray-500">
+            No reviews yet. Be the first to review!
+          </p>
+        ) : (
+          <div className="space-y-6">
+            {reviews.map((review) => (
+              <div
+                key={review._id}
+                className="border rounded-lg p-4 flex gap-4 items-start"
+              >
+                {/* User Avatar / Photo */}
+                {review.photo ? (
+                  <img
+                    src={`http://localhost:3000${review.photo}`}
+                    alt="review"
+                    className="w-20 h-20 object-cover rounded-md border"
+                  />
+                ) : (
+                  <div className="w-20 h-20 flex items-center justify-center bg-gray-200 rounded-md text-gray-500 text-sm">
+                    No Image
+                  </div>
+                )}
+
+                {/* Comment Content */}
+                <div>
+                  <p className="text-gray-800 font-medium mb-1">
+                    {review.comment}
+                  </p>
+                  <span className="text-sm text-gray-500">
+                    {new Date(review.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
