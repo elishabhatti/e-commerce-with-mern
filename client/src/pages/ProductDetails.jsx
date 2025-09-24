@@ -29,24 +29,25 @@ const ProductDetails = () => {
     }
   };
 
-  const fetchReviewProducts = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:3000/api/review/get-review-product`,
-        {
-          withCredentials: true,
-        }
-      );
-      // const productReviews = (res.data.message || []).filter(
-      //   (review) => review.product === id
-      // );
-      console.log(res.data.message)
-      // setReviews(productReviews);
-    } catch (error) {
-      console.error("Error fetching review product details:", error);
-      toast.error("Failed to fetch reviews");
-    }
-  };
+const fetchReviewProducts = async () => {
+  try {
+    const res = await axios.get(
+      `http://localhost:3000/api/review/get-review-product`,
+      { withCredentials: true }
+    );
+
+    // sirf wahi reviews jinka product.product == params id
+    const filteredReviews = res.data.message.filter(
+      (review) => review.product?.product?.toString() === id
+    );
+
+    setReviews(filteredReviews);
+  } catch (error) {
+    console.error("Error fetching review product details:", error);
+    toast.error("Failed to fetch reviews");
+  }
+};
+
 
   useEffect(() => {
     if (id) {
