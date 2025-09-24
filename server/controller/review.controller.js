@@ -20,7 +20,7 @@ export const createReviewProduct = async (req, res) => {
     // Save in DB
     const newReview = await reviewModel.create({
       user: userId,
-      purchase: purchaseId,
+      product: purchaseId,
       review,
       image: imagePath,
     });
