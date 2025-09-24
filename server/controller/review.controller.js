@@ -1,12 +1,14 @@
-import reviewModel from "../models/review.model.js"; // apna review schema import karo
+import { reviewModel } from "../models/review.model.js";
 
 export const createReviewProduct = async (req, res) => {
   try {
     const { purchaseId, review } = req.body;
-    const userId = req.user.id; // verifyAuthentication se aayega
+    const userId = req.user.id;
 
     if (!purchaseId || !review.trim()) {
-      return res.status(400).json({ message: "PurchaseId and review are required" });
+      return res
+        .status(400)
+        .json({ message: "PurchaseId and review are required" });
     }
 
     // file path agar image upload hui ho
