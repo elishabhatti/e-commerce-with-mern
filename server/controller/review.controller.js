@@ -4,7 +4,7 @@ export const createReviewProduct = async (req, res) => {
   try {
     const { purchaseId, review } = req.body;
     const userId = req.user.id;
-    console.log( purchaseId, review, userId)
+    console.log(purchaseId, review, userId);
 
     if (!purchaseId || !review.trim()) {
       return res
@@ -22,7 +22,7 @@ export const createReviewProduct = async (req, res) => {
     const newReview = await reviewModel.create({
       user: userId,
       product: purchaseId,
-      comment:review,
+      comment: review,
       photo: imagePath,
     });
 
@@ -37,5 +37,11 @@ export const createReviewProduct = async (req, res) => {
 };
 
 export const getReviewProduct = async (req, res) => {
-  
-}
+  try {
+    const reviews = reviewModel.find();
+    if (reviews) return res.json({ message: "Reviews Not Found" });
+    res.json({ message: reviews });
+  } catch (error) {
+    console.error(error);
+  }
+};
