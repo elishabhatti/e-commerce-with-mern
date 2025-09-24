@@ -35,3 +35,7 @@ export const createReviewProduct = async (req, res) => {
     res.status(500).json({ message: "Failed to submit review" });
   }
 };
+
+export const getReviewProduct = async (req, res) => {
+  
+}

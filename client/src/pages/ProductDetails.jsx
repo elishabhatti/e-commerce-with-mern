@@ -153,6 +153,12 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+      <div>
+        <h1>Coments</h1>
+        <div>
+          
+        </div>
+      </div>
     </div>
   );
 };
