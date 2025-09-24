@@ -239,10 +239,6 @@ const PurchaseProducts = () => {
                   ""
                 )}
               </div>
-              <div className="mx-2 my-2">
-                <h1 classNamell="font-bold">Comments</h1>
-                {review} by <b>{user.email}</b>
-              </div>
             </div>
           )
         )}
