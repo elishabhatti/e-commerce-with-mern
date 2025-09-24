@@ -25,7 +25,7 @@ const ReviewProduct = () => {
       formData.append("review", review);
       if (file) formData.append("image", file);
 
-      const res = await fetch("http://localhost:3000/api/purchase/review-product", {
+      const res = await fetch("http://localhost:3000/api/review/review-product", {
         method: "POST",
         body: formData,
       });

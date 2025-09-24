@@ -7,6 +7,7 @@ import purchaseRouter from "./routes/purchase.route.js";
 import adminRouter from "./routes/admin.routes.js";
 import agentRouter from "./routes/agent.routes.js";
 import cartRouter from "./routes/cart.routes.js";
+import reviewRouter from "./routes/review.routes.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import { connectDb } from "./config/DB_CONNECTION.js";
@@ -41,6 +42,7 @@ app.use("/api/products", productRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/agent", agentRouter);
 app.use("/api/purchase", verifyAuthentication, purchaseRouter);
+app.use("/api/review", verifyAuthentication, reviewRouter);
 app.use("/api/cart", verifyAuthentication, cartRouter);
 
 app.listen(PORT);
