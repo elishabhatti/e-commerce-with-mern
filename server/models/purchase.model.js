@@ -40,7 +40,6 @@ const purchaseSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    review: {type: String},
   },
   { timestamps: true }
 );
