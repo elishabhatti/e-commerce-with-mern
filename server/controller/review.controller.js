@@ -38,7 +38,7 @@ export const createReviewProduct = async (req, res) => {
 
 export const getReviewProduct = async (req, res) => {
   try {
-    const reviews = await reviewModel.find();
+    const reviews = await reviewModel.find().populate("product");
     if (!reviews)
       return res.status(500).json({ message: "reviews Not Found Try Later" });
     return res.status(200).json({ message: reviews });

@@ -33,10 +33,15 @@ const ProductDetails = () => {
     try {
       const res = await axios.get(
         `http://localhost:3000/api/review/get-review-product`,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
-      console.log(res)
-      setReviews(productReviews);
+      // const productReviews = (res.data.message || []).filter(
+      //   (review) => review.product === id
+      // );
+      console.log(res.data.message)
+      // setReviews(productReviews);
     } catch (error) {
       console.error("Error fetching review product details:", error);
       toast.error("Failed to fetch reviews");
