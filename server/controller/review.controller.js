@@ -4,6 +4,7 @@ export const createReviewProduct = async (req, res) => {
   try {
     const { purchaseId, review } = req.body;
     const userId = req.user.id;
+    console.log( purchaseId, review, userId)
 
     if (!purchaseId || !review.trim()) {
       return res
@@ -21,8 +22,8 @@ export const createReviewProduct = async (req, res) => {
     const newReview = await reviewModel.create({
       user: userId,
       product: purchaseId,
-      review,
-      image: imagePath,
+      comment:review,
+      photo: imagePath,
     });
 
     return res.status(201).json({
