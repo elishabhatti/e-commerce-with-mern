@@ -38,10 +38,11 @@ export const createReviewProduct = async (req, res) => {
 
 export const getReviewProduct = async (req, res) => {
   try {
-    const reviews = reviewModel.find();
-    if (reviews) return res.json({ message: "Reviews Not Found" });
-    res.json({ message: reviews });
+    const reviews = await reviewModel.find();
+    if (!reviews)
+      return res.status(500).json({ message: "reviews Not Found Try Later" });
+    return res.status(200).json({ message: reviews });
   } catch (error) {
-    console.error(error);
+    console.error("Error From Get Products Controller: ", error);
   }
 };

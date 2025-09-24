@@ -13,6 +13,24 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
+  const fetchReviewProducts = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        `http://localhost:3000/api/review/get-review-product`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res);
+    } catch (error) {
+      console.error("Error fetching review product details:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
@@ -32,6 +50,7 @@ const ProductDetails = () => {
 
     if (id) {
       fetchProductDetails();
+      fetchReviewProducts();
     }
   }, [id]);
 
@@ -151,12 +170,6 @@ const ProductDetails = () => {
               Buy Now
             </button>
           </div>
-        </div>
-      </div>
-      <div>
-        <h1>Coments</h1>
-        <div>
-          
         </div>
       </div>
     </div>
