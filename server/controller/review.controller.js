@@ -1,6 +1,7 @@
 import { purchaseModel } from "../models/purchase.model.js";
 import { reviewModel } from "../models/review.model.js";
-import {userModel} from "../models/user.models.js"
+import { userModel } from "../models/user.models.js";
+import { productModel } from "../models/product.models.js";
 
 export const createReviewProduct = async (req, res) => {
   try {

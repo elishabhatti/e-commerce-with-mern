@@ -167,9 +167,9 @@ const ProductDetails = () => {
             {reviews.map((review) => (
               <div
                 key={review._id}
-                className="border rounded-xl p-6 shadow-sm bg-white hover:shadow-md transition"
+                className="border flex justify-between items-start border-gray-300 rounded-xl p-6 transition"
               >
-                {/* Top Section: User Info */}
+                {/* User Info */}
                 <div className="flex items-center gap-4 mb-4">
                   <img
                     src={`http://localhost:3000${review.user?.avatar}`}
@@ -190,39 +190,16 @@ const ProductDetails = () => {
                   </div>
                 </div>
 
-                {/* Review Comment + Photo */}
-                <div className="mb-4">
-                  <p className="text-gray-800 mb-2">{review.comment}</p>
+                {/* Review Content */}
+                <div className="pl-2">
+                  <p className="text-gray-800 mb-3">{review.comment}</p>
                   {review.photo && (
                     <img
                       src={`http://localhost:3000${review.photo}`}
                       alt="review"
-                      className="w-32 h-32 object-cover rounded-md border"
+                      className="w-40 h-40 object-cover rounded-md border"
                     />
                   )}
-                </div>
-
-                {/* Product Info */}
-                <div className="bg-gray-50 border rounded-lg p-4 text-sm">
-                  <p>
-                    <span className="font-medium">Product:</span>{" "}
-                    {review.product?.product?.title || "N/A"}
-                  </p>
-                  <p>
-                    <span className="font-medium">Size:</span> {review.size}
-                  </p>
-                  <p>
-                    <span className="font-medium">Quantity:</span>{" "}
-                    {review.quantity}
-                  </p>
-                  <p>
-                    <span className="font-medium">Payment:</span>{" "}
-                    {review.paymentMethod} ({review.paymentStatus})
-                  </p>
-                  <p>
-                    <span className="font-medium">Shipping:</span>{" "}
-                    {review.shippingStatus}
-                  </p>
                 </div>
               </div>
             ))}
