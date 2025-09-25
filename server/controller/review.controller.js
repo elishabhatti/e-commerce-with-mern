@@ -1,5 +1,6 @@
 import { purchaseModel } from "../models/purchase.model.js";
 import { reviewModel } from "../models/review.model.js";
+import {userModel} from "../models/user.models.js"
 
 export const createReviewProduct = async (req, res) => {
   try {
@@ -48,7 +49,8 @@ export const getReviewProduct = async (req, res) => {
     const populatedReviews = await Promise.all(
       reviews.map(async (review) => {
         const product = await purchaseModel.findById(review.product);
-        return { ...review.toObject(), product };
+        const user = await userModel.findById(review.user);
+        return { ...review.toObject(), product, user };
       })
     );
 

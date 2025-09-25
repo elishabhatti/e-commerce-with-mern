@@ -35,8 +35,8 @@ const fetchReviewProducts = async () => {
       `http://localhost:3000/api/review/get-review-product`,
       { withCredentials: true }
     );
+    console.log(res.data.message)
 
-    // sirf wahi reviews jinka product.product == params id
     const filteredReviews = res.data.message.filter(
       (review) => review.product?.product?.toString() === id
     );
