@@ -29,25 +29,23 @@ const ProductDetails = () => {
     }
   };
 
-const fetchReviewProducts = async () => {
-  try {
-    const res = await axios.get(
-      `http://localhost:3000/api/review/get-review-product`,
-      { withCredentials: true }
-    );
-    console.log(res.data.message)
+  const fetchReviewProducts = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/review/get-review-product`,
+        { withCredentials: true }
+      );
+      const filteredReviews = res.data.message.filter(
+        (review) => review.product?.product?.toString() === id
+      );
+      console.log(filteredReviews);
 
-    const filteredReviews = res.data.message.filter(
-      (review) => review.product?.product?.toString() === id
-    );
-
-    setReviews(filteredReviews);
-  } catch (error) {
-    console.error("Error fetching review product details:", error);
-    toast.error("Failed to fetch reviews");
-  }
-};
-
+      setReviews(filteredReviews);
+    } catch (error) {
+      console.error("Error fetching review product details:", error);
+      toast.error("Failed to fetch reviews");
+    }
+  };
 
   useEffect(() => {
     if (id) {
@@ -169,29 +167,62 @@ const fetchReviewProducts = async () => {
             {reviews.map((review) => (
               <div
                 key={review._id}
-                className="border rounded-lg p-4 flex gap-4 items-start"
+                className="border rounded-xl p-6 shadow-sm bg-white hover:shadow-md transition"
               >
-                {/* User Avatar / Photo */}
-                {review.photo ? (
+                {/* Top Section: User Info */}
+                <div className="flex items-center gap-4 mb-4">
                   <img
-                    src={`http://localhost:3000${review.photo}`}
-                    alt="review"
-                    className="w-20 h-20 object-cover rounded-md border"
+                    src={`http://localhost:3000${review.user?.avatar}`}
+                    alt={review.user?.name}
+                    className="w-14 h-14 object-cover rounded-full border"
                   />
-                ) : (
-                  <div className="w-20 h-20 flex items-center justify-center bg-gray-200 rounded-md text-gray-500 text-sm">
-                    No Image
+                  <div>
+                    <h3 className="font-semibold text-lg">
+                      {review.user?.name}
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      {review.user?.email}
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      Reviewed on{" "}
+                      {new Date(review.createdAt).toLocaleDateString()}
+                    </p>
                   </div>
-                )}
+                </div>
 
-                {/* Comment Content */}
-                <div>
-                  <p className="text-gray-800 font-medium mb-1">
-                    {review.comment}
+                {/* Review Comment + Photo */}
+                <div className="mb-4">
+                  <p className="text-gray-800 mb-2">{review.comment}</p>
+                  {review.photo && (
+                    <img
+                      src={`http://localhost:3000${review.photo}`}
+                      alt="review"
+                      className="w-32 h-32 object-cover rounded-md border"
+                    />
+                  )}
+                </div>
+
+                {/* Product Info */}
+                <div className="bg-gray-50 border rounded-lg p-4 text-sm">
+                  <p>
+                    <span className="font-medium">Product:</span>{" "}
+                    {review.product?.product?.title || "N/A"}
                   </p>
-                  <span className="text-sm text-gray-500">
-                    {new Date(review.createdAt).toLocaleDateString()}
-                  </span>
+                  <p>
+                    <span className="font-medium">Size:</span> {review.size}
+                  </p>
+                  <p>
+                    <span className="font-medium">Quantity:</span>{" "}
+                    {review.quantity}
+                  </p>
+                  <p>
+                    <span className="font-medium">Payment:</span>{" "}
+                    {review.paymentMethod} ({review.paymentStatus})
+                  </p>
+                  <p>
+                    <span className="font-medium">Shipping:</span>{" "}
+                    {review.shippingStatus}
+                  </p>
                 </div>
               </div>
             ))}
