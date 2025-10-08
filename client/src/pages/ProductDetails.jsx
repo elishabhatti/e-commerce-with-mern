@@ -38,12 +38,10 @@ const ProductDetails = () => {
       const filteredReviews = res.data.message.filter(
         (review) => review.product?.product?.toString() === id
       );
-      console.log(filteredReviews);
 
       setReviews(filteredReviews);
     } catch (error) {
       console.error("Error fetching review product details:", error);
-      toast.error("Failed to fetch reviews");
     }
   };
 
