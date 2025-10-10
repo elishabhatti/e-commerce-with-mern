@@ -290,7 +290,10 @@ const Services = () => {
               Explore Our Services
             </motion.button>
             <motion.button
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.2)" }}
+              whileHover={{
+                scale: 1.05,
+                backgroundColor: "rgba(255,255,255,0.2)",
+              }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-lg font-bold text-lg border border-white/20"
             >
@@ -468,9 +471,7 @@ const Services = () => {
                   </svg>
                 </div>
                 <div className="text-left">
-                  <h4 className="font-bold text-lg text-gray-900">
-                    15+ Years
-                  </h4>
+                  <h4 className="font-bold text-lg text-gray-900">15+ Years</h4>
                   <p className="text-gray-600">Industry experience</p>
                 </div>
               </div>
@@ -480,7 +481,10 @@ const Services = () => {
       </section>
 
       {/* Main Services Section */}
-      <section ref={servicesRef} className="py-28 bg-white relative overflow-hidden">
+      <section
+        ref={servicesRef}
+        className="py-28 bg-white relative overflow-hidden"
+      >
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-gray-50 to-transparent z-0"></div>
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-gray-50 to-transparent z-0"></div>
 
@@ -759,7 +763,10 @@ const Services = () => {
       </section>
 
       {/* Why Choose Us Section */}
-      <section ref={whyUsRef} className="py-28 bg-gray-50 relative overflow-hidden">
+      <section
+        ref={whyUsRef}
+        className="py-28 bg-gray-50 relative overflow-hidden"
+      >
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
           <motion.div
             className="absolute top-0 left-0 w-full h-full rotating-element"
@@ -970,7 +977,10 @@ const Services = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section ref={testimonialsRef} className="py-28 bg-white relative overflow-hidden">
+      <section
+        ref={testimonialsRef}
+        className="py-28 bg-white relative overflow-hidden"
+      >
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-gray-50 to-transparent z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <motion.div
@@ -993,8 +1003,8 @@ const Services = () => {
               variants={fadeInUp}
               className="text-xl text-gray-600 max-w-3xl mx-auto"
             >
-              Hear directly from those who have experienced the Devias Difference
-              in their homes and businesses.
+              Hear directly from those who have experienced the Devias
+              Difference in their homes and businesses.
             </motion.p>
           </motion.div>
 
@@ -1046,9 +1056,7 @@ const Services = () => {
                     <h4 className="font-bold text-gray-900 text-xl">
                       {testimonial.name}
                     </h4>
-                    <p className="text-gray-500 text-md">
-                      {testimonial.title}
-                    </p>
+                    <p className="text-gray-500 text-md">{testimonial.title}</p>
                   </div>
                 </div>
               </motion.div>
@@ -1058,7 +1066,10 @@ const Services = () => {
       </section>
 
       {/* FAQ Section */}
-      <section ref={faqRef} className="py-28 bg-gray-50 relative overflow-hidden">
+      <section
+        ref={faqRef}
+        className="py-28 bg-gray-50 relative overflow-hidden"
+      >
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
           <motion.div
             className="absolute top-0 left-0 w-full h-full rotating-element"
@@ -1090,7 +1101,8 @@ const Services = () => {
               variants={fadeInUp}
               className="text-xl text-gray-600 max-w-3xl mx-auto"
             >
-              Find answers to common questions about our interior design services.
+              Find answers to common questions about our interior design
+              services.
             </motion.p>
           </motion.div>
 
@@ -1108,7 +1120,8 @@ const Services = () => {
                   "Our process typically begins with an initial consultation to understand your needs and vision, followed by concept development, detailed design, material selection, and finally, project execution and installation. We keep you informed at every step.",
               },
               {
-                question: "How long does an interior design project usually take?",
+                question:
+                  "How long does an interior design project usually take?",
                 answer:
                   "The duration varies greatly depending on the scope and complexity of the project. A single-room refresh might take a few weeks, while a full home renovation could take several months. We provide a detailed timeline during the proposal phase.",
               },
@@ -1118,7 +1131,8 @@ const Services = () => {
                   "Yes, we are experienced in working with a range of budgets. We believe in transparent pricing and will discuss your budget openly during our initial consultation to ensure our design proposals align with your financial expectations.",
               },
               {
-                question: "Can you incorporate existing furniture or decor into the new design?",
+                question:
+                  "Can you incorporate existing furniture or decor into the new design?",
                 answer:
                   "Absolutely! We strive to create designs that are unique to you. If you have cherished pieces you'd like to keep, we'll creatively integrate them into the new design to ensure a cohesive and personalized aesthetic.",
               },
@@ -1165,7 +1179,10 @@ const Services = () => {
       </section>
 
       {/* Call to Action Section */}
-      <section ref={ctaRef} className="py-28 bg-gradient-to-r from-blue-600 to-purple-700 relative overflow-hidden">
+      <section
+        ref={ctaRef}
+        className="py-28 bg-gradient-to-r from-blue-600 to-purple-700 relative overflow-hidden"
+      >
         <div className="absolute inset-0 opacity-20">
           <motion.div
             className="absolute top-0 left-0 w-full h-full background-pattern"
@@ -1205,8 +1222,18 @@ const Services = () => {
               today for a personalized consultation.
             </motion.p>
             <motion.button
+              onClick={() => {
+                window.open(
+                  "https://mail.google.com/mail/?view=cm&fs=1&to=elishahameel270@gmail.com&su=Free Consultation&body=Hi, I’d like to request a free consultation.",
+                  "_blank"
+                );
+              }}
               variants={fadeInUp}
-              whileHover={{ scale: 1.05, backgroundColor: "#fff", color: "#3b82f6" }}
+              whileHover={{
+                scale: 1.05,
+                backgroundColor: "#fff",
+                color: "#3b82f6",
+              }}
               whileTap={{ scale: 0.95 }}
               className="pulse-element px-10 py-5 bg-white text-blue-600 rounded-full font-extrabold text-xl shadow-lg transition-all duration-300 transform hover:shadow-2xl"
             >
