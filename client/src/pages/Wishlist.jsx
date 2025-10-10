@@ -23,6 +23,7 @@ const Wishlist = () => {
           withCredentials: true,
         }
       );
+
       setProducts(res.data.products);
     } catch (error) {
       console.error(error);
@@ -39,8 +40,7 @@ const Wishlist = () => {
         { withCredentials: true }
       );
       toast.success("Removed from Wishlist.");
-
-      getAllWishListProducts();
+      setProducts((prevProducts) => prevProducts.filter((p) => p._id !== id));
     } catch (error) {
       console.error(error);
       toast.error("Failed to remove from wishlist.");
