@@ -135,8 +135,8 @@ const PurchaseProducts = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="w-full sm:w-32 h-32">
                   <img
-                    src={product.image}
-                    alt={product.title}
+                    src={product?.image}
+                    alt={product?.title}
                     className="w-full h-full object-cover rounded-md border"
                   />
                 </div>
@@ -144,10 +144,10 @@ const PurchaseProducts = () => {
                 <div className="flex flex-col justify-between flex-grow">
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800">
-                      {product.title}
+                      {product?.title}
                     </h3>
                     <p className="text-sm text-gray-500">
-                      Brand: {product.brand || "N/A"}
+                      Brand: {product?.brand || "N/A"}
                     </p>
 
                     <div className="mt-2 space-y-1 text-sm text-gray-600">
@@ -162,7 +162,7 @@ const PurchaseProducts = () => {
                   </div>
 
                   <p className="text-lg font-bold text-gray-900 mt-2 sm:mt-0 sm:text-right">
-                    ${product.price.toFixed(2)}
+                    ${product?.price.toFixed(2)}
                   </p>
                 </div>
               </div>

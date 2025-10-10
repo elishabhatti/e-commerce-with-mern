@@ -379,7 +379,7 @@ const Profile = () => {
                         ) : (
                           product.map((p, index) => (
                             <motion.tr
-                              key={p._id}
+                              key={p?._id}
                               className="hover:bg-gray-50 transition-colors duration-150"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
@@ -394,33 +394,33 @@ const Profile = () => {
                                     <img
                                       className="h-12 w-12 rounded-md object-cover shadow-sm border border-gray-100"
                                       src={
-                                        p.product.image ||
+                                        p?.product?.image ||
                                         "https://via.placeholder.com/150"
                                       }
-                                      alt={p.product.title}
+                                      alt={p?.product?.title}
                                     />
                                   </div>
                                   <div className="ml-4">
                                     <div className="text-sm font-medium text-gray-900">
-                                      {p.product.title}
+                                      {p.product?.title}
                                     </div>
                                     <div className="text-xs text-gray-500">
-                                      ID: {p.product._id.slice(0, 6)}...
+                                      ID: {p?.product?._id.slice(0, 6)}...
                                     </div>
                                   </div>
                                 </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                {p.product.brand}
+                                {p?.product?.brand}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                {p.size}
+                                {p?.size}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                {p.quantity}
+                                {p?.quantity}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-base font-semibold text-green-700">
-                                ${p.product.price.toFixed(2)}
+                                ${p?.product?.price.toFixed(2)}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2 items-center">
                                 <motion.button
@@ -547,12 +547,12 @@ const Profile = () => {
                                         c.product.image ||
                                         "https://via.placeholder.com/150"
                                       }
-                                      alt={c.product.title}
+                                      alt={c?.product?.title}
                                     />
                                   </div>
                                   <div className="ml-4">
                                     <div className="text-sm font-medium text-gray-900">
-                                      {c.product.title}
+                                      {c?.product?.title}
                                     </div>
                                     <div className="text-xs text-gray-500">
                                       ID: {c.product._id.slice(0, 6)}...
