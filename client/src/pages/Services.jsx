@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -290,6 +291,12 @@ const Services = () => {
               Explore Our Services
             </motion.button>
             <motion.button
+              onClick={() => {
+                window.open(
+                  "https://elisha-portfolio-ten.vercel.app/",
+                  "_blank"
+                );
+              }}
               whileHover={{
                 scale: 1.05,
                 backgroundColor: "rgba(255,255,255,0.2)",
