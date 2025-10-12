@@ -779,7 +779,7 @@ const Dashboard = () => {
                                 </div>
                               </td>
                               <td className="px-6 py-4 text-sm font-semibold text-indigo-700">
-                                ${order.product?.price}
+                                PKR: {order.product?.price}
                               </td>
                               <td className="px-6 py-4">
                                 <span
