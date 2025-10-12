@@ -44,7 +44,7 @@ const Footer = () => {
             </li>
             <li className="flex justify-center md:justify-start items-center gap-2">
               <MapPin className="w-4 h-4 text-blue-600" />
-              <span>Lahore, Pakistan</span>
+              <span>Karachi, Pakistan</span>
             </li>
           </ul>
 

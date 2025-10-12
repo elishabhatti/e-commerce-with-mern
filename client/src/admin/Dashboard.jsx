@@ -127,7 +127,12 @@ const Dashboard = () => {
   const verifiedUsers = users.filter((user) => user.isEmailVerified).length; // Using 'isEmailVerified' for verified users
   const totalProducts = products.length; // Now using fetched products
   const totalOrders = orders.length;
-  const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+  const totalRevenue = Array.isArray(orders)
+    ? orders.reduce((sum, order) => {
+        const total = Number(order?.total) || 0;
+        return sum + total;
+      }, 0)
+    : 0;
   const pendingOrders = orders.filter(
     (order) => order.status === "Pending"
   ).length;
@@ -296,26 +301,30 @@ const Dashboard = () => {
                       </div>
                     </div>
                     {/* Stat Card: Total Orders */}
-                    <div className="bg-red-50 p-5 rounded-lg shadow-sm border border-red-100 flex items-center space-x-4">
-                      <div className="p-3 bg-red-200 rounded-full text-red-700">
-                        <ShoppingCart className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600">Total Orders</p>
-                        <p className="text-2xl font-bold text-gray-900">
-                          {totalOrders}
-                        </p>
-                      </div>
-                    </div>
-                    {/* Stat Card: Total Revenue */}
                     <div className="bg-indigo-50 p-5 rounded-lg shadow-sm border border-indigo-100 flex items-center space-x-4">
-                      <div className="p-3 bg-indigo-200 rounded-full text-indigo-700">
-                        <DollarSign className="h-6 w-6" />
+                      <div className="p-3 bg-indigo-200 rounded-full text-indigo-700 font-semibold">
+                        ₨
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Total Revenue</p>
                         <p className="text-2xl font-bold text-gray-900">
-                          ${totalRevenue}
+                          PKR:{" "}
+                          {isNaN(totalRevenue)
+                            ? "0"
+                            : totalRevenue.toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Stat Card: Total Revenue */}
+                    <div className="bg-indigo-50 p-5 rounded-lg shadow-sm border border-indigo-100 flex items-center space-x-4">
+                      <div className="p-3 bg-indigo-200 rounded-full text-indigo-700">
+                        PK
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-600">Total Revenue</p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          PKR: {totalRevenue.length < 0 ? "0" : totalRevenue}
                         </p>
                       </div>
                     </div>
