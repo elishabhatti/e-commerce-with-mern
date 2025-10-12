@@ -122,7 +122,7 @@ const EditProduct = () => {
           />
 
           <Input
-            label="Price (USD)"
+            label="Price (PKR)"
             name="price"
             type="number"
             value={formData.price}

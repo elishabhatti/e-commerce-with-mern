@@ -46,8 +46,8 @@ const Dashboard = () => {
       if (res.data.data.role === "admin") {
         console.log(res.data.data);
         setAdmin(res.data.data);
-      }else {
-        navigate("/")
+      } else {
+        navigate("/");
       }
     } catch (error) {
       console.error(error);
@@ -615,7 +615,7 @@ const Dashboard = () => {
                                 {product.brand || "N/A"}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-700">
-                                ${product.price ? product.price : "0.00"}
+                                PKR: {product.price}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                 {product.rating || 0}{" "}
