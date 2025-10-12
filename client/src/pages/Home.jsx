@@ -249,7 +249,7 @@ const Home = () => {
 
                 <div className="flex justify-between items-center mt-auto pt-4 border-t border-gray-100">
                   <span className="text-gray-900 font-bold text-xl">
-                    PKR: {product.price}
+                    PKR: {product.price.toFixed(2)}
                   </span>
                   <span className="text-yellow-500 text-sm font-semibold flex items-center">
                     <span className="mr-1">⭐</span> {product.rating} (

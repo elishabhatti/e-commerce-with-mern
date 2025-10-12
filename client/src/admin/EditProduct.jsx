@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { getRequest, putRequest } from "../../utils/api";
 
 const EditProduct = () => {
-    const { id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -79,7 +79,8 @@ const EditProduct = () => {
     }
   };
 
-  if (loading) return <div className="text-center mt-10">Loading product...</div>;
+  if (loading)
+    return <div className="text-center mt-10">Loading product...</div>;
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
@@ -94,7 +95,7 @@ const EditProduct = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-            <img src={formData.image} alt="Product Image Preview" />
+          <img src={formData.image} alt="Product Image Preview" />
           <Input
             label="Image URL"
             name="image"
@@ -124,7 +125,7 @@ const EditProduct = () => {
           <Input
             label="Price (PKR)"
             name="price"
-            type="number"
+            type="text"
             value={formData.price}
             onChange={handleChange}
             required
