@@ -326,6 +326,21 @@ const Home = () => {
           </p>
         </div>
       )}
+      <div className="flex justify-center items-center w-full py-10 my-5 bg-gradient-to-b from-gray-50 to-white">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center"
+        >
+          <p className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
+            🚀 More Products Coming Soon!
+          </p>
+          <p className="text-gray-500 mt-2 text-sm md:text-base">
+            Stay tuned — something exciting is on the way.
+          </p>
+        </motion.div>
+      </div>
     </div>
   );
 };
