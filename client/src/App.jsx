@@ -23,17 +23,17 @@ import ChangePassword from "./pages/ChangePassword";
 import Register from "./admin/Register";
 import VerifyEmail from "./pages/VerifyEmail";
 import Wishlist from "./pages/Wishlist";
-import Dasboard from "./admin/Dasboard";
 import CreateProduct from "./admin/CreateProduct";
 import EditProduct from "./admin/EditProduct";
 import OrderDetails from "./admin/OrderDetails";
 import ContactDetails from "./admin/ContactDetails";
 import OauthSuccess from "./pages/OauthSuccess";
-import Payment from "./pages/Payment"
+import Payment from "./pages/Payment";
 import JazzCashPage from "./pages/JazzCashPage";
 import AgentRegister from "./agent/AgentRegister";
 import AgentDashboard from "./agent/AgentDashboard";
 import ReviewProduct from "./pages/ReviewProduct";
+import Dashboard from "./admin/Dashboard";
 
 const App = () => {
   return (
@@ -44,13 +44,13 @@ const App = () => {
           <Routes>
             {/* Admin */}
             <Route path="/admin-register" element={<Register />} />
-            <Route path="/admin-dashboard" element={<Dasboard />} />
+            <Route path="/admin-dashboard" element={<Dashboard />} />
             <Route path="/admin-create-product" element={<CreateProduct />} />
 
             {/* Agent */}
             <Route path="/agent-register" element={<AgentRegister />} />
             <Route path="/agent-dashboard" element={<AgentDashboard />} />
-            
+
             {/* Users */}
             <Route path="/edit-product/:id" element={<EditProduct />} />
             <Route path="/order-details/:id" element={<OrderDetails />} />
