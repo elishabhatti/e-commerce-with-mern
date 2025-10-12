@@ -334,7 +334,7 @@ const Home = () => {
           className="text-center"
         >
           <p className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-            🚀 More Products Coming Soon!
+            <motion.span>🚀</motion.span> More Products Coming Soon!
           </p>
           <p className="text-gray-500 mt-2 text-sm md:text-base">
             Stay tuned — something exciting is on the way.
