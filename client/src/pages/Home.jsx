@@ -146,7 +146,7 @@ const Home = () => {
       >
         <img
           className="h-64 sm:h-96 md:h-[500px] lg:h-[550px] w-full object-cover brightness-[0.85] rounded-lg"
-          src="https://sunnymate.co/wp-content/uploads/2024/11/%E8%8A%AC%E6%81%A9%E6%A4%85E905E827%E8%BE%B9%E5%87%A0-2048x1536.webp"
+          src="/images/home-banner.webp"
           alt="Scenic view of plants"
         />
         <h1
