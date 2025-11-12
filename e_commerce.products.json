@@ -1,0 +1,332 @@
+[{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd159e"
+  },
+  "image": "/images/products/product-1.webp",
+  "title": "TV Stand",
+  "description": "Risk real eye control newspaper eight. Why authority poor suggest.",
+  "price": 4500,
+  "brand": "Ashley ",
+  "rating": 2.8,
+  "reviews": 125,
+  "isFeatured": true,
+  "updatedAt": {
+    "$date": "2025-10-12T07:40:12.007Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd15a9"
+  },
+  "image": "/images/products/product-2.webp",
+  "title": "Filing Cabinet",
+  "description": "Agreement development general threat. Affect determine nice debate thi…",
+  "price": 2500,
+  "brand": "Wayfair",
+  "rating": 2.3,
+  "reviews": 49,
+  "isFeatured": true,
+  "updatedAt": {
+    "$date": "2025-10-12T07:40:27.247Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd1598"
+  },
+  "image": "/images/products/product-3.webp",
+  "title": "Dining Table",
+  "description": "Rule notice morning expert few machine third. Chance gas wait recogniz…",
+  "price": 15000,
+  "brand": "Ashley",
+  "rating": 4.7,
+  "reviews": 100,
+  "isFeatured": true,
+  "updatedAt": {
+    "$date": "2025-10-12T07:41:07.759Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd159c"
+  },
+  "image": "/images/products/product-4.jpg",
+  "title": "Coffee Table",
+  "description": "Six able back management. Should whole book quite key off piece. Radio…",
+  "price": 1500,
+  "brand": "Ikea",
+  "rating": 3.6,
+  "reviews": 110,
+  "isFeatured": false,
+  "updatedAt": {
+    "$date": "2025-10-12T07:41:18.022Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd15a5"
+  },
+  "image": "/images/products/product-5.webp",
+  "title": "Nightstand",
+  "description": "Benefit street TV suggest physical machine line church. Anything expec…",
+  "price": 1000,
+  "brand": "Wayfair",
+  "rating": 4,
+  "reviews": 87,
+  "isFeatured": false,
+  "updatedAt": {
+    "$date": "2025-10-12T07:41:48.135Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd159f"
+  },
+  "image": "/images/products/product-6.jpg",
+  "title": "Bed Frame",
+  "description": "Administration point myself discover whole. Prove produce rule billion…",
+  "price": 4320,
+  "brand": "Wayfair",
+  "rating": 2.6,
+  "reviews": 152,
+  "isFeatured": true,
+  "updatedAt": {
+    "$date": "2025-10-12T07:42:01.964Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd15a2"
+  },
+  "image": "/images/products/product-7.jpg",
+  "title": "Bar Stool",
+  "description": "Concern down rock challenge rise thing agent affect. Choose only towar…",
+  "price": 1400,
+  "brand": "Ikea",
+  "rating": 4,
+  "reviews": 103,
+  "isFeatured": true,
+  "updatedAt": {
+    "$date": "2025-10-12T07:42:13.821Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd15a0"
+  },
+  "image": "/images/products/product-8.webp",
+  "title": "Wardrobe",
+  "description": "Interest here ten box line capital media. Really site trade medical th…",
+  "price": 20000,
+  "brand": "Wayfair",
+  "rating": 2.1,
+  "reviews": 227,
+  "isFeatured": false,
+  "updatedAt": {
+    "$date": "2025-10-12T07:42:35.493Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd15a4"
+  },
+  "image": "/images/products/product-9.jpg",
+  "title": "Console Table",
+  "description": "Military save partner blood. More since then contain with rise and. Si…",
+  "price": 1500,
+  "brand": "Wayfair",
+  "rating": 2.1,
+  "reviews": 480,
+  "isFeatured": true,
+  "updatedAt": {
+    "$date": "2025-10-12T07:42:49.958Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd15a7"
+  },
+  "image": "/images/products/product-10.webp",
+  "title": "Shoe Rack",
+  "description": "Anything may feel color. Wrong sense this last.",
+  "price": 1100,
+  "brand": "Urban Ladder",
+  "rating": 4.1,
+  "reviews": 222,
+  "isFeatured": false,
+  "updatedAt": {
+    "$date": "2025-10-12T07:42:59.971Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd159d"
+  },
+  "image": "/images/products/product-11.webp",
+  "title": "Recliner",
+  "description": "Third especially recently. Surface north more practice create growth. …",
+  "price": 88000,
+  "brand": "Ikea",
+  "rating": 4.3,
+  "reviews": 287,
+  "isFeatured": true,
+  "updatedAt": {
+    "$date": "2025-10-12T07:43:11.658Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd15a1"
+  },
+  "image": "/images/products/product-12.webp",
+  "title": "Study Desk",
+  "description": "Daughter type else buy. Hundred professor difference build. Fact least…",
+  "price": 2000,
+  "brand": "Herman Miller",
+  "rating": 2.4,
+  "reviews": 353,
+  "isFeatured": false,
+  "updatedAt": {
+    "$date": "2025-10-12T07:43:26.763Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd1599"
+  },
+  "image": "/images/products/product-13.webp",
+  "title": "Office Chair",
+  "description": "Test trade information. Form sense best necessary house like.",
+  "price": 10500,
+  "brand": "Urban Ladder",
+  "rating": 3.8,
+  "reviews": 45,
+  "isFeatured": true,
+  "updatedAt": {
+    "$date": "2025-10-12T07:43:42.030Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd15a3"
+  },
+  "image": "/images/products/product-14.jpg",
+  "title": "Ottoman",
+  "description": "Scene section music leg election. Though month partner century quite p…",
+  "price": 1600,
+  "brand": "Ikea",
+  "rating": 2,
+  "reviews": 327,
+  "isFeatured": true,
+  "updatedAt": {
+    "$date": "2025-10-12T07:44:05.635Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd159a"
+  },
+  "image": "https://officeempire.pk/cdn/shop/files/12.1.jpg?v=1707824301",
+  "title": "Leather Sofa",
+  "description": "Involve doctor recognize section level rate table. Car level expect. F…",
+  "price": 18500,
+  "brand": "Wayfair",
+  "rating": 3.3,
+  "reviews": 485,
+  "isFeatured": true,
+  "updatedAt": {
+    "$date": "2025-10-12T07:44:22.613Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd159b"
+  },
+  "image": "/images/products/product-15.webp",
+  "title": "Bookshelf",
+  "description": "Support put by community section son. Expect strong it development arr…",
+  "price": 600,
+  "brand": "Ikea",
+  "rating": 4.3,
+  "reviews": 477,
+  "isFeatured": false,
+  "updatedAt": {
+    "$date": "2025-10-12T07:44:47.909Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683edfb4a5812b24eadd15a8"
+  },
+  "image": "/images/products/product-16.webp",
+  "title": "Kitchen Cabinet",
+  "description": "Feel argue station claim serve food involve. Will score central chair …",
+  "price": 50000,
+  "brand": "Herman Miller",
+  "rating": 2.9,
+  "reviews": 347,
+  "isFeatured": true,
+  "updatedAt": {
+    "$date": "2025-10-12T07:45:05.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68eb6082d19105aba2e81336"
+  },
+  "image": "/images/products/product-17.jpg",
+  "title": "Wooden Bed",
+  "description": "This spacious outpost features a wide selection of stylish home furnishings",
+  "price": 60000,
+  "brand": "Aspire",
+  "rating": 5.5,
+  "reviews": 150,
+  "isFeatured": true,
+  "createdAt": {
+    "$date": "2025-10-12T08:02:10.839Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-12T08:02:10.839Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68eb6135d19105aba2e8134c"
+  },
+  "image": "/images/products/product-18.webp",
+  "title": "Dressing Table",
+  "description": ": A matching stool, chair, or ottoman often accompanies a dressing table, designed to fit comfortably underneath when not in use",
+  "price": 19000,
+  "brand": "Aspire",
+  "rating": 9.9,
+  "reviews": 190,
+  "isFeatured": true,
+  "createdAt": {
+    "$date": "2025-10-12T08:05:09.991Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-12T08:05:09.991Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68eb61d9d19105aba2e81362"
+  },
+  "image": "/images/products/product-19.webp",
+  "title": "Wooden Cupboard",
+  "description": "Declutter any room with this versatile storage cupboard. Featuring clean lines and a modern finish",
+  "price": 150000,
+  "brand": "Aspire",
+  "rating": 9,
+  "reviews": 120,
+  "isFeatured": true,
+  "createdAt": {
+    "$date": "2025-10-12T08:07:53.710Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-12T08:07:53.710Z"
+  },
+  "__v": 0
+}]
